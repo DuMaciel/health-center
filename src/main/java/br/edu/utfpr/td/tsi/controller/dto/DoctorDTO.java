@@ -1,52 +1,52 @@
 package br.edu.utfpr.td.tsi.controller.dto;
+
 import br.edu.utfpr.td.tsi.health_center.model.Address;
 import br.edu.utfpr.td.tsi.health_center.model.District;
-import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 
-public class PatientDTO {
+public class DoctorDTO {
 	
 	private String id;
 	private String name;
 	private String cpf;
+	private String crm;
 	private String street;
 	private String cep;
 	private String idDistrict;
 	private String nameDistrict;
 	private int addressNumber;
-	private String complement;
 	
-	public PatientDTO(Patient patient) {
-		this.id = patient.getId();
-		this.name = patient.getName();
-		this.cpf = patient.getCpf();
-		this.street = patient.getAddress().getStreet();
-		this.idDistrict = patient.getAddress().getDistrict().getId();
-		this.nameDistrict = patient.getAddress().getDistrict().getName();
-		this.cep = patient.getAddress().getPostalCode();
-		this.addressNumber = patient.getAddress().getNumber();
-		this.complement = patient.getAddress().getComplement();
+	public DoctorDTO(Doctor doctor) {
+		this.id = doctor.getId();
+		this.name = doctor.getName();
+		this.cpf = doctor.getCpf();
+		this.crm = doctor.getCrm();
+		this.street = doctor.getAddress().getStreet();
+		this.cep = doctor.getAddress().getPostalCode();
+		this.idDistrict = doctor.getAddress().getDistrict().getId();
+		this.nameDistrict = doctor.getAddress().getDistrict().getName();
 	}
-
-	public Patient convertToModel() {
-		Patient patient = new Patient();
-		patient.setId(this.id);
-		patient.setName(this.name);
-		patient.setCpf(this.cpf);
-
+	
+	public Doctor convertToModel() {
+		Doctor doctor = new Doctor();
+		doctor.setId(this.id);
+		doctor.setName(this.name);
+		doctor.setCpf(this.cpf);
+		doctor.setCrm(this.crm);
+		
 		Address address = new Address();
-		address.setPostalCode(this.cep);
 		address.setStreet(this.street);
-		address.setNumber(this.addressNumber);
-		address.setComplement(this.complement);
-
+		address.setPostalCode(this.cep);
+		address.setNumber(addressNumber);
+		
 		District district = new District();
-		district.setId(this.idDistrict);
-		district.setName(this.nameDistrict);
+		district.setId(idDistrict);
+		district.setName(nameDistrict);
 		
 		address.setDistrict(district);
-		patient.setAddress(address);
-
-		return patient;
+		doctor.setAddress(address);
+		
+		return doctor;
 	}
 
 	public String getId() {
@@ -64,13 +64,21 @@ public class PatientDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCpf() {
 		return cpf;
 	}
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getCrm() {
+		return crm;
+	}
+
+	public void setCrm(String crm) {
+		this.crm = crm;
 	}
 
 	public String getStreet() {
@@ -112,13 +120,6 @@ public class PatientDTO {
 	public void setAddressNumber(int addressNumber) {
 		this.addressNumber = addressNumber;
 	}
-
-	public String getComplement() {
-		return complement;
-	}
-
-	public void setComplement(String complement) {
-		this.complement = complement;
-	}
+	
 	
 }

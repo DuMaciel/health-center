@@ -12,6 +12,10 @@ public class Doctor {
 	private String crm;
 	private Address address;
 	
+	public Doctor() {
+		
+	}
+	
 	public Doctor(String id, String name, String cpf, String crm, Address address) {
 		super();
 		this.id = id;
