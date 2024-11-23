@@ -1,12 +1,17 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Patient {
-	private int id;
+	@Id
+	private String id;
 	private String name;
 	private String cpf;
 	private Address address;
 	
-	public Patient(int id, String name, String cpf, Address address) {
+	public Patient(String id, String name, String cpf, Address address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -14,7 +19,7 @@ public class Patient {
 		this.address = address;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	public String getName() {

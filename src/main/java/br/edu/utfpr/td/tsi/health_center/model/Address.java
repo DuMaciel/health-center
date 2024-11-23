@@ -1,14 +1,19 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Address {
-	private int id;
+	@Id
+	private String id;
 	private String postalCode;
 	private District district;
 	private String street;
 	private int number;
 	private String complement;
 	
-	public Address(int id, String postalCode, District district, String street, int number, String complement) {
+	public Address(String id, String postalCode, District district, String street, int number, String complement) {
 		super();
 		this.id = id;
 		this.postalCode = postalCode;
@@ -18,7 +23,7 @@ public class Address {
 		this.complement = complement;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

@@ -1,16 +1,21 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class District {
-	private int id;
+	@Id
+	private String id;
 	private String name;
 	
-	public District(int id, String name) {
+	public District(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
