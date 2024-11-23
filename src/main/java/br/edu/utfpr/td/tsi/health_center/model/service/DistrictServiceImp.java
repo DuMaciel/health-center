@@ -3,7 +3,6 @@ package br.edu.utfpr.td.tsi.health_center.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
@@ -51,7 +50,7 @@ public class DistrictServiceImp implements DistrictService {
 	}
 
 	@Override
-	public List<District> findAll(@Nullable String name) {
+	public List<District> findAll(String name) {
 		if(name != null && !name.equals("")) {
 			return districtRepository.findAllByName(name);
 		}
