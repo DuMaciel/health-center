@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>Lista Pacientes Cadastrados</h1>
+
+	<form action="listar-pacientes-por-cep" method="POST">
+		<label>CEP: </label>
+		<input type="input" name="cep"></input>
+		<input type="submit" value="procurar"></input>
+		<input type="button" value="listar todos" onclick="location.href='listar-pacientes'"></input>
+		<input type="button" value="cadastrar novo" onclick="location.href='cadastrar-paciente'"></input>
+	</form>
+
+	<table>
+		<tr>
+			<th hidden>id</th>
+			<th>nome</th>
+			<th>endereço</th>
+			<th>bairro</th>
+			<th>cep</th>
+		</tr>
+		<tr th:each="patient : ${patients}">
+			<td th:text="${patient.id}" hidden>?</td>
+			<td th:text="${patient.name}">?</td>
+			<td th:text="${patient.street}">?</td>
+			<td th:text="${patient.nameDistrict}">?</td>
+			<td th:text="${patient.cep}">?</td>
+		<tr>
+	</table>
+
+</body>
+
+</html>
