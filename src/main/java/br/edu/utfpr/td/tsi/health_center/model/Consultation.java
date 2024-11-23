@@ -34,7 +34,25 @@ public class Consultation {
 	public ConsultationStatus getStatus() {
 		return status;
 	}
-	
-	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public void setStatus(ConsultationStatus status) {
+		this.status = status;
+	}
 	
 }

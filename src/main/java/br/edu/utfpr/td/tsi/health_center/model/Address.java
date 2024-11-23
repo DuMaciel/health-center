@@ -13,6 +13,10 @@ public class Address {
 	private int number;
 	private String complement;
 	
+	public Address() {
+		
+	}
+	
 	public Address(String id, String postalCode, District district, String street, int number, String complement) {
 		super();
 		this.id = id;
@@ -46,4 +50,30 @@ public class Address {
 	public String getComplement() {
 		return complement;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public void setDistrict(District district) {
+		this.district = district;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public void setComplement(String complement) {
+		this.complement = complement;
+	}
+	
+	
 }

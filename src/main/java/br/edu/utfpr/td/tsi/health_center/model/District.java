@@ -9,6 +9,10 @@ public class District {
 	private String id;
 	private String name;
 	
+	public District() {
+		
+	}
+	
 	public District(String id, String name) {
 		super();
 		this.id = id;
@@ -22,4 +26,14 @@ public class District {
 	public String getName() {
 		return name;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 }

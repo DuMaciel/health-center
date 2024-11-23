@@ -40,6 +40,28 @@ public class Doctor {
 	public Address getAddress() {
 		return address;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setCrm(String crm) {
+		this.crm = crm;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
+	
 	
 	
 }

@@ -11,6 +11,10 @@ public class Patient {
 	private String cpf;
 	private Address address;
 	
+	public Patient() {
+		
+	}
+
 	public Patient(String id, String name, String cpf, Address address) {
 		super();
 		this.id = id;
@@ -30,5 +34,21 @@ public class Patient {
 	}
 	public Address getAddress() {
 		return address;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }
