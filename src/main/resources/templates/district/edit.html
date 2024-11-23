@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Editar Bairro</title>
+</head>
+<body>
+	<h1>Editar Bairro</h1>
+	<p th:if="${error}" th:text="${error}" style="color: red"></p>
+	<form method="POST" th:action="@{'../edit'}">
+		<input type="hidden" name="id" th:value="${district.id}" />
+		<input type="text" name="name" th:value="${district.name}" />
+		<input type="submit" value="Editar" />
+	</form>
+</body>
+</html>

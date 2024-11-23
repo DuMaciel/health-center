@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Adicionar Bairro</title>
+</head>
+<body>
+	<h1>Adicionar Bairro</h1>
+	<p th:if="${error}" th:text="${error}" style="color: red"></p>
+	<form method="POST" th:action="@{'add'}">
+		<input type="text" name="name" th:value="${district?.name}" />
+		<input type="submit" th:value="Adicionar" />
+	</form>
+</body>
+</html>

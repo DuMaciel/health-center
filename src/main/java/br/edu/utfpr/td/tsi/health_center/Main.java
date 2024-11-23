@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 public class Main {
 
 	public static void main(String[] args) {
-		System.setProperty("server.servlet.context-path", "/health-center");
+		System.setProperty("server.servlet.context-path", "/");
 		SpringApplication.run(Main.class, args);
 	}
 }

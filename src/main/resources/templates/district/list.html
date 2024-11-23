@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Lista de Bairros</title>
+</head>
+
+<body>
+	<h1>Lista de Bairros</h1>
+	<a href="add">Adicionar</a>
+	<table>
+		<tr>
+			<th>Nome</th>
+			<th>Editar</th>
+			<th>Remover</th>
+		</tr>
+		<tr th:each="district : ${districts}">
+			<td th:text="${district.name}"></td>
+			<td><a th:href="@{/district/edit/{id} (id=${district.id})}">Editar</a></td>
+			<td><a th:href="@{/district/delete/{id} (id=${district.id})}">Remover</a></td>
+		<tr>		
+	</table>
+</body>
+
+</html>
