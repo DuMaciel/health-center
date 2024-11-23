@@ -8,7 +8,10 @@
 
 <body>
 	<h1>Lista de Bairros</h1>
-	<a href="add">Adicionar</a>
+	<form action="list">
+		<input type="text" name="name" th:value="${name}" />
+		<input type="submit" th:value="Pesquisar" />
+	</form>
 	<table>
 		<tr>
 			<th>Nome</th>
@@ -21,6 +24,7 @@
 			<td><a th:href="@{/district/delete/{id} (id=${district.id})}">Remover</a></td>
 		<tr>		
 	</table>
+	<a href="add">Adicionar</a>
 </body>
 
 </html>
