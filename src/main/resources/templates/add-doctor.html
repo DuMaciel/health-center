@@ -21,18 +21,21 @@
 </style>
 
 <body>
-	<h1>Cadastrar paciente</h1>
+	<h1>Cadastrar médicos</h1>
 	
 	<div>
 		<b><p style="color: red;" th:text="${error}"></p></b>
 	</div>
 
-	<form method="POST" action="add-patient">
+	<form method="POST" action="add-doctor">
 		<label>Nome:</label>
 		<input type="text" name="name" /> <br>
 		
 		<label>CPF</label>
 		<input type="text" name="cpf" /> <br>
+		
+		<label>CRM:</label>
+		<input type="text" name="crm" /> <br>
 
 		<label>Logradouro:</label>
 		<input type="text" name="street" /> <br>

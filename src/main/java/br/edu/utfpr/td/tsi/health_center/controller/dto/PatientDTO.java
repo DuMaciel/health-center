@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.controller.dto;
+package br.edu.utfpr.td.tsi.health_center.controller.dto;
 import br.edu.utfpr.td.tsi.health_center.model.Address;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;

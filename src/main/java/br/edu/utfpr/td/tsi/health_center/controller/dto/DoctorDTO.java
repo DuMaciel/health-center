@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.controller.dto;
+package br.edu.utfpr.td.tsi.health_center.controller.dto;
 
 import br.edu.utfpr.td.tsi.health_center.model.Address;
 import br.edu.utfpr.td.tsi.health_center.model.District;
@@ -25,6 +25,7 @@ public class DoctorDTO {
 		this.cep = doctor.getAddress().getPostalCode();
 		this.idDistrict = doctor.getAddress().getDistrict().getId();
 		this.nameDistrict = doctor.getAddress().getDistrict().getName();
+		this.addressNumber = doctor.getAddress().getNumber();
 	}
 	
 	public Doctor convertToModel() {

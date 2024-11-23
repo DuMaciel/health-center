@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>Lista Médicos Cadastrados</h1>
+
+	<table>
+		<tr>
+			<th hidden>id</th>
+			<th>nome</th>
+			<th>cpf</th>
+			<th>crm</th>
+			<th>endereço</th>
+			<th>bairro</th>
+			<th>cep</th>
+			<th>número</th>
+			<th>complemento</th>
+			<th>editar</th>
+			<th>remover</th>
+		</tr>
+		<tr th:each="doctor : ${doctors}">
+			<td th:text="${doctor.id}" hidden>?</td>
+			<td th:text="${doctor.name}">?</td>
+			<td th:text="${doctor.cpf}">?</td>
+			<td th:text="${doctor.crm}">?</td>
+			<td th:text="${doctor.street}">?</td>
+			<td th:text="${doctor.nameDistrict}">?</td>
+			<td th:text="${doctor.cep}">?</td>
+			<td th:text="${doctor.addressNumber}">?</td>
+			<td th:text="${doctor.complement}">?</td>
+			<td><a th:href="@{/add-doctor(id=${doctor.id})}"> editar</a></td>
+			<td><a th:href="@{/delete-doctor(id=${doctor.id})}"> remover</a></td>
+		<tr>
+	</table>
+
+</body>
+
+</html>
