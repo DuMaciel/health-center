@@ -10,25 +10,33 @@ public class DoctorDTO {
 	private String name;
 	private String cpf;
 	private String crm;
-	private String street;
-	private String cep;
-	private String idDistrict;
-	private String nameDistrict;
-	private int addressNumber;
+	private String addressStreet;
+	private String addressPostalCode;
+	private String districtId;
+	private String districtName;
+	private Integer addressNumber;
+	private String addressComplement;
+	
+	public DoctorDTO() {}
 	
 	public DoctorDTO(Doctor doctor) {
 		this.id = doctor.getId();
 		this.name = doctor.getName();
 		this.cpf = doctor.getCpf();
 		this.crm = doctor.getCrm();
-		this.street = doctor.getAddress().getStreet();
-		this.cep = doctor.getAddress().getPostalCode();
-		this.idDistrict = doctor.getAddress().getDistrict().getId();
-		this.nameDistrict = doctor.getAddress().getDistrict().getName();
-		this.addressNumber = doctor.getAddress().getNumber();
+		
+		Address address = doctor.getAddress();
+		District district = address.getDistrict();
+		
+		this.addressStreet = address.getStreet();
+		this.addressPostalCode = address.getPostalCode();
+		this.districtId = district.getId();
+		this.districtName = district.getName();
+		this.addressNumber = address.getNumber();
+		this.addressComplement = address.getComplement();
 	}
 	
-	public Doctor convertToModel() {
+	public Doctor toModel() {
 		Doctor doctor = new Doctor();
 		doctor.setId(this.id);
 		doctor.setName(this.name);
@@ -36,13 +44,14 @@ public class DoctorDTO {
 		doctor.setCrm(this.crm);
 		
 		Address address = new Address();
-		address.setStreet(this.street);
-		address.setPostalCode(this.cep);
-		address.setNumber(addressNumber);
+		address.setStreet(this.addressStreet);
+		address.setPostalCode(this.addressPostalCode);
+		address.setNumber(this.addressNumber);
+		address.setComplement(this.addressComplement);
 		
 		District district = new District();
-		district.setId(idDistrict);
-		district.setName(nameDistrict);
+		district.setId(this.districtId);
+		district.setName(this.districtName);
 		
 		address.setDistrict(district);
 		doctor.setAddress(address);
@@ -82,45 +91,54 @@ public class DoctorDTO {
 		this.crm = crm;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getAddressStreet() {
+		return addressStreet;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setAddressStreet(String addressStreet) {
+		this.addressStreet = addressStreet;
 	}
 
-	public String getCep() {
-		return cep;
+	public String getAddressPostalCode() {
+		return addressPostalCode;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
+	public void setAddressPostalCode(String addressPostalCode) {
+		this.addressPostalCode = addressPostalCode;
 	}
 
-	public String getIdDistrict() {
-		return idDistrict;
+	public String getDistrictId() {
+		return districtId;
 	}
 
-	public void setIdDistrict(String idDistrict) {
-		this.idDistrict = idDistrict;
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
 	}
 
-	public String getNameDistrict() {
-		return nameDistrict;
+	public String getDistrictName() {
+		return districtName;
 	}
 
-	public void setNameDistrict(String nameDistrict) {
-		this.nameDistrict = nameDistrict;
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
 	}
 
-	public int getAddressNumber() {
+	public Integer getAddressNumber() {
 		return addressNumber;
 	}
 
-	public void setAddressNumber(int addressNumber) {
+	public void setAddressNumber(Integer addressNumber) {
 		this.addressNumber = addressNumber;
 	}
+
+	public String getAddressComplement() {
+		return addressComplement;
+	}
+
+	public void setAddressComplement(String addressComplement) {
+		this.addressComplement = addressComplement;
+	}
+	
 	
 	
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Lista Médicos Cadastrados</title>
+</head>
+
+<body>
+	<h1>Lista Médicos Cadastrados</h1>
+
+	<form action="list">
+		<label>Nome: </label> <input type="text" name="name"
+			th:value="${name}"></input> <input type="submit" value="Pesquisar"></input>
+	</form>
+
+	<table>
+		<tr>
+			<th>nome</th>
+			<th>cpf</th>
+			<th>crm</th>
+			<th>endereço</th>
+			<th>bairro</th>
+			<th>cep</th>
+			<th>número</th>
+			<th>complemento</th>
+			<th>editar</th>
+			<th>remover</th>
+		</tr>
+		<tr th:each="doctorDTO : ${doctorsDTO}">
+			<td th:text="${doctorDTO.id}" hidden></td>
+			<td th:text="${doctorDTO.name}"></td>
+			<td th:text="${doctorDTO.cpf}"></td>
+			<td th:text="${doctorDTO.crm}"></td>
+			<td th:text="${doctorDTO.districtName}"></td>
+			<td th:text="${doctorDTO.addressStreet}"></td>
+			<td th:text="${doctorDTO.addressPostalCode}"></td>
+			<td th:text="${doctorDTO.addressNumber}"></td>
+			<td th:text="${doctorDTO.addressComplement}"></td>
+			<td><a th:href="@{/doctor/edit/{id} (id=${doctorDTO.id})}">Editar</a></td>
+			<td><a th:href="@{/doctor/delete/{id} (id=${doctorDTO.id})}">Remover</a></td>
+		<tr>
+	</table>
+	<a href="add">Adicionar</a>
+</body>
+
+</html>

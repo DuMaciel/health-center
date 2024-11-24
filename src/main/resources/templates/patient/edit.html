@@ -27,7 +27,7 @@
 		<b><p style="color: red;" th:text="${error}"></p></b>
 	</div>
 
-	<form method="POST" th:action="@{'add'}">
+	<form method="POST" th:action="@{'edit'}">
 		<input type="hidden" name="id" th:value="${patientDTO.id}">
 	
 		<label>Nome:</label>
