@@ -23,7 +23,7 @@ public class PatientMapper {
 		patient.setName(patientMongo.getName());
 		patient.setCpf(patientMongo.getCpf());
 		
-		patient.setAddress(AddressMapper.toDomain(patientMongo.getAddress(), null));
+		patient.setAddress(AddressMapper.toDomain(patientMongo.getAddress(), districtMongo));
 		return patient;
 	}
 	
