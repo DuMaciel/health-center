@@ -14,6 +14,8 @@ public class PatientMapper {
 		PatientMongo patientMongo = new PatientMongo();
 		patientMongo.setId(patient.getId());
 		patientMongo.setName(patient.getName());
+		patientMongo.setCpf(patient.getCpf());
+		patientMongo.setAddress(AddressMapper.toMongo(patient.getAddress()));
 		return patientMongo;
 	}
 	
@@ -22,7 +24,6 @@ public class PatientMapper {
 		patient.setId(patientMongo.getId());
 		patient.setName(patientMongo.getName());
 		patient.setCpf(patientMongo.getCpf());
-		
 		patient.setAddress(AddressMapper.toDomain(patientMongo.getAddress(), districtMongo));
 		return patient;
 	}

@@ -6,49 +6,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
+import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 
 @Service
 public class PatientServiceImp implements PatientService {
 	@Autowired
-	private PatientRepository patientRepository;
+	private PatientAdapter patientAdapter;
 
 	@Override
 	public void add(Patient patient) {
-		if(patientRepository.existsByCpf(patient.getCpf())) {
+		if(patientAdapter.existsByCpf(patient.getCpf())) {
 			throw new RuntimeException("Um paciente com esse cpf já existe");
 		}
-		patientRepository.save(patient);
+		patientAdapter.save(patient);
 	}
 
 	@Override
 	public void edit(Patient patient) {
-		if(patientRepository.existsByCpf(patient.getCpf())){
-			Patient patientSaved = patientRepository.findById(patient.getId()).get();
+		if(patientAdapter.existsByCpf(patient.getCpf())){
+			Patient patientSaved = patientAdapter.find(patient.getId());
 			if(!patientSaved.getCpf().replaceAll("[^0-9]", "").equals(patient.getCpf().replaceAll("[^0-9]", ""))) {
 				throw new RuntimeException("Um paciente com esse cpf já existe");
 			}
 		}
-		patientRepository.save(patient);
+		patientAdapter.save(patient);
 	}
 
 	@Override
 	public Patient find(String id) {
-		return patientRepository.findById(id).get();
+		return patientAdapter.find(id);
 	}
 
 	@Override
 	public void delete(String id) {
 		// TODO Implementar lógica para validar se o paciente tem consulta
-		patientRepository.deleteById(id);
+		patientAdapter.delete(id);
 	}
 
 	@Override
 	public List<Patient> findAll(String name) {
 		if(name != null && !name.equals("")) {
-			return patientRepository.findAllByName(name);
+			return patientAdapter.findAllByName(name);
 		}
-		return patientRepository.findAll();
+		return patientAdapter.findAll();
 	}
 }

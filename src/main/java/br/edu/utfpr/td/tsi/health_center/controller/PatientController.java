@@ -2,8 +2,6 @@ package br.edu.utfpr.td.tsi.health_center.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -32,8 +30,6 @@ public class PatientController {
 	@Autowired
 	private DistrictService districtService;
 	
-	private Logger logger = Logger.getGlobal();
-	
 	@GetMapping("")
     public RedirectView redirectToListing() {
         return new RedirectView("/patient/list");
@@ -51,7 +47,6 @@ public class PatientController {
 		RedirectView redirectView = new RedirectView("list");
 		try {
 			Patient patient = patientDTO.toModel();
-			logger.log(Level.WARNING, patient.toString());
 			patientService.add(patient);
 		} catch (Exception e) {
 			String error = e.getMessage();
@@ -93,7 +88,6 @@ public class PatientController {
 	public String listPatient(@Nullable @RequestParam String name, Model model) {
 		List<Patient> patients = patientService.findAll(name);
 		List<PatientDTO> patientsDTO = new ArrayList<PatientDTO>();
-		logger.log(Level.WARNING, patients.toString());
 		for (Patient patient : patients) {
 			patientsDTO.add(new PatientDTO(patient));
 		}
