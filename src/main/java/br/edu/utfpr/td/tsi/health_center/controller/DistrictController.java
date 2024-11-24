@@ -57,7 +57,7 @@ public class DistrictController {
 
 	@PostMapping(value = "/edit")
 	public RedirectView editDistrict(District district, RedirectAttributes redirectAttributes) {
-		RedirectView redirectView = new RedirectView("../list");
+		RedirectView redirectView = new RedirectView("list");
 		try {
 			districtService.edit(district);
 		} catch (Exception e) {

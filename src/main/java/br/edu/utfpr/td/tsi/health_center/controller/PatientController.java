@@ -71,7 +71,7 @@ public class PatientController {
 
 	@PostMapping(value = "/edit")
 	public RedirectView editPatient(PatientDTO patientDTO, RedirectAttributes redirectAttributes) {
-		RedirectView redirectView = new RedirectView("../list");
+		RedirectView redirectView = new RedirectView("list");
 		try {
 			Patient patient = patientDTO.toModel();
 			patientService.edit(patient);

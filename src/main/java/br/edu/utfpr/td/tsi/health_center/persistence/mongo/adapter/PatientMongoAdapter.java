@@ -30,7 +30,8 @@ public class PatientMongoAdapter implements PatientAdapter {
 	@Override
 	public Patient find(String id) {
 		PatientMongo patientMongo = patientRepository.findById(id).get();
-		DistrictMongo districtMongo = districtRepository.findById(patientMongo.getAddress().getId()).get();
+		String districtId = patientMongo.getAddress().getDistrictId();
+		DistrictMongo districtMongo = districtRepository.findById(districtId).get();
 		return PatientMapper.toDomain(patientMongo, districtMongo);
 	}
 
