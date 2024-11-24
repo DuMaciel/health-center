@@ -1,7 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
-import br.edu.utfpr.td.tsi.health_center.model.service.DistrictService;
+import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 
 @Controller
 @RequestMapping("/district")
@@ -35,7 +34,7 @@ public class DistrictController {
 
 	@PostMapping(value = "/add")
 	public RedirectView addDistrict(District district, RedirectAttributes redirectAttributes) {
-		RedirectView redirectView = new RedirectView("../list");
+		RedirectView redirectView = new RedirectView("list");
 		try {
 			districtService.add(district);
 		} catch (Exception e) {
@@ -48,7 +47,7 @@ public class DistrictController {
 	}
 	
 	@GetMapping(value = "/edit/{id}")
-	public String showAddDistrictPage(@PathVariable String id, Model model) {
+	public String showEditDistrictPage(@PathVariable String id, Model model) {
 		if(!model.containsAttribute("district")) {
 			District district = districtService.find(id);
 			model.addAttribute("district", district);

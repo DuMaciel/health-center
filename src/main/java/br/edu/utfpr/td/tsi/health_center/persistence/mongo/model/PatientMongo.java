@@ -1,22 +1,21 @@
-package br.edu.utfpr.td.tsi.health_center.model;
+package br.edu.utfpr.td.tsi.health_center.persistence.mongo.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Patient {
+public class PatientMongo {
 	@Id
 	private String id;
 	private String name;
 	private String cpf;
-	private Address address;
+	private AddressMongo address;
 	
-	public Patient() {
+	public PatientMongo() {
 		
 	}
 
-	public Patient(String id, String name, String cpf, Address address) {
-		super();
+	public PatientMongo(String id, String name, String cpf, AddressMongo address) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -32,7 +31,7 @@ public class Patient {
 	public String getCpf() {
 		return cpf;
 	}
-	public Address getAddress() {
+	public AddressMongo getAddress() {
 		return address;
 	}
 	
@@ -48,12 +47,7 @@ public class Patient {
 		this.cpf = cpf;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(AddressMongo address) {
 		this.address = address;
-	}
-
-	@Override
-	public String toString() {
-		return "Patient [id=" + id + ", name=" + name + ", cpf=" + cpf + ", address=" + address + "]";
 	}
 }

@@ -4,44 +4,49 @@ import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 
 public class PatientDTO {
-	
 	private String id;
 	private String name;
 	private String cpf;
-	private String street;
-	private String cep;
-	private String idDistrict;
-	private String nameDistrict;
-	private int addressNumber;
-	private String complement;
+	private String addressPostalCode;
+	private String districtId;
+	private String districtName;
+	private String addressStreet;
+	private Integer addressNumber;
+	private String addressComplement;
 	
+	public PatientDTO() {}
+
 	public PatientDTO(Patient patient) {
 		this.id = patient.getId();
 		this.name = patient.getName();
 		this.cpf = patient.getCpf();
-		this.street = patient.getAddress().getStreet();
-		this.idDistrict = patient.getAddress().getDistrict().getId();
-		this.nameDistrict = patient.getAddress().getDistrict().getName();
-		this.cep = patient.getAddress().getPostalCode();
-		this.addressNumber = patient.getAddress().getNumber();
-		this.complement = patient.getAddress().getComplement();
+		
+		Address address = patient.getAddress();
+		District district = address.getDistrict();
+		
+		this.addressPostalCode = address.getPostalCode();
+		this.districtId = district.getId();
+		this.districtName = district.getName();
+		this.addressStreet = address.getStreet();
+		this.addressNumber = address.getNumber();
+		this.addressComplement = address.getComplement();
 	}
 
-	public Patient convertToModel() {
+	public Patient toModel() {
 		Patient patient = new Patient();
 		patient.setId(this.id);
 		patient.setName(this.name);
 		patient.setCpf(this.cpf);
 
 		Address address = new Address();
-		address.setPostalCode(this.cep);
-		address.setStreet(this.street);
+		address.setPostalCode(this.addressPostalCode);
+		address.setStreet(this.addressStreet);
 		address.setNumber(this.addressNumber);
-		address.setComplement(this.complement);
+		address.setComplement(this.addressComplement);
 
 		District district = new District();
-		district.setId(this.idDistrict);
-		district.setName(this.nameDistrict);
+		district.setId(this.districtId);
+		district.setName(this.districtName);
 		
 		address.setDistrict(district);
 		patient.setAddress(address);
@@ -64,7 +69,7 @@ public class PatientDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCpf() {
 		return cpf;
 	}
@@ -73,52 +78,51 @@ public class PatientDTO {
 		this.cpf = cpf;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getAddressPostalCode() {
+		return addressPostalCode;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setAddressPostalCode(String addressPostalCode) {
+		this.addressPostalCode = addressPostalCode;
 	}
 
-	public String getCep() {
-		return cep;
+	public String getDistrictId() {
+		return districtId;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
 	}
 
-	public String getIdDistrict() {
-		return idDistrict;
+	public String getDistrictName() {
+		return districtName;
 	}
 
-	public void setIdDistrict(String idDistrict) {
-		this.idDistrict = idDistrict;
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
 	}
 
-	public String getNameDistrict() {
-		return nameDistrict;
+	public String getAddressStreet() {
+		return addressStreet;
 	}
 
-	public void setNameDistrict(String nameDistrict) {
-		this.nameDistrict = nameDistrict;
+	public void setAddressStreet(String addressStreet) {
+		this.addressStreet = addressStreet;
 	}
 
-	public int getAddressNumber() {
+	public Integer getAddressNumber() {
 		return addressNumber;
 	}
 
-	public void setAddressNumber(int addressNumber) {
+	public void setAddressNumber(Integer addressNumber) {
 		this.addressNumber = addressNumber;
 	}
 
-	public String getComplement() {
-		return complement;
+	public String getAddressComplement() {
+		return addressComplement;
 	}
 
-	public void setComplement(String complement) {
-		this.complement = complement;
+	public void setAddressComplement(String addressComplement) {
+		this.addressComplement = addressComplement;
 	}
-	
 }

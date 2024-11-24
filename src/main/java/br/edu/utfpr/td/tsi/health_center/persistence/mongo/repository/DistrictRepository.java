@@ -1,9 +1,10 @@
-package br.edu.utfpr.td.tsi.health_center.persistence;
+package br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
+import br.edu.utfpr.td.tsi.health_center.persistence.FindAllByNameExtension;
 
 public interface DistrictRepository extends MongoRepository<District, String>, FindAllByNameExtension<District> {
 	@Query(value = "{ 'name': { $regex: '^?0$', $options: 'i' } }", exists = true)

@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.health_center.model.service;
+package br.edu.utfpr.td.tsi.health_center.service.imp;
 
 import java.util.List;
 
@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
-import br.edu.utfpr.td.tsi.health_center.persistence.PatientRepository;
+import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
+import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 
 @Service
 public class PatientServiceImp implements PatientService {
@@ -39,7 +40,8 @@ public class PatientServiceImp implements PatientService {
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
+		// TODO Implementar lógica para validar se o paciente tem consulta
+		patientRepository.deleteById(id);
 	}
 
 	@Override

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Editar Paciente</title>
+</head>
+<style>
+	label {
+		display: inline-block;
+		float: left;
+		clear: left;
+		width: 150px;
+		text-align: right;
+	}
+
+	input, select {
+		display: inline-block;
+		float: left;
+	}
+</style>
+
+<body>
+	<h1>Editar Paciente</h1>
+	
+	<div>
+		<b><p style="color: red;" th:text="${error}"></p></b>
+	</div>
+
+	<form method="POST" th:action="@{'add'}">
+		<input type="hidden" name="id" th:value="${patientDTO.id}">
+	
+		<label>Nome:</label>
+		<input type="text" name="name" th:value="${patientDTO.name}" required/> <br>
+		
+		<label>CPF:</label>
+		<input type="text" name="cpf" th:value="${patientDTO.cpf}" required/> <br>
+		
+		<label>CEP:</label>
+		<input type="text" name="addressPostalCode" th:value="${patientDTO.addressPostalCode}" required/>
+
+		<label>Bairro:</label>
+		<select name="districtId" required>
+			<option selected disabled>Escolha um bairro</option>
+			<option th:selected="${district.id == patientDTO.districtId}" th:each="district : ${districts}" th:value="${district.id}" th:text="${district.name}"></option>
+		</select>
+		<br>
+
+		<label>Logradouro:</label>
+		<input type="text" name="addressStreet" th:value="${patientDTO.addressStreet}" required/> <br>
+
+		<label>Número:</label>
+		<input type="text" name="addressNumber" th:value="${patientDTO.addressNumber}" required/> <br>
+		
+		
+		<label>Complemento:</label>
+		<input type="text" name="addressComplement" th:value="${patientDTO.addressComplement}" required/> <br>
+
+		<input type="submit" value="Adicionar" />
+	</form>
+</body>
+
+</html>

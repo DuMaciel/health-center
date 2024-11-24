@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.health_center.model.service;
+package br.edu.utfpr.td.tsi.health_center.service;
 
 import java.util.List;
 

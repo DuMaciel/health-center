@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Lista de Pacientes</title>
+</head>
+
+<body>
+	<h1>Lista de Pacientes</h1>
+
+	<form action="list">
+		<label>CEP: </label>
+		<input type="text" name="name" th:value="${name}"></input>
+		<input type="submit" value="Pesquisar"></input>
+	</form>
+
+	<table>
+		<tr>
+			<th>Nome</th>
+			<th>CPF</th>
+			<th>CEP</th>
+			<th>Bairro</th>
+			<th>Rua</th>
+			<th>Número</th>
+			<th>Complemento</th>
+			<th>Editar</th>
+			<th>Remover</th>
+		</tr>
+		<tr th:each="patientDTO : ${patientsDTO}">
+			<td th:text="${patientDTO.name}"></td>
+			<td th:text="${patientDTO.cpf}"></td>
+			<td th:text="${patientDTO.addressPostalCode}"></td>
+			<td th:text="${patientDTO.districtName}"></td>
+			<td th:text="${patientDTO.addressStreet}"></td>
+			<td th:text="${patientDTO.addressNumber}"></td>
+			<td th:text="${patientDTO.addressComplement}"></td>
+			<td><a th:href="@{/patient/edit/{id} (id=${patientDTO.id})}">Editar</a></td>
+			<td><a th:href="@{/patient/delete/{id} (id=${patientDTO.id})}">Remover</a></td>
+		<tr>
+	</table>
+	<a href="add">Adicionar</a>
+</body>
+
+</html>

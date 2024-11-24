@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.health_center.model.service;
+package br.edu.utfpr.td.tsi.health_center.service.imp;
 
 import java.util.List;
 
@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
-import br.edu.utfpr.td.tsi.health_center.persistence.AddressRepository;
-import br.edu.utfpr.td.tsi.health_center.persistence.DistrictRepository;
+import br.edu.utfpr.td.tsi.health_center.persistence.mongo.AddressRepository;
+import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DistrictRepository;
+import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 
 @Service
 public class DistrictServiceImp implements DistrictService {
