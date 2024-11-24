@@ -3,7 +3,7 @@ package br.edu.utfpr.td.tsi.health_center.persistence.mongo.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document("district")
 public class DistrictMongo {
 	@Id
 	private String id;

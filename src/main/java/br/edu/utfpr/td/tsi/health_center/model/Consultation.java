@@ -3,7 +3,6 @@ package br.edu.utfpr.td.tsi.health_center.model;
 import java.time.LocalDateTime;
 
 public class Consultation {
-
 	private int id; 
 	private Doctor doctor;
 	private Patient patient;

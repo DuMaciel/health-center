@@ -1,11 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.persistence.mongo.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
 public class AddressMongo {
-	@Id
 	private String id;
 	private String postalCode;
 	private String districtId;

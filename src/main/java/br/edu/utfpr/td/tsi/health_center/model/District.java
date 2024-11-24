@@ -1,11 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
 public class District {
-	@Id
 	private String id;
 	private String name;
 	
@@ -39,7 +34,4 @@ public class District {
 	public String toString() {
 		return "District [id=" + id + ", name=" + name + "]";
 	}
-	
-	
-	
 }

@@ -1,11 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
 public class Doctor {
-	@Id
 	private String id;
 	private String name;
 	private String cpf;
@@ -64,8 +59,4 @@ public class Doctor {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	
-	
-	
 }
