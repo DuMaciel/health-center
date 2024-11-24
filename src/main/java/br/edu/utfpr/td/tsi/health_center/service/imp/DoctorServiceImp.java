@@ -6,54 +6,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DoctorRepository;
+import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
 
 @Service
 public class DoctorServiceImp implements DoctorService {
 	
 	@Autowired
-	private DoctorRepository doctorRepository;
+	private DoctorAdapter doctorAdapter;
 	
 	@Override
 	public void add(Doctor doctor) {
-		if(doctorRepository.existsByCpf(doctor.getCpf())) {
+		if(doctorAdapter.existsByCpf(doctor.getCpf())) {
 			throw new RuntimeException("Um médico com esse cpf já existe");
-		} else if (doctorRepository.existsByCrm(doctor.getCrm())) {
+		} else if (doctorAdapter.existsByCrm(doctor.getCrm())) {
 			throw new RuntimeException("Um médico com esse crm já existe");
 		}
-		doctorRepository.save(doctor);
+		doctorAdapter.save(doctor);
 	}
 	
 	@Override
 	public void edit(Doctor doctor) {		
-		if(doctorRepository.existsByCpf(doctor.getCpf()) || doctorRepository.existsByCrm(doctor.getCrm())){
-			Doctor doctorSaved = doctorRepository.findById(doctor.getId()).get();
+		if(doctorAdapter.existsByCpf(doctor.getCpf()) || doctorAdapter.existsByCrm(doctor.getCrm())){
+			Doctor doctorSaved = doctorAdapter.find(doctor.getId());
 			if(!doctorSaved.getCpf().replaceAll("[^0-9]", "").equals(doctor.getCpf().replaceAll("[^0-9]", ""))) {
 				throw new RuntimeException("Um médico com esse cpf já existe");
 			} else if (!doctorSaved.getCrm().replaceAll("[^0-9]", "").equals(doctor.getCrm().replaceAll("[^0-9]", "")) ) {
 				throw new RuntimeException("Um médico com esse crm já existe");
 			}
 		}
-		doctorRepository.save(doctor);
+		doctorAdapter.save(doctor);
 	}
 	
 	@Override
 	public Doctor find(String id) {
-		return doctorRepository.findById(id).get();
+		return doctorAdapter.find(id);
 	}
 	
 	@Override
 	public void delete(String id) {
 		// TODO Implementar lógica para validar se o paciente tem consulta
-		doctorRepository.deleteById(id);
+		doctorAdapter.delete(id);
 	}
 	
 	@Override
 	public List<Doctor> findAll(String name) {
 		if(name != null && !name.equals("")) {
-			return doctorRepository.findAllByName(name);
+			return doctorAdapter.findAllByName(name);
 		}
-		return doctorRepository.findAll();
+		return doctorAdapter.findAll();
 	}
 }
