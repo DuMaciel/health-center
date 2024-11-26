@@ -3,13 +3,17 @@ package br.edu.utfpr.td.tsi.health_center.model;
 import java.time.LocalDateTime;
 
 public class Consultation {
-	private int id; 
+	private String id; 
 	private Doctor doctor;
 	private Patient patient;
 	private LocalDateTime dateTime;
 	private ConsultationStatus status;
 	
-	public Consultation(int id, Doctor doctor, Patient patient, LocalDateTime dateTime) {
+	public Consultation() {
+		
+	}
+	
+	public Consultation(String id, Doctor doctor, Patient patient, LocalDateTime dateTime) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
@@ -18,7 +22,7 @@ public class Consultation {
 		this.status = ConsultationStatus.SCHEDULED;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	public Doctor getDoctor() {
@@ -34,7 +38,7 @@ public class Consultation {
 		return status;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
