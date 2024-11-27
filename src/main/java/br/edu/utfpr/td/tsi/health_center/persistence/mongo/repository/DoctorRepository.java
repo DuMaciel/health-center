@@ -3,7 +3,6 @@ package br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.persistence.FindAllByNameExtension;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
 

@@ -1,5 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.persistence.mongo.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,15 +41,35 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 
 	@Override
 	public List<Consultation> findAll() {
-		List<ConsultationMongo> consultationMongo = consultationRepository.findAll();
+		List<ConsultationMongo> consultationsMongo = consultationRepository.findAll();
 		List<Doctor> doctors = doctorAdapter.findAll();
 		List<Patient> patients = patientAdapter.findAll();
-		return ConsultationMapper.toDomainList(consultationMongo, doctors, patients);
+		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
 	}
 
 	@Override
 	public void delete(String id) {
 		consultationRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Consultation> findAllByPatientIdAndDoctorId(String patientId, String doctorId) {
+		List<ConsultationMongo> consultationsMongo = consultationRepository.findAllByPatientIdAndDoctorId(patientId, doctorId);
+		List<Doctor> doctors;
+		if(doctorId != null) {
+			doctors = doctorAdapter.findAll();
+		} else {
+			doctors = new ArrayList<Doctor>();
+			doctors.add(doctorAdapter.find(doctorId));
+		}
+		List<Patient> patients;
+		if(patientId != null) {
+			patients = patientAdapter.findAll();
+		} else {
+			patients = new ArrayList<Patient>();
+			patients.add(patientAdapter.find(patientId));
+		}
+		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
 	}
 
 }
