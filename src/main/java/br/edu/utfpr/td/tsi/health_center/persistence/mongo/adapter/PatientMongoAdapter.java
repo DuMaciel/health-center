@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.District;
+import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.PatientMapper;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DistrictMongo;
+
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DistrictRepository;
 
 @Component
 public class PatientMongoAdapter implements PatientAdapter {
@@ -19,7 +20,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	private PatientRepository patientRepository;
 	
 	@Autowired
-	private DistrictRepository districtRepository;
+	private DistrictAdapter districtAdapter;
 
 	@Override
 	public void save(Patient patient) {
@@ -31,15 +32,15 @@ public class PatientMongoAdapter implements PatientAdapter {
 	public Patient find(String id) {
 		PatientMongo patientMongo = patientRepository.findById(id).get();
 		String districtId = patientMongo.getAddress().getDistrictId();
-		DistrictMongo districtMongo = districtRepository.findById(districtId).get();
-		return PatientMapper.toDomain(patientMongo, districtMongo);
+		District district = districtAdapter.find(districtId);
+		return PatientMapper.toDomain(patientMongo, district);
 	}
 
 	@Override
 	public List<Patient> findAll() {
 		List<PatientMongo> patientMongo = patientRepository.findAll();
-		List<DistrictMongo> districtsMongo = districtRepository.findAll();
-		return PatientMapper.toDomainList(patientMongo, districtsMongo);
+		List<District> districts = districtAdapter.findAll();
+		return PatientMapper.toDomainList(patientMongo, districts);
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	@Override
 	public List<Patient> findAllByName(String name) {
 		List<PatientMongo> patientMongo = patientRepository.findAllByName(name);
-		List<DistrictMongo> districtsMongo = districtRepository.findAll();
-		return PatientMapper.toDomainList(patientMongo, districtsMongo);
+		List<District> districts = districtAdapter.findAll();
+		return PatientMapper.toDomainList(patientMongo, districts);
 	}
 }

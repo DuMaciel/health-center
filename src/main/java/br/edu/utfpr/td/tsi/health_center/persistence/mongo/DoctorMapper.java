@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DistrictMongo;
+import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
 
 public class DoctorMapper {
@@ -20,13 +20,13 @@ public class DoctorMapper {
 		return doctorMongo;
 	}
 	
-	static public Doctor toDomain(DoctorMongo doctorMongo, DistrictMongo districtMongo) {
+	static public Doctor toDomain(DoctorMongo doctorMongo, District district) {
 		Doctor doctor = new Doctor();
 		doctor.setId(doctorMongo.getId());
 		doctor.setName(doctorMongo.getName());
 		doctor.setCpf(doctorMongo.getCpf());
 		doctor.setCrm(doctorMongo.getCrm());
-		doctor.setAddress(AddressMapper.toDomain(doctorMongo.getAddress(), districtMongo));
+		doctor.setAddress(AddressMapper.toDomain(doctorMongo.getAddress(), district));
 		return doctor;
 	}
 	
@@ -38,15 +38,15 @@ public class DoctorMapper {
 		return doctorsMongo;
 	}
 	
-	static public List<Doctor> toDomainList(List<DoctorMongo> doctorsMongo, List<DistrictMongo> districtsMongo) {
+	static public List<Doctor> toDomainList(List<DoctorMongo> doctorsMongo, List<District> districts) {
 		List<Doctor> doctors = new ArrayList<Doctor>();
-		Map<String, DistrictMongo> districtMongoMap = new HashMap<String, DistrictMongo>();
-		for (DistrictMongo districtMongo : districtsMongo) {
-			districtMongoMap.put(districtMongo.getId(), districtMongo);
+		Map<String, District> districtMap = new HashMap<String, District>();
+		for (District district : districts) {
+			districtMap.put(district.getId(), district);
 		}
 		for (DoctorMongo doctorMongo : doctorsMongo) {
-			DistrictMongo districtMongo = districtMongoMap.get(doctorMongo.getAddress().getDistrictId());
-			doctors.add(toDomain(doctorMongo, districtMongo));
+			District district = districtMap.get(doctorMongo.getAddress().getDistrictId());
+			doctors.add(toDomain(doctorMongo, district));
 		}
 		return doctors;
 	}

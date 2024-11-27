@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DistrictMongo;
+import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
 
 public class PatientMapper {
@@ -19,12 +19,12 @@ public class PatientMapper {
 		return patientMongo;
 	}
 	
-	static public Patient toDomain(PatientMongo patientMongo, DistrictMongo districtMongo) {
+	static public Patient toDomain(PatientMongo patientMongo, District district) {
 		Patient patient = new Patient();
 		patient.setId(patientMongo.getId());
 		patient.setName(patientMongo.getName());
 		patient.setCpf(patientMongo.getCpf());
-		patient.setAddress(AddressMapper.toDomain(patientMongo.getAddress(), districtMongo));
+		patient.setAddress(AddressMapper.toDomain(patientMongo.getAddress(), district));
 		return patient;
 	}
 	
@@ -36,15 +36,15 @@ public class PatientMapper {
 		return patientsMongo;
 	}
 	
-	static public List<Patient> toDomainList(List<PatientMongo> patientsMongo, List<DistrictMongo> districtsMongo) {
+	static public List<Patient> toDomainList(List<PatientMongo> patientsMongo, List<District> districts) {
 		List<Patient> patients = new ArrayList<Patient>();
-		Map<String, DistrictMongo> districtMongoMap = new HashMap<String, DistrictMongo>();
-		for (DistrictMongo districtMongo : districtsMongo) {
-			districtMongoMap.put(districtMongo.getId(), districtMongo);
+		Map<String, District> districtMap = new HashMap<String, District>();
+		for (District district : districts) {
+			districtMap.put(district.getId(), district);
 		}
 		for (PatientMongo patientMongo : patientsMongo) {
-			DistrictMongo districtMongo = districtMongoMap.get(patientMongo.getAddress().getDistrictId());
-			patients.add(toDomain(patientMongo, districtMongo));
+			District district = districtMap.get(patientMongo.getAddress().getDistrictId());
+			patients.add(toDomain(patientMongo, district));
 		}
 		return patients;
 	}

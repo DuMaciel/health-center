@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
+import br.edu.utfpr.td.tsi.health_center.model.District;
+import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.DoctorMapper;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DistrictMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
-import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DistrictRepository;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DoctorRepository;
 
 @Component
@@ -19,7 +19,7 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	private DoctorRepository doctorRepository;
 	
 	@Autowired
-	private DistrictRepository districtRepository;
+	private DistrictAdapter districtAdapter;
 
 	@Override
 	public void save(Doctor doctor) {
@@ -31,14 +31,14 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	public Doctor find(String id) {
 		DoctorMongo doctorMongo = doctorRepository.findById(id).get();
 		String districtId = doctorMongo.getAddress().getDistrictId();
-		DistrictMongo districtMongo = districtRepository.findById(districtId).get();
-		return DoctorMapper.toDomain(doctorMongo, districtMongo);
+		District district = districtAdapter.find(districtId);
+		return DoctorMapper.toDomain(doctorMongo, district);
 	}
 
 	@Override
 	public List<Doctor> findAll() {
 		List<DoctorMongo> doctorsMongo = doctorRepository.findAll();
-		List<DistrictMongo> districtsMongo = districtRepository.findAll();
+		List<District> districtsMongo = districtAdapter.findAll();
 		return DoctorMapper.toDomainList(doctorsMongo, districtsMongo);
 	}
 
@@ -60,7 +60,7 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	@Override
 	public List<Doctor> findAllByName(String name) {
 		List<DoctorMongo> doctorMongo = doctorRepository.findAllByName(name);
-		List<DistrictMongo> districtsMongo = districtRepository.findAll();
+		List<District> districtsMongo = districtAdapter.findAll();
 		return DoctorMapper.toDomainList(doctorMongo, districtsMongo);
 	}
 }
