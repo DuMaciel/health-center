@@ -9,12 +9,6 @@
 <body>
 	<h1>Lista de Consultas</h1>
 
-	<form action="list">
-		<label>Nome: </label>
-		<input type="text" name="name" th:value="${name}"></input>
-		<input type="submit" value="Pesquisar"></input>
-	</form>
-
 	<table>
 		<tr>
 			<th>Médico</th>
@@ -24,16 +18,13 @@
 			<th>Editar</th>
 			<th>Remover</th>
 		</tr>
-		<tr th:each="patientDTO : ${patientsDTO}">
-			<td th:text="${patientDTO.name}"></td>
-			<td th:text="${patientDTO.cpf}"></td>
-			<td th:text="${patientDTO.addressPostalCode}"></td>
-			<td th:text="${patientDTO.districtName}"></td>
-			<td th:text="${patientDTO.addressStreet}"></td>
-			<td th:text="${patientDTO.addressNumber}"></td>
-			<td th:text="${patientDTO.addressComplement}"></td>
-			<td><a th:href="@{/patient/edit/{id} (id=${patientDTO.id})}">Editar</a></td>
-			<td><a th:href="@{/patient/delete/{id} (id=${patientDTO.id})}">Remover</a></td>
+		<tr th:each="consultationDTO : ${consultationsDTO}">
+			<td th:text="${consultationDTO.doctorName}"></td>
+			<td th:text="${consultationDTO.patientName}"></td>
+			<td th:text="${consultationDTO.dateTime}"></td>
+			<td th:text="${consultationDTO.status}"></td>
+			<td><a th:href="@{/consultation/edit/{id} (id=${consultationDTO.id})}">Editar</a></td>
+			<td><a th:href="@{/consultation/delete/{id} (id=${consultationDTO.id})}">Remover</a></td>
 		<tr>
 	</table>
 	<a href="add">Adicionar</a>

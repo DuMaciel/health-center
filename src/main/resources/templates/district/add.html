@@ -9,7 +9,8 @@
 	<p th:if="${error}" th:text="${error}" style="color: red"></p>
 	<form method="POST" th:action="@{'add'}">
 		<input type="text" name="name" th:value="${district?.name}" />
-		<input type="submit" th:value="Adicionar" />
+		<input type="submit" th:value="Salvar" />
+		<button type="button" onclick="window.history.back()">Voltar</button>
 	</form>
 </body>
 </html>

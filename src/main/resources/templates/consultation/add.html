@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+	<meta charset="UTF-8">
+	<title>Adicionar Consulta</title>
+</head>
+<style>
+	label {
+		display: inline-block;
+		float: left;
+		clear: left;
+		width: 150px;
+		text-align: right;
+	}
+
+	input, select {
+		display: inline-block;
+		float: left;
+	}
+</style>
+
+<body>
+	<h1>Adicionar Consulta</h1>
+	
+	<div>
+		<b><p style="color: red;" th:text="${error}"></p></b>
+	</div>
+
+	<form method="POST" th:action="@{'add'}">
+		
+		<label>Data:</label>
+		<input type="datetime-local" name="dateTime" th:value="${consultationDTO?.dateTime}" required/> <br>
+		
+		<label>Médico:</label>
+		<select name="doctorId" required>
+			<option selected disabled value="">Escolha um médico</option>
+			<option th:selected="${doctor.id == consultationDTO?.doctorId}" th:each="doctor : ${doctors}" th:value="${doctor.id}" th:text="${doctor.name}"></option>
+		</select>
+		<br>
+		
+		<label>Paciente:</label>
+		<select name="patientId" required>
+			<option selected disabled value="">Escolha um paciente</option>
+			<option th:selected="${patient.id == consultationDTO?.patientId}" th:each="patient : ${patients}" th:value="${patient.id}" th:text="${patient.name}"></option>
+		</select>
+		<br>
+
+		<input type="submit" value="Salvar" />
+		<button type="button" onclick="window.history.back()">Voltar</button>
+	</form>
+	
 </body>
+
 </html>

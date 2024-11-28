@@ -27,7 +27,8 @@
 		<b><p style="color: red;" th:text="${error}"></p></b>
 	</div>
 
-	<form method="POST" th:action="@{'edit'}">
+	<form method="POST" th:action="@{'../edit'}">
+		<input type="hidden" name="id" th:value="${doctorDTO.id}"/>
 		<label>Nome:</label>
 		<input type="text" name="name" th:value="${doctorDTO?.name}" required/> <br>
 		
@@ -57,7 +58,8 @@
 		<label>Complemento:</label>
 		<input type="text" name="addressComplement" th:value="${doctorDTO?.addressComplement}" required/> <br>
 
-		<input type="submit" value="Adicionar" />
+		<input type="submit" value="Salvar" />
+		<button type="button" onclick="window.history.back()">Voltar</button>
 	</form>
 	
 </body>

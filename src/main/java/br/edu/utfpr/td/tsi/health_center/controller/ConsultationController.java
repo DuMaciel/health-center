@@ -43,7 +43,7 @@ public class ConsultationController {
 		List<Patient> patients = patientService.findAll(null);
 		model.addAttribute("doctors", doctors);
 		model.addAttribute("patients", patients);
-		return "patient/add";
+		return "consultation/add";
 	}
 	
 	@PostMapping(value = "/add")
@@ -93,12 +93,12 @@ public class ConsultationController {
 	
 	@GetMapping(value = "/list")
 	public String listConsultation(Model model) {
-		List<Consultation> consultation = consultationService.findAll();
-		List<ConsultationDTO> consultationDTO = new ArrayList<ConsultationDTO>();
-		for (Consultation consultaion : consultation) {
-			consultationDTO.add(new ConsultationDTO(consultaion));
+		List<Consultation> consultations = consultationService.findAll();
+		List<ConsultationDTO> consultationsDTO = new ArrayList<ConsultationDTO>();
+		for (Consultation consultation : consultations) {
+			consultationsDTO.add(new ConsultationDTO(consultation));
 		}
-		model.addAttribute("consultationDTO", consultationDTO);
+		model.addAttribute("consultationsDTO", consultationsDTO);
 		return "consultation/list";
 	}
 

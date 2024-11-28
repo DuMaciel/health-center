@@ -1,17 +1,17 @@
 package br.edu.utfpr.td.tsi.health_center.controller.dto;
 
 import java.time.LocalDateTime;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
-import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 
 public class ConsultationDTO {
 
 	private String id;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dateTime;
-	private ConsultationStatus status;
+	private String status;
 	private String doctorId;
 	private String doctorName;
 	private String patientId;
@@ -22,7 +22,7 @@ public class ConsultationDTO {
 	public ConsultationDTO(Consultation consultation) {
 		this.id = consultation.getId();
 		this.dateTime = consultation.getDateTime();
-		this.status = consultation.getStatus();
+		this.status = consultation.getStatus().getDescription();
 		
 		Doctor doctor = consultation.getDoctor();
 		Patient patient = consultation.getPatient();
@@ -36,10 +36,8 @@ public class ConsultationDTO {
 	
 	public Consultation toModel() {
 		Consultation consultation = new Consultation();
-		
 		consultation.setId(this.id);
 		consultation.setDateTime(this.dateTime);
-		consultation.setStatus(this.status);
 		
 		Doctor doctor = new Doctor();
 		doctor.setId(this.doctorId);
@@ -71,11 +69,11 @@ public class ConsultationDTO {
 		this.dateTime = dateTime;
 	}
 
-	public ConsultationStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(ConsultationStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

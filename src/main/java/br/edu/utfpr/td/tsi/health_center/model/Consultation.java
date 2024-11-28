@@ -13,13 +13,13 @@ public class Consultation {
 		
 	}
 	
-	public Consultation(String id, Doctor doctor, Patient patient, LocalDateTime dateTime) {
+	public Consultation(String id, Doctor doctor, Patient patient, LocalDateTime dateTime, ConsultationStatus status) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
 		this.patient = patient;
 		this.dateTime = dateTime;
-		this.status = ConsultationStatus.SCHEDULED;
+		this.status = status;
 	}
 	
 	public String getId() {
