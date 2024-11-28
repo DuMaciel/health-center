@@ -3,12 +3,14 @@ package br.edu.utfpr.td.tsi.health_center.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import br.edu.utfpr.td.tsi.health_center.controller.dto.ConsultationDTO;
@@ -92,13 +94,17 @@ public class ConsultationController {
 	}
 	
 	@GetMapping(value = "/list")
-	public String listConsultation(Model model) {
+	public String listConsultation(@Nullable @RequestParam String doctorId, @Nullable @RequestParam String patientId, Model model) {
 		List<Consultation> consultations = consultationService.findAll();
 		List<ConsultationDTO> consultationsDTO = new ArrayList<ConsultationDTO>();
+		List<Doctor> doctors = doctorService.findAll(null);
+		List<Patient> patients = patientService.findAll(null);
 		for (Consultation consultation : consultations) {
 			consultationsDTO.add(new ConsultationDTO(consultation));
 		}
 		model.addAttribute("consultationsDTO", consultationsDTO);
+		model.addAttribute("doctors", doctors);
+		model.addAttribute("patients", patients);
 		return "consultation/list";
 	}
 
