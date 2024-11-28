@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.ConsultationMongo;
 
 public interface ConsultationRepository extends MongoRepository<ConsultationMongo, String> {
@@ -13,4 +14,6 @@ public interface ConsultationRepository extends MongoRepository<ConsultationMong
             "{ $or: [ { ?1: null }, { 'doutorId': ?1 } ] } " +
            "] }")
 	public List<ConsultationMongo> findAllByPatientIdAndDoctorId(String patientId, String doctorId);
+	
+	public boolean existsByPatientIdAndStatus(String patientId, ConsultationStatus status);
 }

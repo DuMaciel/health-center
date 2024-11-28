@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
+import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
@@ -53,7 +54,7 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 	}
 
 	@Override
-	public List<Consultation> findAllByPatientIdAndDoctorId(String patientId, String doctorId) {
+	public List<Consultation> findAll(String patientId, String doctorId) {
 		List<ConsultationMongo> consultationsMongo = consultationRepository.findAllByPatientIdAndDoctorId(patientId, doctorId);
 		List<Doctor> doctors;
 		if(doctorId != null) {
@@ -70,6 +71,11 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 			patients.add(patientAdapter.find(patientId));
 		}
 		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
+	}
+	
+	@Override
+	public boolean existsByPatientIdAndStatus(String patientId, ConsultationStatus status) {
+		return consultationRepository.existsByPatientIdAndStatus(patientId, status);
 	}
 
 }
