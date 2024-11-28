@@ -30,7 +30,7 @@
 	<form method="POST" th:action="@{'add'}">
 		
 		<label>Data:</label>
-		<input type="datetime-local" name="dateTime" th:value="${consultationDTO?.dateTime}" required/> <br>
+		<input type="datetime-local" name="dateTime" th:value="${consultationDTO?.dateTime}" th:min="${minDate}" th:max="${maxDate}" required/> <br>
 		
 		<label>Médico:</label>
 		<select name="doctorId" required>

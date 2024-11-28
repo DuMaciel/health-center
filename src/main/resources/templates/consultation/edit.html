@@ -30,7 +30,7 @@
 	<form method="POST" th:action="@{'../edit'}">
 		<input type="hidden" name="id" th:value="${consultationDTO.id}"/>
 		<label>Data:</label>
-		<input type="datetime-local" name="dateTime" th:value="${consultationDTO?.dateTime}" required/> <br>
+		<input type="datetime-local" name="dateTime" th:value="${consultationDTO?.dateTime}"  th:min="${minDate}" th:max="${maxDate}"  required/> <br>
 		
 		<label>Status:</label>
 		<input type="text" name="status" th:value="${consultationDTO?.status}" readonly/> <br>

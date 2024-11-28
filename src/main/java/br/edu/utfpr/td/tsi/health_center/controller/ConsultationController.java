@@ -1,5 +1,7 @@
 package br.edu.utfpr.td.tsi.health_center.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,8 @@ public class ConsultationController {
 		List<Patient> patients = patientService.findAll(null);
 		model.addAttribute("doctors", doctors);
 		model.addAttribute("patients", patients);
+		model.addAttribute("minDate", LocalDateTime.now().plusHours(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+		model.addAttribute("maxDate", LocalDateTime.now().plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
 		return "consultation/add";
 	}
 	
@@ -70,6 +74,8 @@ public class ConsultationController {
 		List<Patient> patients = patientService.findAll(null);
 		model.addAttribute("doctors", doctors);
 		model.addAttribute("patients", patients);
+		model.addAttribute("minDate", LocalDateTime.now().plusHours(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+		model.addAttribute("maxDate", LocalDateTime.now().plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
 		if(!model.containsAttribute("consultationDTO")) {
 			Consultation consultation = consultationService.find(id);
 			ConsultationDTO consultationDTO = new ConsultationDTO(consultation);
@@ -94,8 +100,8 @@ public class ConsultationController {
 	}
 	
 	@GetMapping(value = "/list")
-	public String listConsultation(@Nullable @RequestParam String doctorId, @Nullable @RequestParam String patientId, Model model) {
-		List<Consultation> consultations = consultationService.findAll();
+	public String listConsultation(@Nullable @RequestParam String patientId, @Nullable @RequestParam String doctorId, Model model) {
+		List<Consultation> consultations = consultationService.findAll(patientId, doctorId);
 		List<ConsultationDTO> consultationsDTO = new ArrayList<ConsultationDTO>();
 		List<Doctor> doctors = doctorService.findAll(null);
 		List<Patient> patients = patientService.findAll(null);
@@ -105,6 +111,8 @@ public class ConsultationController {
 		model.addAttribute("consultationsDTO", consultationsDTO);
 		model.addAttribute("doctors", doctors);
 		model.addAttribute("patients", patients);
+		model.addAttribute("patientId", patientId);
+		model.addAttribute("doctorId", doctorId);
 		return "consultation/list";
 	}
 
