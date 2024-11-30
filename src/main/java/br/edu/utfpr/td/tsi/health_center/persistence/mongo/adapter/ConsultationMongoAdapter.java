@@ -74,7 +74,16 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 
 	@Override
 	public List<Consultation> findAll(String patientId, String doctorId) {
-		List<ConsultationMongo> consultationsMongo = consultationRepository.findAllByPatientIdAndDoctorId(patientId, doctorId);
+		List<ConsultationMongo> consultationsMongo;
+		if(patientId == null && doctorId == null) {
+			consultationsMongo = consultationRepository.findAll();
+		} else if(patientId == null) {
+			consultationsMongo = consultationRepository.findAllByDoctorId(doctorId);
+		} else if(doctorId == null) {
+			consultationsMongo = consultationRepository.findAllByPatientId(patientId);
+		} else {
+			consultationsMongo = consultationRepository.findAllByPatientIdAndDoctorId(patientId, doctorId);
+		}
 		List<Doctor> doctors = findDoctors(consultationsMongo);
 		List<Patient> patients = findPatients(consultationsMongo);
 		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
