@@ -1,8 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.service.imp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -86,6 +84,11 @@ public class ConsultationServiceImp implements ConsultationService{
 	@Override
 	public void completeConsultation(String consultationId) {
 		Consultation consultationSaved = consultationAdapter.find(consultationId);
+		ConsultationStatus statusSaved = consultationSaved.getStatus();
+		if(!statusSaved.equals(ConsultationStatus.SCHEDULED)) {
+			throw new RuntimeException("Cancelamento só é permitido para consultas agendadas");
+		}
+		
 		consultationSaved.setStatus(ConsultationStatus.CANCELED);
 		
 		consultationAdapter.save(consultationSaved);
@@ -94,7 +97,13 @@ public class ConsultationServiceImp implements ConsultationService{
 	@Override
 	public void cancelConsultation(String consultationId) {
 		Consultation consultationSaved = consultationAdapter.find(consultationId);
+		ConsultationStatus statusSaved = consultationSaved.getStatus();
+		if(!statusSaved.equals(ConsultationStatus.SCHEDULED)) {
+			throw new RuntimeException("Cancelamento só é permitido para consultas agendadas");
+		}
+		
 		consultationSaved.setStatus(ConsultationStatus.CANCELED);
+		
 		
 		consultationAdapter.save(consultationSaved);
 	}
