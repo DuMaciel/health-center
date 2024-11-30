@@ -3,14 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>Adicionar Bairro</title>
+<style>
+label {
+	display: inline-block;
+	float: left;
+	clear: left;
+	width: 150px;
+	text-align: right;
+}
+
+.container {
+	max-width: 600px;
+	margin: 0 auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	color: #333;
+	text-align: center;
+}
+
+form>div {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	display: flex;
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+input, select {
+	padding: 8px;
+	margin-top: 5px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 16px;
+}
+
+.button-group {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.btn {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+
+.btn-save {
+	background-color: #28a745;
+	color: white;
+}
+
+.btn-save:hover {
+	background-color: #218838;
+}
+
+.btn-back {
+	background-color: #6c757d;
+	color: white;
+}
+
+.btn-back:hover {
+	background-color: #5a6268;
+}
+</style>
 </head>
 <body>
 	<h1>Adicionar Bairro</h1>
-	<p th:if="${error}" th:text="${error}" style="color: red"></p>
-	<form method="POST" th:action="@{'add'}">
-		<input type="text" name="name" th:value="${district?.name}" />
-		<input type="submit" th:value="Salvar" />
-		<button type="button" onclick="window.history.back()">Voltar</button>
-	</form>
+	<div class="container">
+		<div>
+			<p th:if="${error}" th:text="${error}" style="color: red"></p>
+		</div>
+		<form method="POST" th:action="@{'add'}">
+			<div>
+				<label>Nome:</label> <input type="text" name="name"
+					th:value="${district?.name}" />
+			</div>
+		</form>
+		<div class="btn-group">
+			<input class="btn btn-save" type="submit" th:value="Salvar" />
+			<button class="btn btn-back" type="button"
+				onclick="window.history.back()">Voltar</button>
+		</div>
+	</div>
 </body>
 </html>
