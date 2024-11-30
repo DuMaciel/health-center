@@ -4,113 +4,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Lista de Pacientes</title>
+<link th:href="@{/styles/list-custom.css}" rel="stylesheet" />
 </head>
-
-<style>
-body {
-	margin: 0;
-}
-
-ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: #333;
-	position: fixed;
-	top: 0;
-	width: 100%;
-}
-
-li {
-	float: left;
-}
-
-li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-}
-
-li a:hover:not(.active) {
-	background-color: #111;
-}
-
-.active {
-	background-color: #04AA6D;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-th, td {
-	padding: 12px;
-	text-align: left;
-	border-bottom: 1px solid #ddd;
-}
-
-th {
-	background-color: #f2f2f2;
-	font-weight: bold;
-}
-
-.container-content {
-	top: 100px;
-	max-width: 1200px;
-	margin: 100px auto;
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	max-width: 1200px;
-}
-
-.container-filter {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 20px;
-}
-
-input, select {
-	padding: 8px;
-	margin-top: 5px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	font-size: 16px;
-}
-
-.btn {
-	display: inline-block;
-	padding: 10px 20px;
-	background-color: #04AA6D;
-	color: white;
-	text-decoration: none;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	font-weight: bold;
-	text-align: center;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-</style>
-
 <body>
-
 	<ul>
 		<li><a href="../consultation/list">Consultas</a></li>
 		<li><a href="../doctor/list">Médicos</a></li>
 		<li><a class="active" href="../patient/list">Pacientes</a></li>
 		<li><a href="../district/list">Bairros</a></li>
 	</ul>
-
-
 
 	<div class="container-content">
 		<h1>Lista de Pacientes</h1>
