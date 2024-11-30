@@ -1,5 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.persistence.mongo.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,14 +35,36 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 		District district = districtAdapter.find(districtId);
 		return DoctorMapper.toDomain(doctorMongo, district);
 	}
+	
+	private List<District> findDistricts(List<DoctorMongo> doctorsMongo){
+		List<String> districtsIds = new ArrayList<String>();
+		for (DoctorMongo doctorMongo : doctorsMongo) {
+			districtsIds.add(doctorMongo.getAddress().getDistrictId());
+		}
+		return districtAdapter.findAllByIds(districtsIds);
+	}
 
 	@Override
 	public List<Doctor> findAll() {
 		List<DoctorMongo> doctorsMongo = doctorRepository.findAll();
-		List<District> districtsMongo = districtAdapter.findAll();
-		return DoctorMapper.toDomainList(doctorsMongo, districtsMongo);
+		List<District> districts = findDistricts(doctorsMongo);
+		return DoctorMapper.toDomainList(doctorsMongo, districts);
+	}
+	
+	@Override
+	public List<Doctor> findAllByIds(List<String> ids){
+		List<DoctorMongo> doctorsMongo = (List<DoctorMongo>) doctorRepository.findAllById(ids);
+		List<District> districts = findDistricts(doctorsMongo);
+		return DoctorMapper.toDomainList(doctorsMongo, districts);
 	}
 
+	@Override
+	public List<Doctor> findAllByName(String name) {
+		List<DoctorMongo> doctorsMongo = doctorRepository.findAllByName(name);
+		List<District> districts = findDistricts(doctorsMongo);
+		return DoctorMapper.toDomainList(doctorsMongo, districts);
+	}
+	
 	@Override
 	public void delete(String id) {
 		doctorRepository.deleteById(id);
@@ -55,12 +78,5 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	@Override
 	public boolean existsByCrm(String crm) {
 		return doctorRepository.existsByCrm(crm);
-	}
-	
-	@Override
-	public List<Doctor> findAllByName(String name) {
-		List<DoctorMongo> doctorMongo = doctorRepository.findAllByName(name);
-		List<District> districtsMongo = districtAdapter.findAll();
-		return DoctorMapper.toDomainList(doctorMongo, districtsMongo);
 	}
 }

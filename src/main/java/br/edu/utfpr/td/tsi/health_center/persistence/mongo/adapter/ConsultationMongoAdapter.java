@@ -19,10 +19,10 @@ import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.Consultati
 public class ConsultationMongoAdapter implements ConsultationAdapter {
 	@Autowired
 	private ConsultationRepository consultationRepository;
-	
+
 	@Autowired
 	private DoctorAdapter doctorAdapter;
-	
+
 	@Autowired
 	private PatientAdapter patientAdapter;
 
@@ -39,43 +39,62 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 		Patient patient = patientAdapter.find(consultationMongo.getPatientId());
 		return ConsultationMapper.toDomain(consultationMongo, doctor, patient);
 	}
+	
+	private List<Doctor> findDoctors(List<ConsultationMongo> consultationsMongo){
+		List<String> doctorsIds = new ArrayList<String>();
+		for (ConsultationMongo consultationMongo : consultationsMongo) {
+			doctorsIds.add(consultationMongo.getDoctorId());
+		}
+		return doctorAdapter.findAllByIds(doctorsIds);
+	}
+	
+	private List<Patient> findPatients(List<ConsultationMongo> consultationsMongo){
+		List<String> patientsIds = new ArrayList<String>();
+		for (ConsultationMongo consultationMongo : consultationsMongo) {
+			patientsIds.add(consultationMongo.getPatientId());
+		}
+		return patientAdapter.findAllByIds(patientsIds);
+	}
 
 	@Override
 	public List<Consultation> findAll() {
 		List<ConsultationMongo> consultationsMongo = consultationRepository.findAll();
-		List<Doctor> doctors = doctorAdapter.findAll();
-		List<Patient> patients = patientAdapter.findAll();
+		List<Doctor> doctors = findDoctors(consultationsMongo);
+		List<Patient> patients = findPatients(consultationsMongo);
 		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
 	}
 
 	@Override
-	public void delete(String id) {
-		consultationRepository.deleteById(id);
+	public List<Consultation> findAllByIds(List<String> ids) {
+		List<ConsultationMongo> consultationsMongo = (List<ConsultationMongo>) consultationRepository.findAllById(ids);
+		List<Doctor> doctors = findDoctors(consultationsMongo);
+		List<Patient> patients = findPatients(consultationsMongo);
+		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
 	}
 
 	@Override
 	public List<Consultation> findAll(String patientId, String doctorId) {
 		List<ConsultationMongo> consultationsMongo = consultationRepository.findAllByPatientIdAndDoctorId(patientId, doctorId);
-		List<Doctor> doctors;
-		if(doctorId != null) {
-			doctors = doctorAdapter.findAll();
-		} else {
-			doctors = new ArrayList<Doctor>();
-			doctors.add(doctorAdapter.find(doctorId));
-		}
-		List<Patient> patients;
-		if(patientId != null) {
-			patients = patientAdapter.findAll();
-		} else {
-			patients = new ArrayList<Patient>();
-			patients.add(patientAdapter.find(patientId));
-		}
+		List<Doctor> doctors = findDoctors(consultationsMongo);
+		List<Patient> patients = findPatients(consultationsMongo);
 		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
+	}
+	
+	@Override
+	public List<Consultation> findAll(String patientId, ConsultationStatus status) {
+		List<ConsultationMongo> consultationsMongo = consultationRepository.findAllByPatientIdAndStatus(patientId, status);
+		List<Doctor> doctors = findDoctors(consultationsMongo);
+		List<Patient> patients = findPatients(consultationsMongo);
+		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
+	}
+	
+	@Override
+	public void delete(String id) {
+		consultationRepository.deleteById(id);
 	}
 	
 	@Override
 	public boolean existsByPatientIdAndStatus(String patientId, ConsultationStatus status) {
 		return consultationRepository.existsByPatientIdAndStatus(patientId, status);
 	}
-
 }

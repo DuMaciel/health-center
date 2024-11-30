@@ -9,5 +9,7 @@ public interface BaseAdapter<E> {
 	
 	public List<E> findAll();
 	
+	public List<E> findAllByIds(List<String> ids);
+	
 	public void delete(String id);
 }

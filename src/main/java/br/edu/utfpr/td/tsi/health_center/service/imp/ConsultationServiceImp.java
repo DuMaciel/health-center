@@ -50,6 +50,20 @@ public class ConsultationServiceImp implements ConsultationService{
 		Consultation consultationSaved = consultationAdapter.find(consultationId);
 		consultation.setStatus(consultationSaved.getStatus());
 		
+		ConsultationStatus status = consultation.getStatus();
+		if(status.equals(ConsultationStatus.COMPLETED)) {
+			throw new RuntimeException("Uma consulta concluida não pode ser editada.");
+		}
+		if(status.equals(ConsultationStatus.CANCELED)) {
+			throw new RuntimeException("Uma consulta cancelada não pode ser editada.");
+		}
+		
+		String patientId = consultation.getPatient().getId();
+		List<Consultation> consultationsScheduled = consultationAdapter.findAll(patientId, status);
+		if (consultationsScheduled.size() > 1) {
+			throw new RuntimeException("Este paciente já tem uma consulta agendada.");
+		}
+		
 		consultationAdapter.save(consultation);
 	}
 
@@ -84,6 +98,4 @@ public class ConsultationServiceImp implements ConsultationService{
 		
 		consultationAdapter.save(consultationSaved);
 	}
-
-	// TODO IMPLEMENTAR A BUSCA POR TODOS
 }

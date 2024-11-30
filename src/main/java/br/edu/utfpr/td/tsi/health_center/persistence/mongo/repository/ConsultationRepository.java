@@ -15,5 +15,7 @@ public interface ConsultationRepository extends MongoRepository<ConsultationMong
            "] }")
 	public List<ConsultationMongo> findAllByPatientIdAndDoctorId(String patientId, String doctorId);
 	
+	public List<ConsultationMongo> findAllByPatientIdAndStatus(String patientId, ConsultationStatus status);
+	
 	public boolean existsByPatientIdAndStatus(String patientId, ConsultationStatus status);
 }

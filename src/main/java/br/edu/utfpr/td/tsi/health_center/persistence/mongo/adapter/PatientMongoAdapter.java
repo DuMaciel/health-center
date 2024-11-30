@@ -1,5 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.persistence.mongo.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.PatientMapper;
-
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
 
@@ -35,14 +35,36 @@ public class PatientMongoAdapter implements PatientAdapter {
 		District district = districtAdapter.find(districtId);
 		return PatientMapper.toDomain(patientMongo, district);
 	}
+	
+	private List<District> findDistricts(List<PatientMongo> patientsMongo){
+		List<String> districtsIds = new ArrayList<String>();
+		for (PatientMongo patientMongo : patientsMongo) {
+			districtsIds.add(patientMongo.getAddress().getDistrictId());
+		}
+		return districtAdapter.findAllByIds(districtsIds);
+	}
 
 	@Override
 	public List<Patient> findAll() {
-		List<PatientMongo> patientMongo = patientRepository.findAll();
-		List<District> districts = districtAdapter.findAll();
-		return PatientMapper.toDomainList(patientMongo, districts);
+		List<PatientMongo> patientsMongo = patientRepository.findAll();
+		List<District> districts = findDistricts(patientsMongo);
+		return PatientMapper.toDomainList(patientsMongo, districts);
 	}
 
+	@Override
+	public List<Patient> findAllByIds(List<String> ids) {
+		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllById(ids);
+		List<District> districts = findDistricts(patientsMongo);
+		return PatientMapper.toDomainList(patientsMongo, districts);
+	}
+	
+	@Override
+	public List<Patient> findAllByName(String name) {
+		List<PatientMongo> patientsMongo = patientRepository.findAllByName(name);
+		List<District> districts = findDistricts(patientsMongo);
+		return PatientMapper.toDomainList(patientsMongo, districts);
+	}
+	
 	@Override
 	public void delete(String id) {
 		patientRepository.deleteById(id);
@@ -51,12 +73,5 @@ public class PatientMongoAdapter implements PatientAdapter {
 	@Override
 	public boolean existsByCpf(String cpf) {
 		return patientRepository.existsByCpf(cpf);
-	}
-	
-	@Override
-	public List<Patient> findAllByName(String name) {
-		List<PatientMongo> patientMongo = patientRepository.findAllByName(name);
-		List<District> districts = districtAdapter.findAll();
-		return PatientMapper.toDomainList(patientMongo, districts);
 	}
 }

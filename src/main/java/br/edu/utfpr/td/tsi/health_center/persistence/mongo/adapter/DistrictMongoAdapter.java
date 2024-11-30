@@ -33,6 +33,12 @@ public class DistrictMongoAdapter implements DistrictAdapter {
 		List<DistrictMongo> districtMongo = districtRepository.findAll();
 		return DistrictMapper.toDomainList(districtMongo);
 	}
+	
+	@Override
+	public List<District> findAllByIds(List<String> ids){
+		List<DistrictMongo> districtMongo = (List<DistrictMongo>) districtRepository.findAllById(ids);
+		return DistrictMapper.toDomainList(districtMongo);
+	}
 
 	@Override
 	public void delete(String id) {
