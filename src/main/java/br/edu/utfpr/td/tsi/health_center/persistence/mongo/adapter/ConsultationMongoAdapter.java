@@ -2,6 +2,10 @@ package br.edu.utfpr.td.tsi.health_center.persistence.mongo.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.catalina.util.ToStringUtil;
+import org.apache.logging.log4j.util.Strings;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
@@ -75,11 +79,11 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 	@Override
 	public List<Consultation> findAll(String patientId, String doctorId) {
 		List<ConsultationMongo> consultationsMongo;
-		if(patientId == null && doctorId == null) {
+		if(Strings.isEmpty(patientId) && Strings.isEmpty(doctorId)) {
 			consultationsMongo = consultationRepository.findAll();
-		} else if(patientId == null) {
+		} else if(Strings.isEmpty(patientId)) {
 			consultationsMongo = consultationRepository.findAllByDoctorId(doctorId);
-		} else if(doctorId == null) {
+		} else if(Strings.isEmpty(doctorId)) {
 			consultationsMongo = consultationRepository.findAllByPatientId(patientId);
 		} else {
 			consultationsMongo = consultationRepository.findAllByPatientIdAndDoctorId(patientId, doctorId);
