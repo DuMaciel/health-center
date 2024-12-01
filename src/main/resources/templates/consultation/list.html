@@ -110,6 +110,13 @@ input, select {
 	cursor: pointer;
 	transition: background-color 0.3s;
 }
+
+.disabled {
+	pointer-events: none;
+	background-color: #888;
+	cursor: not-allowed;
+	text-decoration: none;
+}
 </style>
 </head>
 
@@ -156,6 +163,8 @@ input, select {
 				<th>Status</th>
 				<th>Editar</th>
 				<th>Remover</th>
+				<th>Cancelar</th>
+				<th>Concluir</th>
 			</tr>
 			<tr th:each="consultationDTO : ${consultationsDTO}">
 				<td th:text="${consultationDTO.doctorName}"></td>
@@ -166,6 +175,14 @@ input, select {
 					th:href="@{/consultation/edit/{id} (id=${consultationDTO.id})}">Editar</a></td>
 				<td><a class="btn"
 					th:href="@{/consultation/delete/{id} (id=${consultationDTO.id})}">Remover</a></td>
+				<td><a
+					th:classappend="${consultationDTO.status == 'Cancelado' || consultationDTO.status == 'Concluído'} ? 'disabled' : ''"
+					class="btn"
+					th:href="@{/consultation/cancel/{id} (id=${consultationDTO.id})}">Cancelar</a></td>
+				<td><a
+					th:classappend="${consultationDTO.status == 'Cancelado' || consultationDTO.status == 'Concluído'} ? 'disabled' : ''"
+					class="btn"
+					th:href="@{/consultation/complete/{id} (id=${consultationDTO.id})}">Concluir</a></td>
 			<tr>
 		</table>
 	</div>

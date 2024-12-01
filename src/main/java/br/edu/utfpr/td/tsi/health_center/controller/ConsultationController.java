@@ -147,5 +147,28 @@ public class ConsultationController {
 		consultationService.delete(id);
 		return redirectView;
 	}
+	
+	@GetMapping(value = "/cancel/{id}")
+	public RedirectView cancelConsultation(@PathVariable String id) {
+		RedirectView redirectView = new RedirectView("../list");
+		try {
+			consultationService.cancelConsultation(id);
+		} catch (Exception e) {
+			
+		}
+		
+		return redirectView;
+	}
+	
+	@GetMapping(value = "/complete/{id}")
+	public RedirectView completeConsultation(@PathVariable String id) {
+		RedirectView redirectView = new RedirectView("../list");
+		try {
+			consultationService.completeConsultation(id);
+		} catch(Exception e) {
+			
+		}
+		return redirectView;
+	}
 
 }

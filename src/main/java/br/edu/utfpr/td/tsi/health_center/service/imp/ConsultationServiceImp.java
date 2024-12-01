@@ -89,7 +89,7 @@ public class ConsultationServiceImp implements ConsultationService{
 			throw new RuntimeException("Cancelamento só é permitido para consultas agendadas");
 		}
 		
-		consultationSaved.setStatus(ConsultationStatus.CANCELED);
+		consultationSaved.setStatus(ConsultationStatus.COMPLETED);
 		
 		consultationAdapter.save(consultationSaved);
 	}

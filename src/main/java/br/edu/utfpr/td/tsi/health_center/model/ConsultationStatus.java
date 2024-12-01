@@ -1,9 +1,9 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
 public enum ConsultationStatus {
-	SCHEDULED("Agendado"),
+	SCHEDULED("Agendada"),
 	CANCELED("Cancelado"),
-	COMPLETED("Finalizado");
+	COMPLETED("Concluído");
 	
 	 private String description;
 
