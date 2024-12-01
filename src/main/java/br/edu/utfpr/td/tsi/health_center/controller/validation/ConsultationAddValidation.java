@@ -10,10 +10,25 @@ public class ConsultationAddValidation {
 	LocalDateTime dateTime;
 	@NotNull(message = "Selecione um médico")
 	String doctorId;
-	@NotEmpty(message = "Selecione um médico")
-	String doctorName;
 	@NotEmpty(message = "Selecione um paciente")
 	String patientId;
-	@NotEmpty(message = "Selecione um paciente")
-	String patientName;
+	
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+	public String getDoctorId() {
+		return doctorId;
+	}
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
+	}
+	public String getPatientId() {
+		return patientId;
+	}
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
 }

@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,7 +48,9 @@ public class DoctorController {
 	}
 	
 	@PostMapping(value = "/add")
-	public RedirectView addDoctor(@Valid DoctorAddValidation doctorAddValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public RedirectView addDoctor(@Valid DoctorAddValidation doctorAddValidation, 
+			BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		DoctorDTO doctorDTO = new DoctorDTO();
 		BeanUtils.copyProperties(doctorAddValidation, doctorDTO);
@@ -62,7 +65,8 @@ public class DoctorController {
 			String error = e.getMessage();
 			redirectAttributes.addFlashAttribute("error", error);
 			redirectAttributes.addFlashAttribute("doctorDTO", doctorDTO);
-			redirectView.setUrl("add");
+			String urlToRedirect = referer != null ? referer : "add";
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}
@@ -80,7 +84,9 @@ public class DoctorController {
 	}
 	
 	@PostMapping(value = "/edit")
-	public RedirectView editDoctor(@Valid DoctorAddValidation doctorEditValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public RedirectView editDoctor(@Valid DoctorAddValidation doctorEditValidation, 
+			BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		DoctorDTO doctorDTO = new DoctorDTO();
 		BeanUtils.copyProperties(doctorEditValidation, doctorDTO);
@@ -95,7 +101,8 @@ public class DoctorController {
 			String error = e.getMessage();
 			redirectAttributes.addFlashAttribute("error", error);
 			redirectAttributes.addFlashAttribute("doctorDTO", doctorDTO);
-			redirectView.setUrl(String.format("edit/%s", doctorDTO.getId()));
+			String urlToRedirect = referer != null ? referer : String.format("edit/%s", doctorDTO.getId());
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}

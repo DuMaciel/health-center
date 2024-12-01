@@ -17,6 +17,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -63,7 +64,8 @@ public class ConsultationController {
 
 	@PostMapping(value = "/add")
 	public RedirectView addConsultation(@Valid ConsultationAddValidation consultationAddValidation,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		ConsultationDTO consultationDTO = new ConsultationDTO();
 		BeanUtils.copyProperties(consultationAddValidation, consultationDTO);
@@ -78,7 +80,8 @@ public class ConsultationController {
 			String error = e.getMessage();
 			redirectAttributes.addFlashAttribute("error", error);
 			redirectAttributes.addFlashAttribute("consultationDTO", consultationDTO);
-			redirectView.setUrl("add");
+			String urlToRedirect = referer != null ? referer : "add";
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}
@@ -103,7 +106,8 @@ public class ConsultationController {
 
 	@PostMapping(value = "/edit")
 	public RedirectView editConsultation(@Valid ConsultationAddValidation consultationAddValidation,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		ConsultationDTO consultationDTO = new ConsultationDTO();
 		BeanUtils.copyProperties(consultationAddValidation, consultationDTO);
@@ -118,7 +122,8 @@ public class ConsultationController {
 			String error = e.getMessage();
 			redirectAttributes.addFlashAttribute("error", error);
 			redirectAttributes.addFlashAttribute("ConsultationDTO", consultationDTO);
-			redirectView.setUrl(String.format("edit/%s", consultationDTO.getId()));
+			String urlToRedirect = referer != null ? referer : String.format("edit/%s", consultationDTO.getId());
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}

@@ -3,9 +3,7 @@ package br.edu.utfpr.td.tsi.health_center.persistence.mongo.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.util.ToStringUtil;
 import org.apache.logging.log4j.util.Strings;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;

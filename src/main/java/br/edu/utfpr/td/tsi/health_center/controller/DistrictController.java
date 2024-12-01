@@ -15,6 +15,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -43,7 +44,9 @@ public class DistrictController {
 	}
 
 	@PostMapping(value = "/add")
-	public RedirectView addDistrict(@Valid DistrictAddValidation districtAddValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public RedirectView addDistrict(@Valid DistrictAddValidation districtAddValidation, 
+			BindingResult bindingResult, RedirectAttributes redirectAttributes, 
+			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		DistrictDTO districtDTO = new DistrictDTO();
 		BeanUtils.copyProperties(districtAddValidation, districtDTO);
@@ -58,7 +61,8 @@ public class DistrictController {
 			String error = e.getMessage();
 			redirectAttributes.addFlashAttribute("error", error);
 			redirectAttributes.addFlashAttribute("districtDTO", districtDTO);
-			redirectView.setUrl("add");
+			String urlToRedirect = referer != null ? referer : "add";
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}
@@ -74,7 +78,9 @@ public class DistrictController {
 	}
 
 	@PostMapping(value = "/edit")
-	public RedirectView editDistrict(@Valid DistrictEditValidation DistrictEditValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public RedirectView editDistrict(@Valid DistrictEditValidation DistrictEditValidation, 
+			BindingResult bindingResult, RedirectAttributes redirectAttributes, 
+			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		DistrictDTO districtDTO = new DistrictDTO();
 		BeanUtils.copyProperties(DistrictEditValidation, districtDTO);
@@ -89,7 +95,8 @@ public class DistrictController {
 			String error = e.getMessage();
 			redirectAttributes.addFlashAttribute("error", error);
 			redirectAttributes.addFlashAttribute("districtDTO", districtDTO);
-			redirectView.setUrl(String.format("edit/%s", districtDTO.getId()));
+			String urlToRedirect = referer != null ? referer : String.format("edit/%s", districtDTO.getId());
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}
