@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ConsultationAddValidation {
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	@NotNull(message = "Data é obrigatório")
 	LocalDateTime dateTime;
 	@NotNull(message = "Selecione um médico")

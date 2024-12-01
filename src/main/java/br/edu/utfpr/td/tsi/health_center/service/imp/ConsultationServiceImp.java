@@ -86,7 +86,7 @@ public class ConsultationServiceImp implements ConsultationService{
 		Consultation consultationSaved = consultationAdapter.find(consultationId);
 		ConsultationStatus statusSaved = consultationSaved.getStatus();
 		if(!statusSaved.equals(ConsultationStatus.SCHEDULED)) {
-			throw new RuntimeException("Cancelamento só é permitido para consultas agendadas");
+			throw new RuntimeException("Conluir só é permitido para consultas agendadas");
 		}
 		
 		consultationSaved.setStatus(ConsultationStatus.COMPLETED);
