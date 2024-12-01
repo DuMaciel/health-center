@@ -75,6 +75,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 		return patientRepository.existsByCpf(cpf);
 	}
 	
+	@Override
 	public boolean existsByAddressDistrictId(String districtId) {
 		return patientRepository.existsByAddressDistrictId(districtId);
 	}

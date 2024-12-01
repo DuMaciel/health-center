@@ -43,7 +43,7 @@ public class PatientServiceImp implements PatientService {
 	@Override
 	public void delete(String id) {
 		if (consultationAdapter.existsByPatientId(id)) {
-			throw new RuntimeException("Este paciente esta vinculado a uma consulta.");
+			throw new RuntimeException("Existe uma consulta vinculado a esse paciente.");
 		}
 		patientAdapter.delete(id);
 	}
