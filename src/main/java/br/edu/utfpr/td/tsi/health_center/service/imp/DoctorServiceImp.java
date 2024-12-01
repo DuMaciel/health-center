@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
+import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
 
@@ -14,6 +14,9 @@ public class DoctorServiceImp implements DoctorService {
 	
 	@Autowired
 	private DoctorAdapter doctorAdapter;
+	
+	@Autowired
+	private ConsultationAdapter consultationAdapter;
 	
 	@Override
 	public void add(Doctor doctor) {
@@ -45,7 +48,9 @@ public class DoctorServiceImp implements DoctorService {
 	
 	@Override
 	public void delete(String id) {
-		
+		if (consultationAdapter.existsByDoctorId(id)) {
+			throw new RuntimeException("Existe uma consulta vinculada a esse médico.");
+		}
 		doctorAdapter.delete(id);
 	}
 	
