@@ -10,6 +10,8 @@ public interface ConsultationAdapter extends BaseAdapter<Consultation>{
 	
 	public boolean existsByPatientId(String patientId);
 	
+	public boolean existsByDoctorId(String doctorId);
+	
 	public List<Consultation> findAll(String patientId, String doctorId);
 	
 	public List<Consultation> findAll(String patientId, ConsultationStatus status);
