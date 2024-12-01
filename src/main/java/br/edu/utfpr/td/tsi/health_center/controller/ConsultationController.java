@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import br.edu.utfpr.td.tsi.health_center.controller.dto.ConsultationDTO;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationAddValidation;
+import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
@@ -105,12 +106,12 @@ public class ConsultationController {
 	}
 
 	@PostMapping(value = "/edit")
-	public RedirectView editConsultation(@Valid ConsultationAddValidation consultationAddValidation,
+	public RedirectView editConsultation(@Valid ConsultationEditValidation consultationEditValidation,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes,
 			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		ConsultationDTO consultationDTO = new ConsultationDTO();
-		BeanUtils.copyProperties(consultationAddValidation, consultationDTO);
+		BeanUtils.copyProperties(consultationEditValidation, consultationDTO);
 		try {
 			if (bindingResult.hasErrors()) {
 				ObjectError error = bindingResult.getAllErrors().getFirst();

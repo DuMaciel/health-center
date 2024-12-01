@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import br.edu.utfpr.td.tsi.health_center.controller.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientAddValidation;
+import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
@@ -83,7 +84,7 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/edit")
-	public RedirectView editPatient(@Valid PatientAddValidation patientEditValidation, 
+	public RedirectView editPatient(@Valid PatientEditValidation patientEditValidation, 
 			BindingResult bindingResult, RedirectAttributes redirectAttributes,
 			@RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
