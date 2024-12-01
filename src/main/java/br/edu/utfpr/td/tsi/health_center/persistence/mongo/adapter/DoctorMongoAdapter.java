@@ -3,6 +3,7 @@ package br.edu.utfpr.td.tsi.health_center.persistence.mongo.adapter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
@@ -14,6 +15,7 @@ import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DoctorRepository;
 
 @Component
+@Profile("mongo")
 public class DoctorMongoAdapter implements DoctorAdapter{
 	
 	@Autowired
@@ -59,7 +61,7 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	}
 
 	@Override
-	public List<Doctor> findAllByName(String name) {
+	public List<Doctor> findAll(String name) {
 		List<DoctorMongo> doctorsMongo = doctorRepository.findAllByName(name);
 		List<District> districts = findDistricts(doctorsMongo);
 		return DoctorMapper.toDomainList(doctorsMongo, districts);

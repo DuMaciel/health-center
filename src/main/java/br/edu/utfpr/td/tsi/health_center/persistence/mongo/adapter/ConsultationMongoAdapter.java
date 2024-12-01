@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
@@ -18,6 +19,7 @@ import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.ConsultationMon
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.ConsultationRepository;
 
 @Component
+@Profile("mongo")
 public class ConsultationMongoAdapter implements ConsultationAdapter {
 	@Autowired
 	private ConsultationRepository consultationRepository;

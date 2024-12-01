@@ -60,7 +60,7 @@ public class DistrictServiceImp implements DistrictService {
 	@Override
 	public List<District> findAll(String name) {
 		if(name != null && !name.equals("")) {
-			return districtAdapter.findAllByName(name);
+			return districtAdapter.findAll(name);
 		}
 		return districtAdapter.findAll();
 	}

@@ -51,7 +51,7 @@ public class PatientServiceImp implements PatientService {
 	@Override
 	public List<Patient> findAll(String name) {
 		if(name != null && !name.equals("")) {
-			return patientAdapter.findAllByName(name);
+			return patientAdapter.findAll(name);
 		}
 		return patientAdapter.findAll();
 	}

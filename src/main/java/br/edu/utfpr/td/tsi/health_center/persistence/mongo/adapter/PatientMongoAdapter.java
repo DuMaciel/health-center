@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
@@ -15,6 +16,7 @@ import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
 
 @Component
+@Profile("mongo")
 public class PatientMongoAdapter implements PatientAdapter {
 	@Autowired
 	private PatientRepository patientRepository;
@@ -59,7 +61,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	}
 	
 	@Override
-	public List<Patient> findAllByName(String name) {
+	public List<Patient> findAll(String name) {
 		List<PatientMongo> patientsMongo = patientRepository.findAllByName(name);
 		List<District> districts = findDistricts(patientsMongo);
 		return PatientMapper.toDomainList(patientsMongo, districts);

@@ -1,7 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import br.edu.utfpr.td.tsi.health_center.persistence.FindAllByNameExtension;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
 
 public interface DoctorRepository extends MongoRepository<DoctorMongo, String>, FindAllByNameExtension<DoctorMongo> {
