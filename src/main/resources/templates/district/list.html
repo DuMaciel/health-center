@@ -37,8 +37,13 @@
 		<div class="container-filter">
 			<div>
 				<form action="list">
-					<input type="text" name="name" th:value="${name}" /> <input
-						type="submit" th:value="Pesquisar" />
+					<div>
+						<label>Nome: </label> <input type="text" name="name"
+							th:value="${name}" />
+					</div>
+					<div>
+						<input type="submit" th:value="Pesquisar" />
+					</div>
 				</form>
 			</div>
 			<a class="btn" href="add">Adicionar</a>

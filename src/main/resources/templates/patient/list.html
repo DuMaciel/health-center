@@ -18,10 +18,10 @@
 			Toastify({
 				text : error,
 				duration : 3000,
-				close: true,
-				style: {
-				    background: "#BA2C2C",
-				  },
+				close : true,
+				style : {
+					background : "#BA2C2C",
+				},
 			}).showToast();
 		}
 	</script>
@@ -39,8 +39,13 @@
 		<div class="container-filter">
 			<div>
 				<form action="list">
-					<label>Nome: </label> <input type="text" name="name"
-						th:value="${name}"></input> <input type="submit" value="Pesquisar"></input>
+					<div>
+						<label>Nome: </label> <input type="text" name="name"
+							th:value="${name}"></input>
+					</div>
+					<div>
+						<input type="submit" value="Pesquisar"></input>
+					</div>
 				</form>
 			</div>
 			<a class="btn" href="add">Adicionar</a>
