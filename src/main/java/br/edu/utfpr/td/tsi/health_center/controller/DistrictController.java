@@ -114,9 +114,14 @@ public class DistrictController {
 	}
 
 	@GetMapping(value = "/delete/{id}")
-	public RedirectView deleteDistrict(@PathVariable String id) {
+	public RedirectView deleteDistrict(@PathVariable String id, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("../list");
-		districtService.delete(id);
+		try {
+			districtService.delete(id);
+		} catch (Exception e) {
+			String error = e.getMessage();
+			redirectAttributes.addFlashAttribute("error", error);
+		}
 		return redirectView;
 	}
 }

@@ -79,4 +79,8 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	public boolean existsByCrm(String crm) {
 		return doctorRepository.existsByCrm(crm);
 	}
+	
+	public boolean existsByAddressDistrictId(String districtId) {
+		return doctorRepository.existsByAddressDistrictId(districtId);
+	}
 }

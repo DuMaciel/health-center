@@ -45,7 +45,7 @@ public class DoctorServiceImp implements DoctorService {
 	
 	@Override
 	public void delete(String id) {
-		// TODO Implementar lógica para validar se o paciente tem consulta
+		
 		doctorAdapter.delete(id);
 	}
 	

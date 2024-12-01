@@ -7,17 +7,25 @@ import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 
 @Service
 public class DistrictServiceImp implements DistrictService {
 	@Autowired
 	private DistrictAdapter districtAdapter;
+	
+	@Autowired
+	private DoctorAdapter doctorAdapter;
+	
+	@Autowired
+	private PatientAdapter patientAdapter;
 
 	@Override
 	public void add(District district) {
 		if(districtAdapter.existsByName(district.getName())){
-			throw new RuntimeException("Um bairro com esse nome já existe");
+			throw new RuntimeException("Um bairro com esse nome já existe.");
 		}
 		districtAdapter.save(district);
 	}
@@ -27,7 +35,7 @@ public class DistrictServiceImp implements DistrictService {
 		if(districtAdapter.existsByName(district.getName())){
 			District districtSaved = districtAdapter.find(district.getId());
 			if(!districtSaved.getName().toLowerCase().equals(district.getName().toLowerCase())) {
-				throw new RuntimeException("Um bairro com esse nome já existe");
+				throw new RuntimeException("Um bairro com esse nome já existe.");
 			}
 		}
 		districtAdapter.save(district);
@@ -40,9 +48,12 @@ public class DistrictServiceImp implements DistrictService {
 
 	@Override
 	public void delete(String id) {
-//		if(addressRepository.existsByDistrictId(id)) {
-//			throw new RuntimeException("Esse bairro está sendo utilizado em um endereço");
-//		}
+		if(patientAdapter.existsByAddressDistrictId(id)){
+			throw new RuntimeException("Existe um paciente nesse distrito.");
+		}
+		if(doctorAdapter.existsByAddressDistrictId(id)){
+			throw new RuntimeException("Existe um médico nesse distrito.");
+		}
 		districtAdapter.delete(id);
 	}
 
