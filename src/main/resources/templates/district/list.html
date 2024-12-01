@@ -5,8 +5,26 @@
 <meta charset="UTF-8">
 <title>Lista de Bairros</title>
 <link th:href="@{/styles/list-custom.css}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
+
+	<script type="text/javascript">
+		let error = '[[${error}]]'
+		if (error) {
+			Toastify({
+				text : error,
+				duration : 3000,
+				close : true,
+				style : {
+					background : "#BA2C2C",
+				},
+			}).showToast();
+		}
+	</script>
 	<ul>
 		<li><a href="../consultation/list">Consultas</a></li>
 		<li><a href="../doctor/list">Médicos</a></li>
@@ -35,8 +53,10 @@
 			</tr>
 			<tr th:each="districtDTO : ${districtsDTO}">
 				<td th:text="${districtDTO.name}"></td>
-				<td><a class="btn" th:href="@{/district/edit/{id} (id=${districtDTO.id})}">Editar</a></td>
-				<td><a class="btn" th:href="@{/district/delete/{id} (id=${districtDTO.id})}">Remover</a></td>
+				<td><a class="btn"
+					th:href="@{/district/edit/{id} (id=${districtDTO.id})}">Editar</a></td>
+				<td><a class="btn"
+					th:href="@{/district/delete/{id} (id=${districtDTO.id})}">Remover</a></td>
 			<tr>
 		</table>
 	</div>

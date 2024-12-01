@@ -8,6 +8,8 @@ import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 public interface ConsultationAdapter extends BaseAdapter<Consultation>{
 	public boolean existsByPatientIdAndStatus(String patientId, ConsultationStatus status);
 	
+	public boolean existsByPatientId(String patientId);
+	
 	public List<Consultation> findAll(String patientId, String doctorId);
 	
 	public List<Consultation> findAll(String patientId, ConsultationStatus status);

@@ -1,11 +1,10 @@
 package br.edu.utfpr.td.tsi.health_center.service.imp;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 
@@ -13,6 +12,9 @@ import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 public class PatientServiceImp implements PatientService {
 	@Autowired
 	private PatientAdapter patientAdapter;
+	
+	@Autowired
+	private ConsultationAdapter consultationAdapter;
 
 	@Override
 	public void add(Patient patient) {
@@ -40,7 +42,9 @@ public class PatientServiceImp implements PatientService {
 
 	@Override
 	public void delete(String id) {
-		// TODO Implementar lógica para validar se o paciente tem consulta
+		if (consultationAdapter.existsByPatientId(id)) {
+			throw new RuntimeException("Este paciente esta vinculado a uma consulta.");
+		}
 		patientAdapter.delete(id);
 	}
 

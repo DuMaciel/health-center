@@ -5,8 +5,27 @@
 <meta charset="UTF-8">
 <title>Lista de Pacientes</title>
 <link th:href="@{/styles/list-custom.css}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
+
+	<script type="text/javascript">
+		let error = '[[${error}]]'
+		if (error) {
+			Toastify({
+				text : error,
+				duration : 3000,
+				close: true,
+				style: {
+				    background: "#BA2C2C",
+				  },
+			}).showToast();
+		}
+	</script>
+
 	<ul>
 		<li><a href="../consultation/list">Consultas</a></li>
 		<li><a href="../doctor/list">Médicos</a></li>
@@ -47,8 +66,10 @@
 				<td th:text="${patientDTO.addressStreet}"></td>
 				<td th:text="${patientDTO.addressNumber}"></td>
 				<td th:text="${patientDTO.addressComplement}"></td>
-				<td><a class="btn" th:href="@{/patient/edit/{id} (id=${patientDTO.id})}">Editar</a></td>
-				<td><a class="btn" th:href="@{/patient/delete/{id} (id=${patientDTO.id})}">Remover</a></td>
+				<td><a class="btn"
+					th:href="@{/patient/edit/{id} (id=${patientDTO.id})}">Editar</a></td>
+				<td><a class="btn"
+					th:href="@{/patient/delete/{id} (id=${patientDTO.id})}">Remover</a></td>
 			<tr>
 		</table>
 	</div>

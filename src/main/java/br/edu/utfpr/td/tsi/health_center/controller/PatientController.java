@@ -119,9 +119,15 @@ public class PatientController {
 	}
 
 	@GetMapping(value = "/delete/{id}")
-	public RedirectView deletePatient(@PathVariable String id) {
+	public RedirectView deletePatient(@PathVariable String id, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("../list");
-		patientService.delete(id);
+		
+		try {
+			patientService.delete(id);
+		} catch(Exception error) {
+			redirectAttributes.addFlashAttribute("error", error.getMessage());
+		}
+		
 		return redirectView;
 	}
 }

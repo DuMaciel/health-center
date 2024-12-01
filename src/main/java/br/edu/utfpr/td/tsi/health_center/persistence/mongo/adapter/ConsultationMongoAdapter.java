@@ -108,4 +108,10 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 	public boolean existsByPatientIdAndStatus(String patientId, ConsultationStatus status) {
 		return consultationRepository.existsByPatientIdAndStatus(patientId, status);
 	}
+	
+	@Override
+	public boolean existsByPatientId(String patientId) {
+		return consultationRepository.existsByPatientId(patientId);
+	}
+	
 }
