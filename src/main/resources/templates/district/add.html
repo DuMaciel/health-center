@@ -14,13 +14,13 @@
 		<form method="POST" th:action="@{'add'}">
 			<div>
 				<label>Nome:</label> <input type="text" name="name"
-					th:value="${district?.name}" required/>
+					th:value="${districtDTO?.name}" required/>
 			</div>
 			<div>
 				<div class="btn-group">
 					<input class="btn btn-save" type="submit" th:value="Salvar" />
 					<button class="btn btn-back" type="button"
-						onclick="window.history.back()">Voltar</button>
+						onclick="window.location.replace('/district/list')">Voltar</button>
 				</div>
 			</div>
 		</form>

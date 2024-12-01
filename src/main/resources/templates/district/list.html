@@ -33,10 +33,10 @@
 				<th>Editar</th>
 				<th>Remover</th>
 			</tr>
-			<tr th:each="district : ${districts}">
-				<td th:text="${district.name}"></td>
-				<td><a class="btn" th:href="@{/district/edit/{id} (id=${district.id})}">Editar</a></td>
-				<td><a class="btn" th:href="@{/district/delete/{id} (id=${district.id})}">Remover</a></td>
+			<tr th:each="districtDTO : ${districtsDTO}">
+				<td th:text="${districtDTO.name}"></td>
+				<td><a class="btn" th:href="@{/district/edit/{id} (id=${districtDTO.id})}">Editar</a></td>
+				<td><a class="btn" th:href="@{/district/delete/{id} (id=${districtDTO.id})}">Remover</a></td>
 			<tr>
 		</table>
 	</div>
