@@ -2,11 +2,14 @@ package br.edu.utfpr.td.tsi.health_center.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
 import br.edu.utfpr.td.tsi.health_center.controller.dto.PatientDTO;
+import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientAddValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
@@ -43,9 +46,15 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/add")
-	public RedirectView addPatient(PatientDTO patientDTO, RedirectAttributes redirectAttributes) {
+	public RedirectView addPatient(@Valid PatientAddValidation patientAddValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("list");
+		PatientDTO patientDTO = new PatientDTO();
+		BeanUtils.copyProperties(patientAddValidation, patientDTO);
 		try {
+			if (bindingResult.hasErrors()) {
+				ObjectError error = bindingResult.getAllErrors().getFirst();
+				throw new RuntimeException(error.getDefaultMessage());
+		    }
 			Patient patient = patientDTO.toModel();
 			patientService.add(patient);
 		} catch (Exception e) {
@@ -70,9 +79,15 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/edit")
-	public RedirectView editPatient(PatientDTO patientDTO, RedirectAttributes redirectAttributes) {
+	public RedirectView editPatient(@Valid PatientAddValidation patientEditValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("list");
+		PatientDTO patientDTO = new PatientDTO();
+		BeanUtils.copyProperties(patientEditValidation, patientDTO);
 		try {
+			if (bindingResult.hasErrors()) {
+				ObjectError error = bindingResult.getAllErrors().getFirst();
+				throw new RuntimeException(error.getDefaultMessage());
+		    }
 			Patient patient = patientDTO.toModel();
 			patientService.edit(patient);
 		} catch (Exception e) {

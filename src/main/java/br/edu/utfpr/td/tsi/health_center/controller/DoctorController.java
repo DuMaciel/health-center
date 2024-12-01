@@ -2,10 +2,14 @@ package br.edu.utfpr.td.tsi.health_center.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import br.edu.utfpr.td.tsi.health_center.controller.dto.DoctorDTO;
+import br.edu.utfpr.td.tsi.health_center.controller.validation.DoctorAddValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
@@ -42,9 +47,15 @@ public class DoctorController {
 	}
 	
 	@PostMapping(value = "/add")
-	public RedirectView addDoctor(DoctorDTO doctorDTO, RedirectAttributes redirectAttributes) {
+	public RedirectView addDoctor(@Valid DoctorAddValidation doctorAddValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("list");
+		DoctorDTO doctorDTO = new DoctorDTO();
+		BeanUtils.copyProperties(doctorAddValidation, doctorDTO);
 		try {
+			if (bindingResult.hasErrors()) {
+				ObjectError error = bindingResult.getAllErrors().getFirst();
+				throw new RuntimeException(error.getDefaultMessage());
+		    }
 			Doctor doctor = doctorDTO.toModel();
 			doctorService.add(doctor);
 		} catch (Exception e) {
@@ -69,9 +80,15 @@ public class DoctorController {
 	}
 	
 	@PostMapping(value = "/edit")
-	public RedirectView editDoctor(DoctorDTO doctorDTO, RedirectAttributes redirectAttributes) {
+	public RedirectView editDoctor(@Valid DoctorAddValidation doctorEditValidation, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("list");
+		DoctorDTO doctorDTO = new DoctorDTO();
+		BeanUtils.copyProperties(doctorEditValidation, doctorDTO);
 		try {
+			if (bindingResult.hasErrors()) {
+				ObjectError error = bindingResult.getAllErrors().getFirst();
+				throw new RuntimeException(error.getDefaultMessage());
+		    }
 			Doctor doctor = doctorDTO.toModel();
 			doctorService.edit(doctor);
 		} catch (Exception e) {

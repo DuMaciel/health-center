@@ -21,7 +21,7 @@
 			<div>
 				<label>Data:</label> <input type="datetime-local" name="dateTime"
 					th:value="${consultationDTO?.dateTime}" th:min="${minDate}"
-					th:max="${maxDate}" required />
+					th:max="${maxDate}" />
 			</div>
 
 			<div>
@@ -30,7 +30,7 @@
 			</div>
 
 			<div>
-				<label>Médico:</label> <select name="doctorId" required>
+				<label>Médico:</label> <select name="doctorId">
 					<option selected disabled value="">Escolha um médico</option>
 					<option th:selected="${doctor.id == consultationDTO?.doctorId}"
 						th:each="doctor : ${doctors}" th:value="${doctor.id}"
@@ -39,7 +39,7 @@
 			</div>
 
 			<div>
-				<label>Paciente:</label> <select name="patientId" required>
+				<label>Paciente:</label> <select name="patientId">
 					<option selected disabled value="">Escolha um paciente</option>
 					<option th:selected="${patient.id == consultationDTO?.patientId}"
 						th:each="patient : ${patients}" th:value="${patient.id}"

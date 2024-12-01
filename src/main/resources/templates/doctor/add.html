@@ -18,26 +18,26 @@
 		<form method="POST" th:action="@{'add'}">
 			<div>
 				<label>Nome:</label> <input type="text" name="name"
-					th:value="${doctorDTO?.name}" required />
+					th:value="${doctorDTO?.name}" />
 			</div>
 
 			<div>
 				<label>CPF:</label> <input type="text" name="cpf"
-					th:value="${doctorDTO?.cpf}" required />
+					th:value="${doctorDTO?.cpf}" />
 			</div>
 
 			<div>
 				<label>CRM:</label> <input type="text" name="crm"
-					th:value="${doctorDTO?.crm}" required />
+					th:value="${doctorDTO?.crm}" />
 			</div>
 
 			<div>
 				<label>CEP:</label> <input type="text" name="addressPostalCode"
-					th:value="${doctorDTO?.addressPostalCode}" required />
+					th:value="${doctorDTO?.addressPostalCode}" />
 			</div>
 
 			<div>
-				<label>Bairro:</label> <select name="districtId" required>
+				<label>Bairro:</label> <select name="districtId">
 					<option selected disabled value="">Escolha um bairro</option>
 					<option th:selected="${district.id == doctorDTO?.districtId}"
 						th:each="district : ${districts}" th:value="${district.id}"
@@ -47,18 +47,17 @@
 
 			<div>
 				<label>Logradouro:</label> <input type="text" name="addressStreet"
-					th:value="${doctorDTO?.addressStreet}" required />
+					th:value="${doctorDTO?.addressStreet}" />
 			</div>
 
 			<div>
 				<label>Número:</label> <input type="number" name="addressNumber"
-					th:value="${doctorDTO?.addressNumber}" required />
+					th:value="${doctorDTO?.addressNumber}" />
 			</div>
 
 			<div>
 				<label>Complemento:</label> <input type="text"
-					name="addressComplement" th:value="${doctorDTO?.addressComplement}"
-					required />
+					name="addressComplement" th:value="${doctorDTO?.addressComplement}" />
 			</div>
 			<div>
 				<div class="btn-group">

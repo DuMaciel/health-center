@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Editar Paciente</title>
-<link th:href="@{/styles/form-custom.css}" rel="stylesheet" />stylesheet" />
+<link th:href="@{/styles/form-custom.css}" rel="stylesheet" />
+stylesheet" />
 </head>
 
 <body>
@@ -20,21 +21,21 @@
 
 			<div>
 				<label>Nome:</label> <input type="text" name="name"
-					th:value="${patientDTO.name}" required />
+					th:value="${patientDTO.name}" />
 			</div>
 
 			<div>
 				<label>CPF:</label> <input type="text" name="cpf"
-					th:value="${patientDTO.cpf}" required />
+					th:value="${patientDTO.cpf}" />
 			</div>
 
 			<div>
 				<label>CEP:</label> <input type="text" name="addressPostalCode"
-					th:value="${patientDTO.addressPostalCode}" required />
+					th:value="${patientDTO.addressPostalCode}" />
 			</div>
 
 			<div>
-				<label>Bairro:</label> <select name="districtId" required>
+				<label>Bairro:</label> <select name="districtId">
 					<option selected disabled>Escolha um bairro</option>
 					<option th:selected="${district.id == patientDTO.districtId}"
 						th:each="district : ${districts}" th:value="${district.id}"
@@ -44,18 +45,17 @@
 
 			<div>
 				<label>Logradouro:</label> <input type="text" name="addressStreet"
-					th:value="${patientDTO.addressStreet}" required />
+					th:value="${patientDTO.addressStreet}" />
 			</div>
 
 			<div>
 				<label>Número:</label> <input type="number" name="addressNumber"
-					th:value="${patientDTO.addressNumber}" required />
+					th:value="${patientDTO.addressNumber}" />
 			</div>
 
 			<div>
 				<label>Complemento:</label> <input type="text"
-					name="addressComplement" th:value="${patientDTO.addressComplement}"
-					required />
+					name="addressComplement" th:value="${patientDTO.addressComplement}" />
 			</div>
 			<div>
 				<div class="btn-group">
