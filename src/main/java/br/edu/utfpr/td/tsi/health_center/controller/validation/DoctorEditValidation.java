@@ -2,6 +2,9 @@ package br.edu.utfpr.td.tsi.health_center.controller.validation;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 public class DoctorEditValidation {
 
@@ -9,8 +12,10 @@ public class DoctorEditValidation {
 	String id;
 	@NotEmpty(message = "Nome é obrigatório.")
 	String name;
+	@CPF(message = "O CPF é inválido.")
 	@NotEmpty(message = "CPF é obrigatório.")
 	String cpf;
+	@Pattern(regexp = "^\\d{1,7}-[A-Z]{2}$", message = "O CRM é inválido.")
 	@NotEmpty(message = "CRM é obrigatório.")
 	String crm;
 	@NotEmpty(message = "Endereço é obrigatório.")

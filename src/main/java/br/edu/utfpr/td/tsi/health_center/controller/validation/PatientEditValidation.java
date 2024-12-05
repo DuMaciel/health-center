@@ -3,11 +3,14 @@ package br.edu.utfpr.td.tsi.health_center.controller.validation;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 public class PatientEditValidation {
 	@NotEmpty(message = "O id deve ser definido, recarregue a página.")
 	String id;
 	@NotEmpty(message = "Nome é obrigatório.")
 	String name;
+	@CPF(message = "O CPF é inválido.")
 	@NotEmpty(message = "CPF é obrigatório.")
 	String cpf;
 	@NotEmpty(message = "CEP é obrigatório.")
