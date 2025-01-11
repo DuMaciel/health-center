@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
