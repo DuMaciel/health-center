@@ -5,12 +5,18 @@ import br.edu.utfpr.td.tsi.health_center.model.Patient;
 
 public class PatientDTO {
 	private String id;
+	@FilterName(name = "Nome")
 	private String name;
+	@FilterName(name = "CPF")
 	private String cpf;
+	@FilterName(name = "CEP")
 	private String addressPostalCode;
 	private String districtId;
+	@FilterName(name = "Distrito")
 	private String districtName;
+	@FilterName(name = "Rua")
 	private String addressStreet;
+	@FilterName(name = "Numero")
 	private Integer addressNumber;
 	private String addressComplement;
 	

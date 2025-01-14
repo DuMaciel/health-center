@@ -1,5 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.controller;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import br.edu.utfpr.td.tsi.health_center.controller.dto.FilterOption;
+import br.edu.utfpr.td.tsi.health_center.controller.dto.FilterName;
 import br.edu.utfpr.td.tsi.health_center.controller.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientEditValidation;
@@ -31,15 +35,15 @@ import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 public class PatientController {
 	@Autowired
 	private PatientService patientService;
-	
+
 	@Autowired
 	private DistrictService districtService;
-	
+
 	@GetMapping("")
-    public RedirectView redirectToListing() {
-        return new RedirectView("/patient/list");
-    }
-	
+	public RedirectView redirectToListing() {
+		return new RedirectView("/patient/list");
+	}
+
 	@GetMapping(value = "/add")
 	public String showAddPatientPage(Model model) {
 		List<District> districts = districtService.findAll(null);
@@ -48,9 +52,8 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/add")
-	public RedirectView addPatient(@Valid PatientAddValidation patientAddValidation, 
-			BindingResult bindingResult, RedirectAttributes redirectAttributes, 
-			@RequestHeader(value = "Referer", required = false) String referer) {
+	public RedirectView addPatient(@Valid PatientAddValidation patientAddValidation, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, @RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		PatientDTO patientDTO = new PatientDTO();
 		BeanUtils.copyProperties(patientAddValidation, patientDTO);
@@ -58,7 +61,7 @@ public class PatientController {
 			if (bindingResult.hasErrors()) {
 				ObjectError error = bindingResult.getAllErrors().getFirst();
 				throw new RuntimeException(error.getDefaultMessage());
-		    }
+			}
 			Patient patient = patientDTO.toModel();
 			patientService.add(patient);
 		} catch (Exception e) {
@@ -70,12 +73,12 @@ public class PatientController {
 		}
 		return redirectView;
 	}
-	
+
 	@GetMapping(value = "/edit/{id}")
 	public String showEditPatientPage(@PathVariable String id, Model model) {
 		List<District> districts = districtService.findAll(null);
 		model.addAttribute("districts", districts);
-		if(!model.containsAttribute("patientDTO")) {
+		if (!model.containsAttribute("patientDTO")) {
 			Patient patient = patientService.find(id);
 			PatientDTO patientDTO = new PatientDTO(patient);
 			model.addAttribute("patientDTO", patientDTO);
@@ -84,9 +87,8 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/edit")
-	public RedirectView editPatient(@Valid PatientEditValidation patientEditValidation, 
-			BindingResult bindingResult, RedirectAttributes redirectAttributes,
-			@RequestHeader(value = "Referer", required = false) String referer) {
+	public RedirectView editPatient(@Valid PatientEditValidation patientEditValidation, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, @RequestHeader(value = "Referer", required = false) String referer) {
 		RedirectView redirectView = new RedirectView("list");
 		PatientDTO patientDTO = new PatientDTO();
 		BeanUtils.copyProperties(patientEditValidation, patientDTO);
@@ -94,7 +96,7 @@ public class PatientController {
 			if (bindingResult.hasErrors()) {
 				ObjectError error = bindingResult.getAllErrors().getFirst();
 				throw new RuntimeException(error.getDefaultMessage());
-		    }
+			}
 			Patient patient = patientDTO.toModel();
 			patientService.edit(patient);
 		} catch (Exception e) {
@@ -111,24 +113,27 @@ public class PatientController {
 	public String listPatient(@Nullable @RequestParam String name, Model model) {
 		List<Patient> patients = patientService.findAll(name);
 		List<PatientDTO> patientsDTO = new ArrayList<PatientDTO>();
+
 		for (Patient patient : patients) {
 			patientsDTO.add(new PatientDTO(patient));
 		}
+		
 		model.addAttribute("patientsDTO", patientsDTO);
 		model.addAttribute("name", name);
+		model.addAttribute("filterOptions", FilterOption.getFilterOptions(new PatientDTO().getClass()));
 		return "patient/list";
 	}
 
 	@GetMapping(value = "/delete/{id}")
 	public RedirectView deletePatient(@PathVariable String id, RedirectAttributes redirectAttributes) {
 		RedirectView redirectView = new RedirectView("../list");
-		
+
 		try {
 			patientService.delete(id);
-		} catch(Exception error) {
+		} catch (Exception error) {
 			redirectAttributes.addFlashAttribute("error", error.getMessage());
 		}
-		
+
 		return redirectView;
 	}
 }

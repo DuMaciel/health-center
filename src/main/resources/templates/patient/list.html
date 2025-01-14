@@ -40,8 +40,16 @@
 			<div>
 				<form action="list">
 					<div>
-						<label>Nome: </label> <input type="text" name="name"
-							th:value="${name}"></input>
+						<label>Campo:</label> 
+							<select name="filter">
+							<option
+								th:each="option : ${filterOptions}" th:value="${option.value}"
+								th:text="${option.name}"></option>
+						</select>
+					</div>
+					<div>
+						<input type="text" name="value"
+							th:value="${value}"></input>
 					</div>
 					<div>
 						<input type="submit" value="Pesquisar"></input>
