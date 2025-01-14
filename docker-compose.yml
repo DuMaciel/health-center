@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongo-data:/data/db
+    
+  solr:
+    image: solr:9.7.0-slim
+    container_name: solr
+    ports:
+      - "8983:8983"
+    volumes:
+      - ./docker/solr-data:/var/solr
+    command: solr-precreate health-center
