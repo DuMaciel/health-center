@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import br.edu.utfpr.td.tsi.health_center.controller.dto.FilterOption;
-import br.edu.utfpr.td.tsi.health_center.controller.dto.FilterName;
-import br.edu.utfpr.td.tsi.health_center.controller.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.dto.FilterName;
+import br.edu.utfpr.td.tsi.health_center.model.dto.FilterOption;
+import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 

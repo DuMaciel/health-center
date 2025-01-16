@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.health_center.controller.dto;
+package br.edu.utfpr.td.tsi.health_center.model.dto;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

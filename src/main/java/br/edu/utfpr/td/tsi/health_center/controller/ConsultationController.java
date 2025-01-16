@@ -22,12 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import br.edu.utfpr.td.tsi.health_center.controller.dto.ConsultationDTO;
+
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.dto.ConsultationDTO;
 import br.edu.utfpr.td.tsi.health_center.service.ConsultationService;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;

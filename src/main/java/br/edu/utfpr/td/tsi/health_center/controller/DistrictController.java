@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import br.edu.utfpr.td.tsi.health_center.controller.dto.DistrictDTO;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.DistrictAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.DistrictEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DistrictDTO;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 
 @Controller
