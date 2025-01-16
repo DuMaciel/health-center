@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.PatientIndexer;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.PatientMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
@@ -23,9 +25,13 @@ public class PatientMongoAdapter implements PatientAdapter {
 	
 	@Autowired
 	private DistrictAdapter districtAdapter;
+	
+	@Autowired
+	private PatientIndexer patientIndexer;
 
 	@Override
 	public void save(Patient patient) {
+		patientIndexer.add(patient);
 		PatientMongo patientMongo = PatientMapper.toMongo(patient);
 		patientRepository.save(patientMongo);
 	}
@@ -68,8 +74,17 @@ public class PatientMongoAdapter implements PatientAdapter {
 	}
 	
 	@Override
+	public List<Patient> findAll(Filter filter) {
+		List<String> patientsIds = patientIndexer.search(filter);
+		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllById(patientsIds);
+		List<District> districts = findDistricts(patientsMongo);
+		return PatientMapper.toDomainList(patientsMongo, districts);
+	}
+	
+	@Override
 	public void delete(String id) {
 		patientRepository.deleteById(id);
+		patientIndexer.delete(id);
 	}
 
 	@Override

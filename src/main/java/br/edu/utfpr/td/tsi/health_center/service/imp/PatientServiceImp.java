@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;
@@ -54,5 +56,13 @@ public class PatientServiceImp implements PatientService {
 			return patientAdapter.findAll(name);
 		}
 		return patientAdapter.findAll();
+	}
+	
+	@Override
+	public List<Patient> findAll(Filter filter) {
+		if(!filter.isValidField(PatientDTO.class)) {
+			throw new RuntimeException("Campo de pesquisa inválido!");
+		}
+		return patientAdapter.findAll(filter);
 	}
 }

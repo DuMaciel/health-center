@@ -40,7 +40,7 @@ public class SolrAdapter {
         }
     }
 
-    public List<String> searchIdsByType(String type, String query) {
+    public List<String> searchIds(String type, String query) {
         try {
             SolrQuery solrQuery = new SolrQuery(query);
             solrQuery.addFilterQuery("type:" + type);
