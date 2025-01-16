@@ -19,7 +19,7 @@ public class PatientIndexer {
 	
 	public void add(Patient patient) {
 		PatientDTO patientDTO = new PatientDTO(patient);
-		Map<String, Object> fields = Filter.getFields(patientDTO.getClass(), patientDTO);
+		Map<String, String> fields = Filter.getFields(patientDTO.getClass(), patientDTO);
 		solrAdapter.save(type, patient.getId(), fields);
 	}
 	

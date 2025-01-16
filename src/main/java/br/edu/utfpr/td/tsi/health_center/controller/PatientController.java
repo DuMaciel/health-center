@@ -1,12 +1,10 @@
 package br.edu.utfpr.td.tsi.health_center.controller;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.PatientEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
-import br.edu.utfpr.td.tsi.health_center.model.dto.FilterName;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.dto.FilterOption;
 import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
@@ -110,17 +107,19 @@ public class PatientController {
 	}
 
 	@GetMapping(value = "/list")
-	public String listPatient(@Nullable @RequestParam String name, Model model) {
-		List<Patient> patients = patientService.findAll(name);
+	public String listPatient(@RequestParam(required = false, defaultValue = "name") String field,
+			@RequestParam(required = false, defaultValue = "") String term, Model model) {
+		Filter filter = new Filter(field, term);
+		List<Patient> patients = patientService.findAll(filter);
 		List<PatientDTO> patientsDTO = new ArrayList<PatientDTO>();
 
 		for (Patient patient : patients) {
 			patientsDTO.add(new PatientDTO(patient));
 		}
-		
+
 		model.addAttribute("patientsDTO", patientsDTO);
-		model.addAttribute("name", name);
-		model.addAttribute("filterOptions", FilterOption.getFilterOptions(new PatientDTO().getClass()));
+		model.addAttribute("filter", filter);
+		model.addAttribute("filterOptions", FilterOption.getFilterOptions(PatientDTO.class));
 		return "patient/list";
 	}
 

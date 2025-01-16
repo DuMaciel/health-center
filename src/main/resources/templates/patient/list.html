@@ -41,15 +41,16 @@
 				<form action="list">
 					<div>
 						<label>Campo:</label> 
-							<select name="filter">
+							<select name="field">
 							<option
 								th:each="option : ${filterOptions}" th:value="${option.value}"
+								th:selected="${option.value == filter.field}"
 								th:text="${option.name}"></option>
 						</select>
 					</div>
 					<div>
-						<input type="text" name="value"
-							th:value="${value}"></input>
+						<input type="text" name="term"
+							th:value="${filter.term}"></input>
 					</div>
 					<div>
 						<input type="submit" value="Pesquisar"></input>

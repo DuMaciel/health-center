@@ -41,15 +41,15 @@ public class Filter {
 		return false;
 	}
 	
-	static public Map<String, Object> getFields(Class<?> c, Object o){
-		Map<String, Object> fields = new HashMap<String, Object>();
+	static public Map<String, String> getFields(Class<?> c, Object o){
+		Map<String, String> fields = new HashMap<String, String>();
 		for (Field field : c.getDeclaredFields()) {
 			if (field.isAnnotationPresent(FilterName.class)) {
 				try {
 					String name = field.getName();
 					field.setAccessible(true);
 					Object value = field.get(o);
-					fields.put(name, value);
+					fields.put(name, value != null ? value.toString() : "");
 	            } catch (IllegalAccessException e) {
 	                e.printStackTrace();
 	            }

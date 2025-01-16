@@ -18,7 +18,7 @@ public class SolrAdapter {
         this.solrClient = solrClient;
     }
 
-    public void save(String type, String id, Map<String, Object> fields) {
+    public void save(String type, String id, Map<String, String> fields) {
         try {
             SolrInputDocument document = new SolrInputDocument();
             document.addField("id", id);
@@ -27,7 +27,7 @@ public class SolrAdapter {
             solrClient.add(document);
             solrClient.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao salvar no Solr", e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 

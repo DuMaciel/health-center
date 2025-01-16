@@ -31,9 +31,10 @@ public class PatientMongoAdapter implements PatientAdapter {
 
 	@Override
 	public void save(Patient patient) {
-		patientIndexer.add(patient);
 		PatientMongo patientMongo = PatientMapper.toMongo(patient);
-		patientRepository.save(patientMongo);
+		patientMongo = patientRepository.save(patientMongo);
+		patient.setId(patientMongo.getId());
+		patientIndexer.add(patient);
 	}
 
 	@Override
