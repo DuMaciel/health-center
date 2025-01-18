@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr;
+package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.service;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -8,12 +8,15 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.request.schema.SchemaRequest;
 import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.SolrAdapter;
 
 @Service
+@Profile("solr")
 public class SolrSchemaService {
 	@Autowired
     private SolrClient solrClient;

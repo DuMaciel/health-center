@@ -34,7 +34,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 		PatientMongo patientMongo = PatientMapper.toMongo(patient);
 		patientMongo = patientRepository.save(patientMongo);
 		patient.setId(patientMongo.getId());
-		patientIndexer.add(patient);
+		patientIndexer.save(patient);
 	}
 
 	@Override

@@ -5,14 +5,16 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("solr")
 public class SolrClientConfig {
 
-    @Value("${solr.host}")
+    @Value("${indexer.solr.host}")
     private String solrHost;
 
-    @Value("${solr.core}")
+    @Value("${indexer.solr.core}")
     private String solrCore;
 
     @Bean

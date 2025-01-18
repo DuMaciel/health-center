@@ -1,13 +1,15 @@
-package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr;
+package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("solr")
 public class SolrStartupListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private SolrSchemaService solrSchemaService;

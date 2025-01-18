@@ -1,8 +1,9 @@
-package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr;
+package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
@@ -10,6 +11,7 @@ import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.indexer.PatientIndexer;
 
 @Service
+@Profile("solr")
 public class SolrDataLoaderService {
 	@Autowired
     private PatientIndexer patientIndexer;
@@ -21,7 +23,7 @@ public class SolrDataLoaderService {
 		List<String> patientsIds = patientIndexer.getIds();
 		List<Patient> patients = patientAdapter.findAllByIdsNotIn(patientsIds);
 		if(!patients.isEmpty()) {
-			patientIndexer.addAll(patients);
+			patientIndexer.save(patients);
 		}
 	}
 }

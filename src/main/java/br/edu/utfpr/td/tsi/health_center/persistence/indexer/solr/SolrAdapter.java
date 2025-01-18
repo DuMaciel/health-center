@@ -9,9 +9,11 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("solr")
 public class SolrAdapter {
 	static final private String idField = "id";
 	
@@ -38,7 +40,7 @@ public class SolrAdapter {
         this.solrClient = solrClient;
     }
 
-    public void save(String type, String id, Map<String, Object> fields) {
+    public void add(String type, String id, Map<String, Object> fields) {
         try {
             SolrInputDocument document = new SolrInputDocument();
             document.addField(idField, makeSolrId(type, id));
@@ -54,7 +56,7 @@ public class SolrAdapter {
         }
     }
     
-    public void saveAll(String type, Map<String, Map<String, Object>> entities) {
+    public void add(String type, Map<String, Map<String, Object>> entities) {
     	try {
     		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
         	for (Map.Entry<String, Map<String, Object>> entity : entities.entrySet()) {
