@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.health_center.persistence.indexer;
+package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;

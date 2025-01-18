@@ -12,7 +12,6 @@ public class PatientDTO {
 	@FilterName(name = "CEP")
 	private String addressPostalCode;
 	private String districtId;
-	@FilterName(name = "Distrito")
 	private String districtName;
 	@FilterName(name = "Rua")
 	private String addressStreet;

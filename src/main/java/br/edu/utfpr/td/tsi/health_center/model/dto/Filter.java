@@ -2,12 +2,14 @@ package br.edu.utfpr.td.tsi.health_center.model.dto;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Filter {
 	private String field;
 	private String term;
-	
+
 	public Filter(String field, String term) {
 		super();
 		this.field = field;
@@ -29,30 +31,41 @@ public class Filter {
 	public void setTerm(String term) {
 		this.term = term;
 	}
-	
+
 	public boolean isValidField(Class<?> c) {
 		for (Field field : c.getDeclaredFields()) {
 			if (field.isAnnotationPresent(FilterName.class)) {
-				if(this.field.equals(field.getName())) {
+				if (this.field.equals(field.getName())) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	static public Map<String, String> getFields(Class<?> c, Object o){
-		Map<String, String> fields = new HashMap<String, String>();
+
+	static public Set<String> getFieldsName(Class<?> c) {
+		Set<String> fieldsName = new HashSet<String>();
+		for (Field field : c.getDeclaredFields()) {
+			if (field.isAnnotationPresent(FilterName.class)) {
+				String name = field.getName();
+				fieldsName.add(name);
+			}
+		}
+		return fieldsName;
+	}
+
+	static public Map<String, Object> getFields(Class<?> c, Object o) {
+		Map<String, Object> fields = new HashMap<String, Object>();
 		for (Field field : c.getDeclaredFields()) {
 			if (field.isAnnotationPresent(FilterName.class)) {
 				try {
 					String name = field.getName();
 					field.setAccessible(true);
 					Object value = field.get(o);
-					fields.put(name, value != null ? value.toString() : "");
-	            } catch (IllegalAccessException e) {
-	                e.printStackTrace();
-	            }
+					fields.put(name, value);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return fields;
