@@ -68,6 +68,13 @@ public class PatientMongoAdapter implements PatientAdapter {
 	}
 	
 	@Override
+	public List<Patient> findAllByIdsNotIn(List<String> ids) {
+		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllByIdNotIn(ids);
+		List<District> districts = findDistricts(patientsMongo);
+		return PatientMapper.toDomainList(patientsMongo, districts);
+	}
+	
+	@Override
 	public List<Patient> findAll(String name) {
 		List<PatientMongo> patientsMongo = patientRepository.findAllByName(name);
 		List<District> districts = findDistricts(patientsMongo);
@@ -76,7 +83,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	
 	@Override
 	public List<Patient> findAll(Filter filter) {
-		List<String> patientsIds = patientIndexer.search(filter);
+		List<String> patientsIds = patientIndexer.searchIds(filter);
 		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllById(patientsIds);
 		List<District> districts = findDistricts(patientsMongo);
 		return PatientMapper.toDomainList(patientsMongo, districts);

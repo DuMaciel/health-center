@@ -13,6 +13,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SolrAdapter {
+	static final private String idField = "id";
+	
+	static final private String typeField = "type";
+    
+    static final private String solrDefaultFieldType = "text_general";
+    
+    public static String getIdfield() {
+		return idField;
+	}
+
+    
+	public static String getTypefield() {
+		return typeField;
+	}
+
+	public static String getSolrdefaultfieldtype() {
+		return solrDefaultFieldType;
+	}
+	
     private final SolrClient solrClient;
 
     public SolrAdapter(SolrClient solrClient) {
@@ -22,8 +41,8 @@ public class SolrAdapter {
     public void save(String type, String id, Map<String, Object> fields) {
         try {
             SolrInputDocument document = new SolrInputDocument();
-            document.addField("id", makeSolrId(type, id));
-            document.addField("type", type);
+            document.addField(idField, makeSolrId(type, id));
+            document.addField(typeField, type);
             for (Map.Entry<String, Object> field : fields.entrySet()) {
             	Object value = field.getValue();
             	document.addField(field.getKey(), value != null ? value.toString() : "");
@@ -42,8 +61,8 @@ public class SolrAdapter {
         		String id = entity.getKey();
         		Map<String, Object> fields = entity.getValue();
         		SolrInputDocument document = new SolrInputDocument();
-                document.addField("id", makeSolrId(type, id));
-                document.addField("type", type);
+                document.addField(idField, makeSolrId(type, id));
+                document.addField(typeField, type);
                 for (Map.Entry<String, Object> field : fields.entrySet()) {
                 	Object value = field.getValue();
                 	document.addField(field.getKey(), value != null ? value.toString() : "");
@@ -65,20 +84,39 @@ public class SolrAdapter {
             throw new RuntimeException("Erro ao deletar no Solr", e);
         }
     }
-
-    public List<String> searchIds(String type, String query) {
-        try {
-            SolrQuery solrQuery = new SolrQuery(query);
-            solrQuery.addFilterQuery("type:" + type);
-            solrQuery.setFields("id");
-
+    
+    public List<String> getIds(String type){
+    	try {
+            SolrQuery solrQuery = new SolrQuery("*:*");
+            solrQuery.addFilterQuery(makeFilterByType(type));
+            solrQuery.setFields(idField);
+            
             QueryResponse response = solrClient.query(solrQuery);
             return response.getResults().stream()
-                    .map(doc -> unMakeSolrId(type, String.valueOf(doc.getFieldValue("id"))))
+                    .map(doc -> unMakeSolrId(type, String.valueOf(doc.getFieldValue(idField))))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar no Solr", e);
         }
+    }
+
+    public List<String> searchIds(String type, String query) {
+        try {
+            SolrQuery solrQuery = new SolrQuery(query);
+            solrQuery.addFilterQuery(makeFilterByType(type));
+            solrQuery.setFields(idField);
+
+            QueryResponse response = solrClient.query(solrQuery);
+            return response.getResults().stream()
+                    .map(doc -> unMakeSolrId(type, String.valueOf(doc.getFieldValue(idField))))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar no Solr", e);
+        }
+    }
+    
+    private String makeFilterByType(String type) {
+    	return String.format("%s:%s", typeField, type);
     }
     
     private String makeSolrId(String type, String id) {

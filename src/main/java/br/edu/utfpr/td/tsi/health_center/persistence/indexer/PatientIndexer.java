@@ -40,7 +40,11 @@ public class PatientIndexer {
 		solrAdapter.delete(type, id);
 	}
 	
-	public List<String> search(Filter filter) {
+	public List<String> getIds(){
+		return solrAdapter.getIds(type);
+	}
+	
+	public List<String> searchIds(Filter filter) {
 		String field = filter.getField();
 		String term = filter.getTerm();
 		String query = String.format("%s:%s*", field, term);

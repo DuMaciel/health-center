@@ -18,7 +18,10 @@ public class SolrDataLoaderService {
 	private PatientAdapter patientAdapter;
 	
 	public void loadDataToSolr() throws Exception {
-		List<Patient> patients = patientAdapter.findAll();
-		patientIndexer.addAll(patients);
+		List<String> patientsIds = patientIndexer.getIds();
+		List<Patient> patients = patientAdapter.findAllByIdsNotIn(patientsIds);
+		if(!patients.isEmpty()) {
+			patientIndexer.addAll(patients);
+		}
 	}
 }

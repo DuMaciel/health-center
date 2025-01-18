@@ -1,17 +1,11 @@
 package br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
-import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 
 @Component
 public class SolrStartupListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -25,22 +19,17 @@ public class SolrStartupListener implements ApplicationListener<ContextRefreshed
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-    	long startTime = System.currentTimeMillis();
-    	
-    	Set<String> fields = new HashSet<String>();
-    	fields.add("type");
-        Set<String> patientFields = Filter.getFieldsName(PatientDTO.class);
-        fields.addAll(patientFields);
         try {
-        	logger.info("Iniciando validação e criação dos campos Solr...");
-        	solrSchemaService.validateAndCreateFields(fields, "text_general");
+        	long startTime = System.currentTimeMillis();
+        	logger.info("Starting to create missing fields in Solr...");
+        	solrSchemaService.createMissingFields();
         	
-        	logger.info("Iniciando o carregamento de dados para o Solr...");
+        	logger.info("Starting to loading missing data into Solr...");
         	solrDataLoaderService.loadDataToSolr();
         	
         	long endTime = System.currentTimeMillis();
             long duration = endTime - startTime;
-            logger.info("Processo concluído em {} ms.", duration);
+            logger.info("Solr Initialization process completed in {} ms.", duration);
         } catch (Exception e) {
 			e.printStackTrace();
 		}

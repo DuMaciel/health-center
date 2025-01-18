@@ -10,4 +10,5 @@ public interface PatientAdapter extends BaseAdapter<Patient>{
 	public List<Patient> findAll(Filter filter);
 	public boolean existsByCpf(String cpf);
 	public boolean existsByAddressDistrictId(String districtId);
+	public List<Patient> findAllByIdsNotIn(List<String> ids);
 }

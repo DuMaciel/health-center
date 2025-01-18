@@ -10,17 +10,26 @@ import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
+
 @Service
 public class SolrSchemaService {
 	@Autowired
     private SolrClient solrClient;
 	
-    public void validateAndCreateFields(Set<String> fields, String fieldType) throws Exception {
-    	Set<String> existingFields = getExistingFields();
+    public void createMissingFields() throws Exception {
+    	Set<String> fields = new HashSet<String>();
+    	fields.add(SolrAdapter.getTypefield());
     	
+        Set<String> patientFields = Filter.getFieldsName(PatientDTO.class);
+        fields.addAll(patientFields);
+    	
+    	
+    	Set<String> existingFields = getExistingFields();
         for (String field : fields) {
             if (!existingFields.contains(field)) {
-            	createField(field, fieldType);
+            	createField(field);
             }
         }
     }
@@ -37,10 +46,10 @@ public class SolrSchemaService {
         return fieldNames;
     }
     
-    private void createField(String field, String fieldType) throws Exception {
+    private void createField(String field) throws Exception {
     	Map<String, Object> fieldDefinition = Map.of(
                 "name", field,
-                "type", fieldType,
+                "type", SolrAdapter.getSolrdefaultfieldtype(),
                 "stored", true,
                 "indexed", true
         );
