@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="filter" class="container-filter">
+	<div>
+		<form action="list">
+			<div>
+				<label for="field">Campo:</label> 
+				<select name="field" id="field" th:disabled="${filterOptions.size} <= 1">
+				<option
+					th:each="option : ${filterOptions}" th:value="${option.value}"
+					th:selected="${option.value == filter.field}"
+					th:text="${option.name}"></option>
+				</select>
+			</div>
+			<div>
+				<label for="term">Termo:</label> 
+				<input type="text" name="term" id="term"
+					th:value="${filter.term}"></input>
+			</div>
+			<div>
+				<input type="submit" value="Pesquisar"></input>
+			</div>
+		</form>
+	</div>
+	<a class="btn" href="add">Adicionar</a>
+</div>

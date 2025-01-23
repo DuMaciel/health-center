@@ -36,21 +36,8 @@
 
 	<div class="container-content">
 		<h1>Lista de Médicos</h1>
-
-		<div class="container-filter">
-			<div>
-				<form action="list">
-					<div>
-						<label>Nome: </label> <input type="text" name="name"
-							th:value="${name}"></input>
-					</div>
-					<div>
-						<input type="submit" value="Pesquisar"></input>
-					</div>
-				</form>
-			</div>
-			<a class="btn" href="add">Adicionar</a>
-		</div>
+		
+		<div th:replace="fragments/filter :: filter"></div>
 
 		<table>
 			<tr>

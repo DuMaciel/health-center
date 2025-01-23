@@ -9,14 +9,15 @@ public class PatientDTO {
 	private String name;
 	@FilterName(name = "CPF")
 	private String cpf;
-	@FilterName(name = "CEP")
-	private String addressPostalCode;
 	private String districtId;
 	private String districtName;
+	@FilterName(name = "CEP")
+	private String addressPostalCode;
 	@FilterName(name = "Rua")
 	private String addressStreet;
 	@FilterName(name = "Numero")
 	private Integer addressNumber;
+	@FilterName(name = "Complemento")
 	private String addressComplement;
 	
 	public PatientDTO() {}

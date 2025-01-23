@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +23,8 @@ import br.edu.utfpr.td.tsi.health_center.controller.validation.DoctorEditValidat
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.dto.DoctorDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.model.dto.FilterOption;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
 
@@ -110,14 +111,17 @@ public class DoctorController {
 	}
 	
 	@GetMapping(value = "/list")
-	public String listDoctor(@Nullable @RequestParam String name, Model model) {
-		List<Doctor> doctors = doctorService.findAll(name);
+	public String listDoctor(@RequestParam(required = false, defaultValue = "name") String field,
+			@RequestParam(required = false, defaultValue = "") String term, Model model) {
+		Filter filter = new Filter(field, term);
+		List<Doctor> doctors = doctorService.findAll("");
 		List<DoctorDTO> doctorsDTO = new ArrayList<DoctorDTO>();
 		for (Doctor doctor : doctors) {
 			doctorsDTO.add(new DoctorDTO(doctor));
 		}
 		model.addAttribute("doctorsDTO", doctorsDTO);
-		model.addAttribute("name", name);
+		model.addAttribute("filter", filter);
+		model.addAttribute("filterOptions", FilterOption.getFilterOptions(DoctorDTO.class));
 		return "doctor/list";
 	}
 	

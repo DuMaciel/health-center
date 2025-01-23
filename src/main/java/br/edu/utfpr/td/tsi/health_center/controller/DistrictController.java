@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +24,8 @@ import br.edu.utfpr.td.tsi.health_center.controller.validation.DistrictAddValida
 import br.edu.utfpr.td.tsi.health_center.controller.validation.DistrictEditValidation;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.dto.DistrictDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.model.dto.FilterOption;
 import br.edu.utfpr.td.tsi.health_center.service.DistrictService;
 
 @Controller
@@ -102,14 +103,17 @@ public class DistrictController {
 	}
 
 	@GetMapping(value = "/list")
-	public String listDistrict(@Nullable @RequestParam String name, Model model) {
-		List<District> districts = districtService.findAll(name);
+	public String listDistrict(@RequestParam(required = false, defaultValue = "name") String field,
+			@RequestParam(required = false, defaultValue = "") String term, Model model) {
+		Filter filter = new Filter(field, term);
+		List<District> districts = districtService.findAll("");
 		List<DistrictDTO> districtsDTO = new ArrayList<DistrictDTO>();
 		for (District district : districts) {
 			districtsDTO.add(new DistrictDTO(district));
 		}
 		model.addAttribute("districtsDTO", districtsDTO);
-		model.addAttribute("name", name);
+		model.addAttribute("filter", filter);
+		model.addAttribute("filterOptions", FilterOption.getFilterOptions(DistrictDTO.class));
 		return "district/list";
 	}
 

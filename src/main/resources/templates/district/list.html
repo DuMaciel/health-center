@@ -31,25 +31,12 @@
 		<li><a href="../patient/list">Pacientes</a></li>
 		<li><a class="active" href="../district/list">Bairros</a></li>
 	</ul>
-
+	
 	<div class="container-content">
 		<h1>Lista de Bairros</h1>
-		<div class="container-filter">
-			<div>
-				<form action="list">
-					<div>
-						<label>Nome: </label> <input type="text" name="name"
-							th:value="${name}" />
-					</div>
-					<div>
-						<input type="submit" th:value="Pesquisar" />
-					</div>
-				</form>
-			</div>
-			<a class="btn" href="add">Adicionar</a>
-		</div>
-
-
+	
+		<div th:replace="fragments/filter :: filter"></div>
+	
 		<table>
 			<tr>
 				<th>Nome</th>

@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.DoctorIndexer;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.DoctorMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DoctorRepository;
@@ -23,11 +25,15 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	
 	@Autowired
 	private DistrictAdapter districtAdapter;
+	
+	@Autowired
+	private DoctorIndexer doctorIndexer;
 
 	@Override
 	public void save(Doctor doctor) {
 		DoctorMongo doctorMongo = DoctorMapper.toMongo(doctor);
-		doctorRepository.save(doctorMongo);
+		doctorMongo = doctorRepository.save(doctorMongo);
+		doctorIndexer.save(doctor);
 	}
 
 	@Override
@@ -59,6 +65,13 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 		List<District> districts = findDistricts(doctorsMongo);
 		return DoctorMapper.toDomainList(doctorsMongo, districts);
 	}
+	
+	@Override
+	public List<Doctor> findAllByIdsNotIn(List<String> ids) {
+		List<DoctorMongo> doctorsMongo = (List<DoctorMongo>) doctorRepository.findAllByIdNotIn(ids);
+		List<District> districts = findDistricts(doctorsMongo);
+		return DoctorMapper.toDomainList(doctorsMongo, districts);
+	}
 
 	@Override
 	public List<Doctor> findAll(String name) {
@@ -68,8 +81,17 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	}
 	
 	@Override
+	public List<Doctor> findAllByFilter(Filter filter) {
+		List<String> doctorsIds = doctorIndexer.searchIds(filter);
+		List<DoctorMongo> doctorsMongo = (List<DoctorMongo>) doctorRepository.findAllById(doctorsIds);
+		List<District> districts = findDistricts(doctorsMongo);
+		return DoctorMapper.toDomainList(doctorsMongo, districts);
+	}
+	
+	@Override
 	public void delete(String id) {
 		doctorRepository.deleteById(id);
+		doctorIndexer.delete(id);
 	}
 
 	@Override

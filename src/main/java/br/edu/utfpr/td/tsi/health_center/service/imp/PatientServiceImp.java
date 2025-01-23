@@ -59,10 +59,10 @@ public class PatientServiceImp implements PatientService {
 	}
 	
 	@Override
-	public List<Patient> findAll(Filter filter) {
+	public List<Patient> findAllByFilter(Filter filter) {
 		if(!filter.isValidField(PatientDTO.class)) {
 			throw new RuntimeException("Campo de pesquisa inválido!");
 		}
-		return patientAdapter.findAll(filter);
+		return patientAdapter.findAllByFilter(filter);
 	}
 }

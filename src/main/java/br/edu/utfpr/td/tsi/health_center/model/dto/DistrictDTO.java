@@ -4,6 +4,7 @@ import br.edu.utfpr.td.tsi.health_center.model.District;
 
 public class DistrictDTO {
 	String id;
+	@FilterName(name = "Nome")
 	String name;
 	
 	public DistrictDTO() {

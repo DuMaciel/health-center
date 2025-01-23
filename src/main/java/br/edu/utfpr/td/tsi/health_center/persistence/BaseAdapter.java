@@ -11,5 +11,7 @@ public interface BaseAdapter<E> {
 	
 	public List<E> findAllByIds(List<String> ids);
 	
+	public List<E> findAllByIdsNotIn(List<String> ids);
+	
 	public void delete(String id);
 }

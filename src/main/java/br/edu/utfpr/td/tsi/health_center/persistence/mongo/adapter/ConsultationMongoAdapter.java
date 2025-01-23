@@ -75,6 +75,14 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 		List<Patient> patients = findPatients(consultationsMongo);
 		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
 	}
+	
+	@Override
+	public List<Consultation> findAllByIdsNotIn(List<String> ids) {
+		List<ConsultationMongo> consultationsMongo = (List<ConsultationMongo>) consultationRepository.findAllByIdNotIn(ids);
+		List<Doctor> doctors = findDoctors(consultationsMongo);
+		List<Patient> patients = findPatients(consultationsMongo);
+		return ConsultationMapper.toDomainList(consultationsMongo, doctors, patients);
+	}
 
 	@Override
 	public List<Consultation> findAll(String patientId, String doctorId) {

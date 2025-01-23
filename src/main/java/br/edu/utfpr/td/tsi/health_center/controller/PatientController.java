@@ -110,7 +110,7 @@ public class PatientController {
 	public String listPatient(@RequestParam(required = false, defaultValue = "name") String field,
 			@RequestParam(required = false, defaultValue = "") String term, Model model) {
 		Filter filter = new Filter(field, term);
-		List<Patient> patients = patientService.findAll(filter);
+		List<Patient> patients = patientService.findAllByFilter(filter);
 		List<PatientDTO> patientsDTO = new ArrayList<PatientDTO>();
 
 		for (Patient patient : patients) {

@@ -82,7 +82,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	}
 	
 	@Override
-	public List<Patient> findAll(Filter filter) {
+	public List<Patient> findAllByFilter(Filter filter) {
 		List<String> patientsIds = patientIndexer.searchIds(filter);
 		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllById(patientsIds);
 		List<District> districts = findDistricts(patientsMongo);

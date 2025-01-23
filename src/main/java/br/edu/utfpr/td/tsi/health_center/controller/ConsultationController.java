@@ -54,7 +54,7 @@ public class ConsultationController {
 	@GetMapping(value = "/add")
 	public String showAddConsultationPage(Model model) {
 		List<Doctor> doctors = doctorService.findAll(null);
-		List<Patient> patients = patientService.findAll("");
+		List<Patient> patients = patientService.findAll(null);
 		model.addAttribute("doctors", doctors);
 		model.addAttribute("patients", patients);
 		model.addAttribute("minDate",
@@ -91,7 +91,7 @@ public class ConsultationController {
 	@GetMapping(value = "/edit/{id}")
 	public String showEditConsultationPage(@PathVariable String id, Model model) {
 		List<Doctor> doctors = doctorService.findAll(null);
-		List<Patient> patients = patientService.findAll("");
+		List<Patient> patients = patientService.findAll(null);
 		model.addAttribute("doctors", doctors);
 		model.addAttribute("patients", patients);
 		model.addAttribute("minDate",
@@ -136,7 +136,7 @@ public class ConsultationController {
 		List<Consultation> consultations = consultationService.findAll(patientId, doctorId);
 		List<ConsultationDTO> consultationsDTO = new ArrayList<ConsultationDTO>();
 		List<Doctor> doctors = doctorService.findAll(null);
-		List<Patient> patients = patientService.findAll("");
+		List<Patient> patients = patientService.findAll(null);
 		for (Consultation consultation : consultations) {
 			consultationsDTO.add(new ConsultationDTO(consultation));
 		}

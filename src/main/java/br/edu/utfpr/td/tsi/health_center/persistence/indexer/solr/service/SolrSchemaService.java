@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import br.edu.utfpr.td.tsi.health_center.model.dto.DistrictDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DoctorDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.SolrAdapter;
@@ -27,7 +29,11 @@ public class SolrSchemaService {
     	
         Set<String> patientFields = Filter.getFieldsName(PatientDTO.class);
         fields.addAll(patientFields);
-    	
+        Set<String> doctorFields = Filter.getFieldsName(DoctorDTO.class);
+        fields.addAll(doctorFields);
+        Set<String> disctrictFields = Filter.getFieldsName(DistrictDTO.class);
+        fields.addAll(disctrictFields);
+        
     	
     	Set<String> existingFields = getExistingFields();
         for (String field : fields) {
