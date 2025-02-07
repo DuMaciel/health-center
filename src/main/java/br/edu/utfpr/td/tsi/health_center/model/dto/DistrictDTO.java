@@ -2,14 +2,13 @@ package br.edu.utfpr.td.tsi.health_center.model.dto;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
 
-public class DistrictDTO {
-	String id;
-	@FilterName(name = "Nome")
-	String name;
+@ModelAnnotation(model=District.class)
+public class DistrictDTO implements BaseDTO {
+	private String id;
+	@FilterAnnotation(name = "Nome")
+	private String name;
 	
-	public DistrictDTO() {
-		
-	}
+	public DistrictDTO() {}
 	
 	public DistrictDTO(District district) {
 		this.id = district.getId();

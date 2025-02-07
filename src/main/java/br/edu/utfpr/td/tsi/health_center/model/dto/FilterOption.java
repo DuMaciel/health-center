@@ -25,8 +25,8 @@ public class FilterOption {
 	static public List<FilterOption> getFilterOptions(Class<?> c) {
 		List<FilterOption> filterOptions = new ArrayList<>();
 		for (Field field : c.getDeclaredFields()) {
-			if (field.isAnnotationPresent(FilterName.class)) {
-				FilterName annotation = field.getAnnotation(FilterName.class);
+			if (field.isAnnotationPresent(FilterAnnotation.class)) {
+				FilterAnnotation annotation = field.getAnnotation(FilterAnnotation.class);
 				field.setAccessible(true);
 				filterOptions.add(new FilterOption(annotation.name(), field.getName()));
 			}

@@ -6,8 +6,8 @@ import br.edu.utfpr.td.tsi.health_center.model.Diagnosis;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 
-public class DiagnosisDTO {
-
+@ModelAnnotation(model=Diagnosis.class)
+public class DiagnosisDTO implements BaseDTO {
 	private String id;
 	private String details;
 	private String patientId;
@@ -113,5 +113,4 @@ public class DiagnosisDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 }

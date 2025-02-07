@@ -12,9 +12,12 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.IndexerAdapter;
+
 @Component
 @Profile("solr")
-public class SolrAdapter {
+public class SolrIndexerAdapter implements IndexerAdapter {
 	static final private String idField = "id";
 	
 	static final private String typeField = "type";
@@ -36,11 +39,11 @@ public class SolrAdapter {
 	
     private final SolrClient solrClient;
 
-    public SolrAdapter(SolrClient solrClient) {
+    public SolrIndexerAdapter(SolrClient solrClient) {
         this.solrClient = solrClient;
     }
 
-    public void add(String type, String id, Map<String, Object> fields) {
+    public void save(String type, String id, Map<String, Object> fields) {
         try {
             SolrInputDocument document = new SolrInputDocument();
             document.addField(idField, makeSolrId(type, id));
@@ -56,7 +59,7 @@ public class SolrAdapter {
         }
     }
     
-    public void add(String type, Map<String, Map<String, Object>> entities) {
+    public void save(String type, Map<String, Map<String, Object>> entities) {
     	try {
     		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
         	for (Map.Entry<String, Map<String, Object>> entity : entities.entrySet()) {
@@ -102,8 +105,11 @@ public class SolrAdapter {
         }
     }
 
-    public List<String> searchIds(String type, String query) {
+    public List<String> searchIds(String type, Filter filter) {
         try {
+        	String field = filter.getField();
+    		String term = filter.getTerm();
+    		String query = String.format("%s:%s*", field, term);
             SolrQuery solrQuery = new SolrQuery(query);
             solrQuery.addFilterQuery(makeFilterByType(type));
             solrQuery.setFields(idField);
@@ -114,6 +120,33 @@ public class SolrAdapter {
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar no Solr", e);
+        }
+    }
+    
+    @Override
+    public List<String> searchIdsByFieldValues(String type, String field, List<String> values) {
+        try {
+            if (values == null || values.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            String queryValues = values.stream()
+                    .map(value -> String.format("%s", value))
+                    .collect(Collectors.joining(" OR "));
+
+            String query = String.format("%s:(%s)", field, queryValues);
+
+            SolrQuery solrQuery = new SolrQuery(query);
+            solrQuery.addFilterQuery(makeFilterByType(type));
+            solrQuery.setFields(idField);
+
+            QueryResponse response = solrClient.query(solrQuery);
+            return response.getResults().stream()
+                    .map(doc -> unMakeSolrId(type, String.valueOf(doc.getFieldValue(idField))))
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar IDs no Solr por lista de valores", e);
         }
     }
     

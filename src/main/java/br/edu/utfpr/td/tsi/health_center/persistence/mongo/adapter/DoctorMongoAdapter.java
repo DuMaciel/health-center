@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DoctorDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
-import br.edu.utfpr.td.tsi.health_center.persistence.indexer.DoctorIndexer;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.IndexerService;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.DoctorMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DoctorMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DoctorRepository;
@@ -27,13 +28,14 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	private DistrictAdapter districtAdapter;
 	
 	@Autowired
-	private DoctorIndexer doctorIndexer;
+	private IndexerService indexerService;
 
 	@Override
 	public void save(Doctor doctor) {
 		DoctorMongo doctorMongo = DoctorMapper.toMongo(doctor);
 		doctorMongo = doctorRepository.save(doctorMongo);
-		doctorIndexer.save(doctor);
+		doctor.setId(doctorMongo.getId());
+		indexerService.save(new DoctorDTO(doctor));
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	
 	@Override
 	public List<Doctor> findAllByFilter(Filter filter) {
-		List<String> doctorsIds = doctorIndexer.searchIds(filter);
+		List<String> doctorsIds = indexerService.searchIds(DoctorDTO.class, filter);
 		List<DoctorMongo> doctorsMongo = (List<DoctorMongo>) doctorRepository.findAllById(doctorsIds);
 		List<District> districts = findDistricts(doctorsMongo);
 		return DoctorMapper.toDomainList(doctorsMongo, districts);
@@ -91,7 +93,7 @@ public class DoctorMongoAdapter implements DoctorAdapter{
 	@Override
 	public void delete(String id) {
 		doctorRepository.deleteById(id);
-		doctorIndexer.delete(id);
+		indexerService.delete(DoctorDTO.class, id);
 	}
 
 	@Override

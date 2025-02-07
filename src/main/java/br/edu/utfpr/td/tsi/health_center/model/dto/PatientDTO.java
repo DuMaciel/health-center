@@ -3,21 +3,23 @@ import br.edu.utfpr.td.tsi.health_center.model.Address;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 
-public class PatientDTO {
+@ModelAnnotation(model=Patient.class)
+public class PatientDTO implements BaseDTO {
 	private String id;
-	@FilterName(name = "Nome")
+	@FilterAnnotation(name = "Nome")
 	private String name;
-	@FilterName(name = "CPF")
+	@FilterAnnotation(name = "CPF")
 	private String cpf;
+	@FilterAnnotation(name = "Bairro", relatedEntity = DistrictDTO.class, relatedField = "name")
 	private String districtId;
 	private String districtName;
-	@FilterName(name = "CEP")
+	@FilterAnnotation(name = "CEP")
 	private String addressPostalCode;
-	@FilterName(name = "Rua")
+	@FilterAnnotation(name = "Rua")
 	private String addressStreet;
-	@FilterName(name = "Numero")
+	@FilterAnnotation(name = "Numero")
 	private Integer addressNumber;
-	@FilterName(name = "Complemento")
+	@FilterAnnotation(name = "Complemento")
 	private String addressComplement;
 	
 	public PatientDTO() {}
@@ -59,7 +61,7 @@ public class PatientDTO {
 
 		return patient;
 	}
-
+	
 	public String getId() {
 		return id;
 	}

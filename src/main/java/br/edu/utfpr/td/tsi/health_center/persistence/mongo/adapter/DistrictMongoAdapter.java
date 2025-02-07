@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DistrictDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
-import br.edu.utfpr.td.tsi.health_center.persistence.indexer.DistrictIndexer;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.IndexerService;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.DistrictMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DistrictMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DistrictRepository;
@@ -21,13 +22,14 @@ public class DistrictMongoAdapter implements DistrictAdapter {
 	private DistrictRepository districtRepository;
 	
 	@Autowired
-	private DistrictIndexer districtIndexer;
+	private IndexerService indexerService;
 
 	@Override
 	public void save(District district) {
 		DistrictMongo districtMongo = DistrictMapper.toMongo(district);
 		districtMongo = districtRepository.save(districtMongo);
-		districtIndexer.save(district);
+		district.setId(districtMongo.getId());
+		indexerService.save(new DistrictDTO(district));
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class DistrictMongoAdapter implements DistrictAdapter {
 	
 	@Override
 	public List<District> findAllByFilter(Filter filter) {
-		List<String> districtsIds = districtIndexer.searchIds(filter);
+		List<String> districtsIds = indexerService.searchIds(DistrictDTO.class, filter);
 		List<DistrictMongo> districtsMongo = (List<DistrictMongo>) districtRepository.findAllById(districtsIds);
 		return DistrictMapper.toDomainList(districtsMongo);
 	}
@@ -70,6 +72,7 @@ public class DistrictMongoAdapter implements DistrictAdapter {
 	@Override
 	public void delete(String id) {
 		districtRepository.deleteById(id);
+		indexerService.delete(DistrictDTO.class, id);
 	}
 
 	@Override

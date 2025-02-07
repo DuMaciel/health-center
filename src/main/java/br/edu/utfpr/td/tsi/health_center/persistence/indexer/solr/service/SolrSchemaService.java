@@ -15,7 +15,7 @@ import br.edu.utfpr.td.tsi.health_center.model.dto.DistrictDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.DoctorDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
-import br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.SolrAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.solr.SolrIndexerAdapter;
 
 @Service
 @Profile("solr")
@@ -25,7 +25,7 @@ public class SolrSchemaService {
 	
     public void createMissingFields() throws Exception {
     	Set<String> fields = new HashSet<String>();
-    	fields.add(SolrAdapter.getTypefield());
+    	fields.add(SolrIndexerAdapter.getTypefield());
     	
         Set<String> patientFields = Filter.getFieldsName(PatientDTO.class);
         fields.addAll(patientFields);
@@ -58,7 +58,7 @@ public class SolrSchemaService {
     private void createField(String field) throws Exception {
     	Map<String, Object> fieldDefinition = Map.of(
                 "name", field,
-                "type", SolrAdapter.getSolrdefaultfieldtype(),
+                "type", SolrIndexerAdapter.getSolrdefaultfieldtype(),
                 "stored", true,
                 "indexed", true
         );

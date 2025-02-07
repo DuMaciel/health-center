@@ -4,23 +4,25 @@ import br.edu.utfpr.td.tsi.health_center.model.Address;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 
-public class DoctorDTO {
+@ModelAnnotation(model=Doctor.class)
+public class DoctorDTO implements BaseDTO {
 	private String id;
-	@FilterName(name = "Nome")
+	@FilterAnnotation(name = "Nome")
 	private String name;
-	@FilterName(name = "CPF")
+	@FilterAnnotation(name = "CPF")
 	private String cpf;
-	@FilterName(name = "CRM")
+	@FilterAnnotation(name = "CRM")
 	private String crm;
+	@FilterAnnotation(name = "Bairro", relatedEntity = DistrictDTO.class, relatedField = "name")
 	private String districtId;
 	private String districtName;
-	@FilterName(name = "CEP")
+	@FilterAnnotation(name = "CEP")
 	private String addressPostalCode;
-	@FilterName(name = "Rua")
+	@FilterAnnotation(name = "Rua")
 	private String addressStreet;
-	@FilterName(name = "Numero")
+	@FilterAnnotation(name = "Numero")
 	private Integer addressNumber;
-	@FilterName(name = "Complemento")
+	@FilterAnnotation(name = "Complemento")
 	private String addressComplement;
 	
 	public DoctorDTO() {}
@@ -64,6 +66,7 @@ public class DoctorDTO {
 		
 		return doctor;
 	}
+	
 
 	public String getId() {
 		return id;
@@ -144,7 +147,4 @@ public class DoctorDTO {
 	public void setAddressComplement(String addressComplement) {
 		this.addressComplement = addressComplement;
 	}
-	
-	
-	
 }

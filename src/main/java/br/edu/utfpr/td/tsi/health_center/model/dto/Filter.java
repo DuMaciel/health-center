@@ -34,7 +34,7 @@ public class Filter {
 
 	public boolean isValidField(Class<?> c) {
 		for (Field field : c.getDeclaredFields()) {
-			if (field.isAnnotationPresent(FilterName.class)) {
+			if (field.isAnnotationPresent(FilterAnnotation.class)) {
 				if (this.field.equals(field.getName())) {
 					return true;
 				}
@@ -42,11 +42,20 @@ public class Filter {
 		}
 		return false;
 	}
+	
+	static public FilterAnnotation getFilterAnnotation(Class<?> c, String fieldName) {
+		for (Field field : c.getDeclaredFields()) {
+			if (fieldName.equals(field.getName())) {
+				return field.getAnnotation(FilterAnnotation.class);
+			}
+		}
+		return null;
+	}
 
 	static public Set<String> getFieldsName(Class<?> c) {
 		Set<String> fieldsName = new HashSet<String>();
 		for (Field field : c.getDeclaredFields()) {
-			if (field.isAnnotationPresent(FilterName.class)) {
+			if (field.isAnnotationPresent(FilterAnnotation.class)) {
 				String name = field.getName();
 				fieldsName.add(name);
 			}
@@ -57,7 +66,7 @@ public class Filter {
 	static public Map<String, Object> getFields(Class<?> c, Object o) {
 		Map<String, Object> fields = new HashMap<String, Object>();
 		for (Field field : c.getDeclaredFields()) {
-			if (field.isAnnotationPresent(FilterName.class)) {
+			if (field.isAnnotationPresent(FilterAnnotation.class)) {
 				try {
 					String name = field.getName();
 					field.setAccessible(true);

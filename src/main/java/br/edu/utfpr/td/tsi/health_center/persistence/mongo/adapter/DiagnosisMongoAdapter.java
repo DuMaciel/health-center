@@ -7,10 +7,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.Diagnosis;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DiagnosisDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DiagnosisAdapter;
-import br.edu.utfpr.td.tsi.health_center.persistence.indexer.DiagnosisIndexer;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.IndexerService;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.DiagnosisMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.DiagnosisMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.DiagnosisRepository;
@@ -26,14 +27,14 @@ public class DiagnosisMongoAdapter implements DiagnosisAdapter {
 	private ConsultationAdapter consultationAdapter;
 	
 	@Autowired
-	private DiagnosisIndexer diagnosisIndexer;
+	private IndexerService indexerService;
 	
 	@Override
 	public void save(Diagnosis diagnosis) {
 		DiagnosisMongo diagnosisMongo = DiagnosisMapper.toMongo(diagnosis);
 		diagnosisMongo = diagnosisRepository.save(diagnosisMongo);
 		diagnosis.setId(diagnosisMongo.getId());
-		diagnosisIndexer.save(diagnosis);
+		indexerService.save(new DiagnosisDTO(diagnosis));
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class DiagnosisMongoAdapter implements DiagnosisAdapter {
 	
 	@Override
 	public List<Diagnosis> findAllByFilter(Filter filter) {
-		List<String> diagnosticsIds = diagnosisIndexer.searchIds(filter);
+		List<String> diagnosticsIds = indexerService.searchIds(DiagnosisDTO.class, filter);
 		List<DiagnosisMongo> diagnosticsMongo = (List<DiagnosisMongo>) diagnosisRepository.findAllByIdNotIn(diagnosticsIds);
 		List<Consultation> consultations = findConsultations(diagnosticsMongo);
 		return DiagnosisMapper.toDomainList(diagnosticsMongo, consultations);
@@ -84,6 +85,7 @@ public class DiagnosisMongoAdapter implements DiagnosisAdapter {
 	@Override
 	public void delete(String id) {
 		diagnosisRepository.deleteById(id);
+		indexerService.delete(DiagnosisDTO.class, id);
 	}
 
 }

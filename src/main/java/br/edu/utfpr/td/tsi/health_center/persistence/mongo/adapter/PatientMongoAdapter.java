@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.model.District;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
-import br.edu.utfpr.td.tsi.health_center.persistence.indexer.PatientIndexer;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.IndexerService;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.PatientMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.PatientMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.PatientRepository;
@@ -27,14 +28,14 @@ public class PatientMongoAdapter implements PatientAdapter {
 	private DistrictAdapter districtAdapter;
 	
 	@Autowired
-	private PatientIndexer patientIndexer;
+	private IndexerService indexerService;
 
 	@Override
 	public void save(Patient patient) {
 		PatientMongo patientMongo = PatientMapper.toMongo(patient);
 		patientMongo = patientRepository.save(patientMongo);
 		patient.setId(patientMongo.getId());
-		patientIndexer.save(patient);
+		indexerService.save(new PatientDTO(patient));
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	
 	@Override
 	public List<Patient> findAllByFilter(Filter filter) {
-		List<String> patientsIds = patientIndexer.searchIds(filter);
+		List<String> patientsIds = indexerService.searchIds(PatientDTO.class, filter);
 		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllById(patientsIds);
 		List<District> districts = findDistricts(patientsMongo);
 		return PatientMapper.toDomainList(patientsMongo, districts);
@@ -92,7 +93,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	@Override
 	public void delete(String id) {
 		patientRepository.deleteById(id);
-		patientIndexer.delete(id);
+		indexerService.delete(PatientDTO.class, id);
 	}
 
 	@Override

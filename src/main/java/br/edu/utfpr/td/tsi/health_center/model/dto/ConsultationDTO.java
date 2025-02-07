@@ -6,8 +6,8 @@ import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 
-public class ConsultationDTO {
-
+@ModelAnnotation(model=Consultation.class)
+public class ConsultationDTO implements BaseDTO {
 	private String id;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dateTime;
@@ -52,7 +52,7 @@ public class ConsultationDTO {
 		
 		return consultation;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -108,7 +108,4 @@ public class ConsultationDTO {
 	public void setPatientName(String patientName) {
 		this.patientName = patientName;
 	}
-	
-	
-	
 }
