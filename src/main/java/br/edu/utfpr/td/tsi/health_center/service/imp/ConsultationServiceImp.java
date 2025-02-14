@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 import br.edu.utfpr.td.tsi.health_center.model.Diagnosis;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DiagnosisAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.ConsultationService;
@@ -84,6 +85,11 @@ public class ConsultationServiceImp implements ConsultationService{
 	@Override
 	public List<Consultation> findAll(String patientId, String DoctorId) {
 		return consultationAdapter.findAll(patientId, DoctorId);
+	}
+	
+	@Override
+	public List<Consultation> findAllByFilter(Filter filter) {
+		return consultationAdapter.findAllByFilter(filter);
 	}
 	
 	@Override

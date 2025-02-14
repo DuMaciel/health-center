@@ -9,11 +9,15 @@ import br.edu.utfpr.td.tsi.health_center.model.Patient;
 @ModelAnnotation(model=Consultation.class)
 public class ConsultationDTO implements BaseDTO {
 	private String id;
+	@FilterAnnotation(name = "Data")
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dateTime;
+	@FilterAnnotation(name = "Status")
 	private String status;
+	@FilterAnnotation(name = "Médico", relatedEntity = DoctorDTO.class, relatedField = "name")
 	private String doctorId;
 	private String doctorName;
+	@FilterAnnotation(name = "Paciente", relatedEntity = PatientDTO.class, relatedField = "name")
 	private String patientId;
 	private String patientName;
 	

@@ -1,6 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
-public class Diagnosis {
+public class Diagnosis implements BaseModel {
 	
 	private String id;
 	private String details;
@@ -38,7 +38,4 @@ public class Diagnosis {
 	public void setConsultation(Consultation consultation) {
 		this.consultation = consultation;
 	}
-	
-	
-	
 }

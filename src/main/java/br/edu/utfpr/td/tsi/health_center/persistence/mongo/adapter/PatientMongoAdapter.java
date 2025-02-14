@@ -85,9 +85,7 @@ public class PatientMongoAdapter implements PatientAdapter {
 	@Override
 	public List<Patient> findAllByFilter(Filter filter) {
 		List<String> patientsIds = indexerService.searchIds(PatientDTO.class, filter);
-		List<PatientMongo> patientsMongo = (List<PatientMongo>) patientRepository.findAllById(patientsIds);
-		List<District> districts = findDistricts(patientsMongo);
-		return PatientMapper.toDomainList(patientsMongo, districts);
+		return findAllByIds(patientsIds);
 	}
 	
 	@Override

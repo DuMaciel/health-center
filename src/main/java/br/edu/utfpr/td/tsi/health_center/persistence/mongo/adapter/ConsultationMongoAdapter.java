@@ -11,9 +11,12 @@ import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
+import br.edu.utfpr.td.tsi.health_center.model.dto.ConsultationDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.indexer.IndexerService;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.ConsultationMapper;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.model.ConsultationMongo;
 import br.edu.utfpr.td.tsi.health_center.persistence.mongo.repository.ConsultationRepository;
@@ -29,11 +32,16 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 
 	@Autowired
 	private PatientAdapter patientAdapter;
+	
+	@Autowired
+	private IndexerService indexerService;
 
 	@Override
 	public void save(Consultation consultation) {
 		ConsultationMongo consultationMongo = ConsultationMapper.toMongo(consultation);
-		consultationRepository.save(consultationMongo);
+		consultationMongo = consultationRepository.save(consultationMongo);
+		consultation.setId(consultationMongo.getId());
+		indexerService.save(new ConsultationDTO(consultation));
 	}
 
 	@Override
@@ -110,8 +118,15 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 	}
 	
 	@Override
+	public List<Consultation> findAllByFilter(Filter filter) {
+		List<String> consultationsIds = indexerService.searchIds(ConsultationDTO.class, filter);
+		return findAllByIds(consultationsIds);
+	}
+	
+	@Override
 	public void delete(String id) {
 		consultationRepository.deleteById(id);
+		indexerService.delete(ConsultationDTO.class, id);
 	}
 	
 	@Override
@@ -128,7 +143,4 @@ public class ConsultationMongoAdapter implements ConsultationAdapter {
 	public boolean existsByDoctorId(String doctorId) {
 		return consultationRepository.existsByDoctorId(doctorId);
 	}
-	
-	
-	
 }

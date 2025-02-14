@@ -1,6 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
-public class Patient {
+public class Patient implements BaseModel {
 	private String id;
 	private String name;
 	private String cpf;

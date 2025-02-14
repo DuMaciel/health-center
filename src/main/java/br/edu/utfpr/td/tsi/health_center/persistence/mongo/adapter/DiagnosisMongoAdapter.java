@@ -77,9 +77,7 @@ public class DiagnosisMongoAdapter implements DiagnosisAdapter {
 	@Override
 	public List<Diagnosis> findAllByFilter(Filter filter) {
 		List<String> diagnosticsIds = indexerService.searchIds(DiagnosisDTO.class, filter);
-		List<DiagnosisMongo> diagnosticsMongo = (List<DiagnosisMongo>) diagnosisRepository.findAllByIdNotIn(diagnosticsIds);
-		List<Consultation> consultations = findConsultations(diagnosticsMongo);
-		return DiagnosisMapper.toDomainList(diagnosticsMongo, consultations);
+		return findAllByIds(diagnosticsIds);
 	}
 
 	@Override

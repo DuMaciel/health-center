@@ -2,7 +2,7 @@ package br.edu.utfpr.td.tsi.health_center.model;
 
 import java.time.LocalDateTime;
 
-public class Consultation {
+public class Consultation implements BaseModel {
 	private String id; 
 	private Doctor doctor;
 	private Patient patient;

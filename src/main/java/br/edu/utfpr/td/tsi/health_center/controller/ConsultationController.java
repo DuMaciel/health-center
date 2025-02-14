@@ -32,6 +32,8 @@ import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.model.dto.ConsultationDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.DiagnosisDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
+import br.edu.utfpr.td.tsi.health_center.model.dto.FilterOption;
 import br.edu.utfpr.td.tsi.health_center.service.ConsultationService;
 import br.edu.utfpr.td.tsi.health_center.service.DiagnosisService;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
@@ -138,20 +140,17 @@ public class ConsultationController {
 	}
 
 	@GetMapping(value = "/list")
-	public String listConsultation(@Nullable @RequestParam String patientId, @Nullable @RequestParam String doctorId,
-			Model model) {
-		List<Consultation> consultations = consultationService.findAll(patientId, doctorId);
+	public String listConsultation(@RequestParam(required = false, defaultValue = "status") String field,
+			@RequestParam(required = false, defaultValue = "") String term, Model model) {
+		Filter filter = new Filter(field, term);
+		List<Consultation> consultations = consultationService.findAllByFilter(filter);
 		List<ConsultationDTO> consultationsDTO = new ArrayList<ConsultationDTO>();
-		List<Doctor> doctors = doctorService.findAll(null);
-		List<Patient> patients = patientService.findAll(null);
 		for (Consultation consultation : consultations) {
 			consultationsDTO.add(new ConsultationDTO(consultation));
 		}
 		model.addAttribute("consultationsDTO", consultationsDTO);
-		model.addAttribute("doctors", doctors);
-		model.addAttribute("patients", patients);
-		model.addAttribute("patientId", patientId);
-		model.addAttribute("doctorId", doctorId);
+		model.addAttribute("filter", filter);
+		model.addAttribute("filterOptions", FilterOption.getFilterOptions(ConsultationDTO.class));
 		return "consultation/list";
 	}
 

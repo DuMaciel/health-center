@@ -1,7 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.model.dto;
 
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
-import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
 import br.edu.utfpr.td.tsi.health_center.model.Diagnosis;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;

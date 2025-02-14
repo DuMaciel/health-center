@@ -1,6 +1,6 @@
 package br.edu.utfpr.td.tsi.health_center.model;
 
-public class District {
+public class District implements BaseModel {
 	private String id;
 	private String name;
 	

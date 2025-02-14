@@ -97,31 +97,8 @@ input, select {
 	<div class="container-content">
 
 		<h1>Lista de Consultas</h1>
-
-		<div class="container-filter">
-			<form action="list">
-				<div>
-					<label>Selecione um médico:</label> <select name="doctorId">
-						<option selected value="">Selecione um médico</option>
-						<option th:selected="${doctor.id == doctorId}"
-							th:each="doctor : ${doctors}" th:value="${doctor.id}"
-							th:text="${doctor.name}"></option>
-					</select>
-				</div>
-				<div>
-					<label>Selecione um paciente:</label> <select name="patientId">
-						<option selected value="">Selecione um paciente</option>
-						<option th:selected="${patient.id == patientId}"
-							th:each="patient : ${patients}" th:value="${patient.id}"
-							th:text="${patient.name}"></option>
-					</select>
-				</div>
-				<div class="input-search">
-					<input type="submit" value="Pesquisar"></input>
-				</div>
-			</form>
-			<a class="btn" href="add">Adicionar</a>
-		</div>
+		
+		<div th:replace="fragments/filter :: filter"></div>
 
 		<table>
 			<tr>

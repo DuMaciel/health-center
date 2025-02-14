@@ -65,8 +65,7 @@ public class DistrictMongoAdapter implements DistrictAdapter {
 	@Override
 	public List<District> findAllByFilter(Filter filter) {
 		List<String> districtsIds = indexerService.searchIds(DistrictDTO.class, filter);
-		List<DistrictMongo> districtsMongo = (List<DistrictMongo>) districtRepository.findAllById(districtsIds);
-		return DistrictMapper.toDomainList(districtsMongo);
+		return findAllByIds(districtsIds);
 	}
 
 	@Override
