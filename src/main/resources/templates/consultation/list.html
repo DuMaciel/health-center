@@ -9,67 +9,6 @@
 	href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<style>
-.container-filter {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 20px;
-}
-
-form {
-	display: flex;
-}
-
-form>div {
-	display: flex;
-	flex-direction: column;
-	margin-right: 10px;
-}
-
-.container-select {
-	display: flex;
-}
-
-input, select {
-	padding: 8px;
-	margin-top: 5px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	font-size: 16px;
-}
-
-.input-search {
-	justify-content: flex-end !important;
-}
-
-.input-search>input {
-	cursor: pointer;
-}
-
-.btn {
-	display: inline-block;
-	padding: 10px 20px;
-	background-color: #04AA6D;
-	color: white;
-	text-decoration: none;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	font-weight: bold;
-	text-align: center;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-.disabled {
-	pointer-events: none;
-	background-color: #888;
-	cursor: not-allowed;
-	text-decoration: none;
-}
-</style>
 </head>
 
 <body>
@@ -87,18 +26,15 @@ input, select {
 			}).showToast();
 		}
 	</script>
-	<ul>
-		<li><a class="active" href="../consultation/list">Consultas</a></li>
-		<li><a href="../doctor/list">Médicos</a></li>
-		<li><a href="../patient/list">Pacientes</a></li>
-		<li><a href="../district/list">Bairros</a></li>
-	</ul>
+
+	<div
+		th:replace="~{fragments/navigation :: navigation(${'consultation'})}"></div>
 
 	<div class="container-content">
 
 		<h1>Lista de Consultas</h1>
-		
-		<div th:replace="fragments/filter :: filter"></div>
+
+		<div th:replace="~{fragments/filter :: filter(${true})}"></div>
 
 		<table>
 			<tr>

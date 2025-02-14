@@ -103,3 +103,10 @@ input, select {
 	border-radius: 4px;
 	font-size: 16px;
 }
+
+.disabled {
+	pointer-events: none;
+	background-color: #888;
+	cursor: not-allowed;
+	text-decoration: none;
+}

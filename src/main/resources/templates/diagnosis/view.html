@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Visualizar Diagnóstico</title>
+<link th:href="@{/styles/form-custom.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<h1>Visualizar Diagnóstico</h1>
+
+	<div class="container">
+		<form>
+			<div>
+				<b><p style="color: red;" th:text="${error}"></p></b>
+			</div>
+
+			<div>
+				<label>Médico:</label> <input type="text"
+					th:value="${diagnosisDTO?.doctorName}" readonly />
+			</div>
+			<div>
+				<label>Paciente:</label> <input type="text"
+					th:value="${diagnosisDTO?.patientName}" readonly />
+			</div>
+			<div> 
+				<label>Diagnóstico:</label>
+				<textarea rows="5" th:text="${diagnosisDTO?.details}" readonly></textarea>
+			</div>
+
+			<div>
+				<div class="btn-group">
+					<button class="btn btn-back" type="button"
+						onclick="window.location.replace('/diagnosis/list')">Voltar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

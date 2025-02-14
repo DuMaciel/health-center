@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Lista de Diagnósticos</title>
+<link th:href="@{/styles/list-custom.css}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
+
 <body>
 
+	<script type="text/javascript">
+		let error = '[[${error}]]'
+		if (error) {
+			Toastify({
+				text : error,
+				duration : 3000,
+				close : true,
+				style : {
+					background : "#BA2C2C",
+				},
+			}).showToast();
+		}
+	</script>
+	
+	<div th:replace="~{fragments/navigation :: navigation(${'diagnosis'})}"></div>
+
+	<div class="container-content">
+
+		<h1>Lista de Diagnósticos</h1>
+		
+		<div th:replace="~{fragments/filter :: filter(${false})}"></div>
+
+		<table>
+			<tr>
+				<th>Médico</th>
+				<th>Paciente</th>
+				<th>Data</th>
+				<th>Visualizar</th>
+			</tr>
+			<tr th:each="diagnosisDTO : ${diagnosticsDTO}">
+				<td th:text="${diagnosisDTO.doctorName}"></td>
+				<td th:text="${diagnosisDTO.patientName}"></td>
+				<td th:text="${diagnosisDTO.details}"></td>
+				<td><a class="btn"
+					th:href="@{/diagnosis/view/{id} (id=${diagnosisDTO.id})}">Visualizar</a></td>
+			<tr>
+		</table>
+	</div>
 </body>
+
 </html>

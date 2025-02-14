@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="navigation(route)" class="container-filter">
+	<ul>
+		<li><a th:classappend="${route == 'consultation'} ? 'active' : ''" href="../consultation/list">Consultas</a></li>
+		<li><a th:classappend="${route == 'doctor'} ? 'active' : ''" href="../doctor/list">Médicos</a></li>
+		<li><a th:classappend="${route == 'patient'} ? 'active' : ''" href="../patient/list">Pacientes</a></li>
+		<li><a th:classappend="${route == 'district'} ? 'active' : ''" href="../district/list">Bairros</a></li>
+		<li><a th:classappend="${route == 'diagnosis'} ? 'active' : ''" href="../diagnosis/list">Diagnósticos</a></li>
+	</ul>
+</div>

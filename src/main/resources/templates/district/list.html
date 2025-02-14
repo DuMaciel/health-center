@@ -25,17 +25,13 @@
 			}).showToast();
 		}
 	</script>
-	<ul>
-		<li><a href="../consultation/list">Consultas</a></li>
-		<li><a href="../doctor/list">Médicos</a></li>
-		<li><a href="../patient/list">Pacientes</a></li>
-		<li><a class="active" href="../district/list">Bairros</a></li>
-	</ul>
+	<div
+		th:replace="~{fragments/navigation :: navigation(${'district'})}"></div>
 	
 	<div class="container-content">
 		<h1>Lista de Bairros</h1>
 	
-		<div th:replace="fragments/filter :: filter"></div>
+		<div th:replace="~{fragments/filter :: filter(${true})}"></div>
 	
 		<table>
 			<tr>
