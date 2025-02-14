@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 import br.edu.utfpr.td.tsi.health_center.model.BaseModel;
 import br.edu.utfpr.td.tsi.health_center.model.dto.BaseDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.ConsultationDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DiagnosisDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.DistrictDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.DoctorDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.PatientDTO;
 import br.edu.utfpr.td.tsi.health_center.persistence.BaseAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.DiagnosisAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
@@ -40,11 +42,15 @@ public class SolrDataLoaderService {
 	@Autowired
 	private ConsultationAdapter consultationAdapter;
 	
+	@Autowired
+	private DiagnosisAdapter diagnosisAdapter;
+	
 	public void loadDataToSolr() throws Exception {
 		load(PatientDTO.class, patientAdapter);
 		load(DoctorDTO.class, doctorAdapter);
 		load(DistrictDTO.class, districtAdapter);
 		load(ConsultationDTO.class, consultationAdapter);
+		load(DiagnosisDTO.class, diagnosisAdapter);
 	}
 	
 	private void load(Class<? extends BaseDTO> c, BaseAdapter<? extends BaseModel> adapter) {

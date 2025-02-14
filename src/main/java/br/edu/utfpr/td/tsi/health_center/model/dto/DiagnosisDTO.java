@@ -8,10 +8,13 @@ import br.edu.utfpr.td.tsi.health_center.model.Patient;
 @ModelAnnotation(model=Diagnosis.class)
 public class DiagnosisDTO implements BaseDTO {
 	private String id;
+	@FilterAnnotation(name = "Diagnóstico")
 	private String details;
 	private String consultationId;
+	@FilterAnnotation(name = "Paciente", relatedEntity = PatientDTO.class, relatedField = "name")
 	private String patientId;
 	private String patientName;
+	@FilterAnnotation(name = "Médico", relatedEntity = DoctorDTO.class, relatedField = "name")
 	private String doctorId;
 	private String doctorName;
 	private String status;
@@ -51,7 +54,6 @@ public class DiagnosisDTO implements BaseDTO {
 
 		Consultation consultation = new Consultation();
 		consultation.setId(this.consultationId);
-//		consultation.setStatus(ConsultationStatus.valueOf(this.status));
 		consultation.setPatient(patient);
 		consultation.setDoctor(doctor);
 
