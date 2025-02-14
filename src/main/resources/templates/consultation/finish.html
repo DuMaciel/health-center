@@ -15,35 +15,34 @@
 			<b><p style="color: red;" th:text="${error}"></p></b>
 		</div>
 
-		<form method="POST" th:action="@{'finish'}">
-
+		<form method="POST" th:action="@{'../finish'}">
+			<input type="hidden" name="consultationId" th:value="${consultationDTO.id}" />
 			<div>
 				<label>Status:</label> <input type="text" name="status"
 					th:value="${consultationDTO?.status}" readonly />
 			</div>
 			<div>
-				<label>Médico:</label> <select name="doctorId" disabled>
-					<option selected disabled value="">Escolha um médico</option>
-					<option th:selected="${doctor.id == consultationDTO?.doctorId}"
-						th:each="doctor : ${doctors}" th:value="${doctor.id}"
-						th:text="${doctor.name}"></option>
-				</select>
+				<label>Data:</label> <input type="datetime-local" name="dateTime"
+					th:value="${consultationDTO?.dateTime}" readonly />
+			</div>
+
+			<div>
+				<label>Médico:</label> <input type="text" name="doctorName"
+					th:value="${consultationDTO?.doctorName}" readonly />
 			</div>
 			<div>
-				<label>Paciente:</label> <select disabled name="patientId">
-					<option selected disabled value="">Escolha um paciente</option>
-					<option th:selected="${patient.id == consultationDTO?.patientId}"
-						th:each="patient : ${patients}" th:value="${patient.id}"
-						th:text="${patient.name}"></option>
-				</select>
+				<label>Paciente:</label> <input type="text" name="patientName"
+					th:value="${consultationDTO?.patientName}" readonly />
 			</div>
 			<div>
-				<textarea rows="5" name="detail"></textarea>
+				<label>Diagnóstico:</label>
+				<textarea rows="5" name="details"></textarea>
 			</div>
 
 			<div>
 				<div class="btn-group">
-					<input class="btn btn-save" type="submit" value="Finalizar consulta" />
+					<input class="btn btn-save" type="submit"
+						value="Finalizar consulta" />
 					<button class="btn btn-back" type="button"
 						onclick="window.location.replace('/consultation/list')">Voltar</button>
 				</div>

@@ -8,13 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
 import br.edu.utfpr.td.tsi.health_center.model.ConsultationStatus;
+import br.edu.utfpr.td.tsi.health_center.model.Diagnosis;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
+import br.edu.utfpr.td.tsi.health_center.persistence.DiagnosisAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.ConsultationService;
 
 @Service
 public class ConsultationServiceImp implements ConsultationService{
 	@Autowired
 	private ConsultationAdapter consultationAdapter;
+	
+	@Autowired
+	private DiagnosisAdapter diagnosisAdapter;
 	
 	@Override
 	public void add(Consultation consultation) {
@@ -82,15 +87,16 @@ public class ConsultationServiceImp implements ConsultationService{
 	}
 	
 	@Override
-	public void completeConsultation(String consultationId) {
-		Consultation consultationSaved = consultationAdapter.find(consultationId);
+	public void completeConsultation(Diagnosis diagnosis) {
+		Consultation consultationSaved = consultationAdapter.find(diagnosis.getConsultation().getId());
 		ConsultationStatus statusSaved = consultationSaved.getStatus();
 		if(!statusSaved.equals(ConsultationStatus.SCHEDULED)) {
-			throw new RuntimeException("Conluir só é permitido para consultas agendadas");
+			throw new RuntimeException("Concluir só é permitido para consultas agendadas");
 		}
 		
 		consultationSaved.setStatus(ConsultationStatus.COMPLETED);
-		
+		diagnosis.setConsultation(consultationSaved);
+		diagnosisAdapter.save(diagnosis);
 		consultationAdapter.save(consultationSaved);
 	}
 	

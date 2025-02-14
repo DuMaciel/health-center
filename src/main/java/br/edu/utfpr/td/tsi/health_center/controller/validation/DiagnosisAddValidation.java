@@ -4,13 +4,13 @@ import javax.validation.constraints.NotNull;
 
 public class DiagnosisAddValidation {
 
-	@NotNull(message = "Diagnótico é obrigatório")
+	@NotNull(message = "Diagnóstico é obrigatório")
 	private String details;
-	private String patientId;
+	@NotNull(message = "Consulta é obrigatório")
+	private String consultationId;
 	private String patientName;
-	private String doctorId;
 	private String doctorName;
-	private String status;
+//	private String status;
 	
 	public String getDetails() {
 		return details;
@@ -18,36 +18,33 @@ public class DiagnosisAddValidation {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	public String getPatientId() {
-		return patientId;
+	
+	public String getConsultationId() {
+		return consultationId;
 	}
-	public void setPatientId(String patientId) {
-		this.patientId = patientId;
+	public void setConsultationId(String consultationId) {
+		this.consultationId = consultationId;
 	}
+	
 	public String getPatientName() {
 		return patientName;
 	}
 	public void setPatientName(String patientName) {
 		this.patientName = patientName;
 	}
-	public String getDoctorId() {
-		return doctorId;
-	}
-	public void setDoctorId(String doctorId) {
-		this.doctorId = doctorId;
-	}
+
 	public String getDoctorName() {
 		return doctorName;
 	}
 	public void setDoctorName(String doctorName) {
 		this.doctorName = doctorName;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+//	public String getStatus() {
+//		return status;
+//	}
+//	public void setStatus(String status) {
+//		this.status = status;
+//	}
 	
 	
 }

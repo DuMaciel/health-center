@@ -32,12 +32,16 @@ label {
 	font-weight: bold;
 }
 
-input, select {
+input, select, textarea {
 	padding: 8px;
 	margin-top: 5px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 16px;
+}
+
+textarea {
+	resize: vertical;
 }
 
 .button-group {

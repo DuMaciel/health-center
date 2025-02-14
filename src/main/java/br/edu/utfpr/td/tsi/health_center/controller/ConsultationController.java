@@ -178,7 +178,7 @@ public class ConsultationController {
 	public RedirectView completeConsultation(@PathVariable String id) {
 		RedirectView redirectView = new RedirectView("../list");
 		try {
-			consultationService.completeConsultation(id);
+//			consultationService.completeConsultation(id);
 		} catch(Exception e) {
 			
 		}
@@ -209,13 +209,15 @@ public class ConsultationController {
 				throw new RuntimeException(error.getDefaultMessage());
 			}
 			Diagnosis diagnosis = diagnosisDTO.toModel();
-			diagnosisService.add(diagnosis);
+			consultationService.completeConsultation(diagnosis);
+//			diagnosisService.add(diagnosis);
 		} catch (Exception e) {
-			String error = e.getMessage();
-			redirectAttributes.addFlashAttribute("error", error);
-			redirectAttributes.addFlashAttribute("DiagnosisDTO", diagnosisDTO);
-			String urlToRedirect = referer != null ? referer : String.format("finish/%s", diagnosisDTO.getId());
-			redirectView.setUrl(urlToRedirect);
+			throw e;
+//			String error = e.getMessage();
+//			redirectAttributes.addFlashAttribute("error", error);
+//			redirectAttributes.addFlashAttribute("DiagnosisDTO", diagnosisDTO);
+//			String urlToRedirect = referer != null ? referer : String.format("finish/%s", diagnosisDTO.getId());
+//			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}

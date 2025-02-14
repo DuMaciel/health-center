@@ -10,6 +10,7 @@ import br.edu.utfpr.td.tsi.health_center.model.Patient;
 public class DiagnosisDTO implements BaseDTO {
 	private String id;
 	private String details;
+	private String consultationId;
 	private String patientId;
 	private String patientName;
 	private String doctorId;
@@ -28,6 +29,7 @@ public class DiagnosisDTO implements BaseDTO {
 		Patient patient = consultation.getPatient();
 		Doctor doctor = consultation.getDoctor();
 
+		this.consultationId = consultation.getId();
 		this.patientId = patient.getId();
 		this.patientName = patient.getName();
 		this.doctorId = doctor.getId();
@@ -49,13 +51,22 @@ public class DiagnosisDTO implements BaseDTO {
 		patient.setName(this.patientName);
 
 		Consultation consultation = new Consultation();
-		consultation.setStatus(ConsultationStatus.valueOf(this.status));
+		consultation.setId(this.consultationId);
+//		consultation.setStatus(ConsultationStatus.valueOf(this.status));
 		consultation.setPatient(patient);
 		consultation.setDoctor(doctor);
 
 		diagnosis.setConsultation(consultation);
 
 		return diagnosis;
+	}
+
+	public String getConsultationId() {
+		return consultationId;
+	}
+
+	public void setConsultationId(String consultationId) {
+		this.consultationId = consultationId;
 	}
 
 	public String getId() {
