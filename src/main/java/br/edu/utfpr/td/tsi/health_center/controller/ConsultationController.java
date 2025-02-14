@@ -4,12 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationEditValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.DiagnosisAddValidation;
@@ -35,7 +31,6 @@ import br.edu.utfpr.td.tsi.health_center.model.dto.DiagnosisDTO;
 import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.model.dto.FilterOption;
 import br.edu.utfpr.td.tsi.health_center.service.ConsultationService;
-import br.edu.utfpr.td.tsi.health_center.service.DiagnosisService;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 
@@ -51,9 +46,6 @@ public class ConsultationController {
 
 	@Autowired
 	private DoctorService doctorService;
-	
-	@Autowired
-	private DiagnosisService diagnosisService;
 
 	@GetMapping("")
 	public RedirectView redirectToListening() {
@@ -160,33 +152,21 @@ public class ConsultationController {
 		consultationService.delete(id);
 		return redirectView;
 	}
-	
+
 	@GetMapping(value = "/cancel/{id}")
 	public RedirectView cancelConsultation(@PathVariable String id) {
 		RedirectView redirectView = new RedirectView("../list");
 		try {
 			consultationService.cancelConsultation(id);
 		} catch (Exception e) {
-			
+
 		}
-		
+
 		return redirectView;
 	}
-	
-	@GetMapping(value = "/complete/{id}")
-	public RedirectView completeConsultation(@PathVariable String id) {
-		RedirectView redirectView = new RedirectView("../list");
-		try {
-//			consultationService.completeConsultation(id);
-		} catch(Exception e) {
-			
-		}
-		return redirectView;
-	}
-	
+
 	@GetMapping(value = "/finish/{id}")
 	public String showFinishConsultationPage(@PathVariable String id, Model model) {
-		// ADICIONAR A DATA DA CONSULTA DO DTO DO MODELO
 		if (!model.containsAttribute("consultationDTO")) {
 			Consultation consultation = consultationService.find(id);
 			ConsultationDTO consultationDTO = new ConsultationDTO(consultation);
@@ -194,7 +174,7 @@ public class ConsultationController {
 		}
 		return "consultation/finish";
 	}
-	
+
 	@PostMapping(value = "/finish")
 	public RedirectView finishConsultation(@Valid DiagnosisAddValidation diagnosisAddValidation,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes,
@@ -209,14 +189,12 @@ public class ConsultationController {
 			}
 			Diagnosis diagnosis = diagnosisDTO.toModel();
 			consultationService.completeConsultation(diagnosis);
-//			diagnosisService.add(diagnosis);
 		} catch (Exception e) {
-			throw e;
-//			String error = e.getMessage();
-//			redirectAttributes.addFlashAttribute("error", error);
-//			redirectAttributes.addFlashAttribute("DiagnosisDTO", diagnosisDTO);
-//			String urlToRedirect = referer != null ? referer : String.format("finish/%s", diagnosisDTO.getId());
-//			redirectView.setUrl(urlToRedirect);
+			String error = e.getMessage();
+			redirectAttributes.addFlashAttribute("error", error);
+			redirectAttributes.addFlashAttribute("DiagnosisDTO", diagnosisDTO);
+			String urlToRedirect = referer != null ? referer : String.format("finish/%s", diagnosisDTO.getId());
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}

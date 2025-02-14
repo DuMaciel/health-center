@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.persistence.ConsultationAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
@@ -60,5 +61,10 @@ public class DoctorServiceImp implements DoctorService {
 			return doctorAdapter.findAll(name);
 		}
 		return doctorAdapter.findAll();
+	}
+
+	@Override
+	public List<Doctor> findAllByFilter(Filter filter) {
+		return doctorAdapter.findAllByFilter(filter);
 	}
 }

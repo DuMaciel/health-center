@@ -106,7 +106,7 @@ public class DistrictController {
 	public String listDistrict(@RequestParam(required = false, defaultValue = "name") String field,
 			@RequestParam(required = false, defaultValue = "") String term, Model model) {
 		Filter filter = new Filter(field, term);
-		List<District> districts = districtService.findAll("");
+		List<District> districts = districtService.findAllByFilter(filter);
 		List<DistrictDTO> districtsDTO = new ArrayList<DistrictDTO>();
 		for (District district : districts) {
 			districtsDTO.add(new DistrictDTO(district));

@@ -12,7 +12,7 @@ public class DiagnosisMapper {
 	static public DiagnosisMongo toMongo(Diagnosis diagnosis) {
 		DiagnosisMongo diagnosisMongo = new DiagnosisMongo();
 		diagnosisMongo.setId(diagnosis.getId());
-		diagnosisMongo.setDetail(diagnosis.getDetails());
+		diagnosisMongo.setDetails(diagnosis.getDetails());
 		diagnosisMongo.setConsultationId(diagnosis.getConsultation().getId());
 		return diagnosisMongo;
 	}
@@ -20,7 +20,7 @@ public class DiagnosisMapper {
 	static public Diagnosis toDomain(DiagnosisMongo diagnosisMongo, Consultation consultation) {
 		Diagnosis diagnosis = new Diagnosis();
 		diagnosis.setId(diagnosisMongo.getId());
-		diagnosis.setDetails(diagnosisMongo.getDetail());
+		diagnosis.setDetails(diagnosisMongo.getDetails());
 		diagnosis.setConsultation(consultation);
 		return diagnosis;
 	}

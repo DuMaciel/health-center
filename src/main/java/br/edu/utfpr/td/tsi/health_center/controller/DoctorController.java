@@ -114,7 +114,7 @@ public class DoctorController {
 	public String listDoctor(@RequestParam(required = false, defaultValue = "name") String field,
 			@RequestParam(required = false, defaultValue = "") String term, Model model) {
 		Filter filter = new Filter(field, term);
-		List<Doctor> doctors = doctorService.findAll("");
+		List<Doctor> doctors = doctorService.findAllByFilter(filter);
 		List<DoctorDTO> doctorsDTO = new ArrayList<DoctorDTO>();
 		for (Doctor doctor : doctors) {
 			doctorsDTO.add(new DoctorDTO(doctor));

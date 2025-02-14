@@ -32,7 +32,7 @@ public class DiagnosisController {
 	}
 	
 	@GetMapping(value = "/list")
-	public String listDiagnosis(@RequestParam(required = false, defaultValue = "name") String field,
+	public String listDiagnosis(@RequestParam(required = false, defaultValue = "details") String field,
 			@RequestParam(required = false, defaultValue = "") String term, Model model) {
 		Filter filter = new Filter(field, term);
 		List<Diagnosis> diagnostics = diagnosisService.findAllByFilter(filter);

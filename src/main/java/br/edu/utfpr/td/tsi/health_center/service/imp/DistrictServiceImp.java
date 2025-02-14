@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.utfpr.td.tsi.health_center.model.District;
+import br.edu.utfpr.td.tsi.health_center.model.dto.Filter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DistrictAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.DoctorAdapter;
 import br.edu.utfpr.td.tsi.health_center.persistence.PatientAdapter;
@@ -63,5 +64,10 @@ public class DistrictServiceImp implements DistrictService {
 			return districtAdapter.findAll(name);
 		}
 		return districtAdapter.findAll();
+	}
+
+	@Override
+	public List<District> findAllByFilter(Filter filter) {
+		return districtAdapter.findAllByFilter(filter);
 	}
 }
