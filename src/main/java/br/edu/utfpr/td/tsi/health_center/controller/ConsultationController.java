@@ -25,11 +25,15 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationAddValidation;
 import br.edu.utfpr.td.tsi.health_center.controller.validation.ConsultationEditValidation;
+import br.edu.utfpr.td.tsi.health_center.controller.validation.DiagnosisAddValidation;
 import br.edu.utfpr.td.tsi.health_center.model.Consultation;
+import br.edu.utfpr.td.tsi.health_center.model.Diagnosis;
 import br.edu.utfpr.td.tsi.health_center.model.Doctor;
 import br.edu.utfpr.td.tsi.health_center.model.Patient;
 import br.edu.utfpr.td.tsi.health_center.model.dto.ConsultationDTO;
+import br.edu.utfpr.td.tsi.health_center.model.dto.DiagnosisDTO;
 import br.edu.utfpr.td.tsi.health_center.service.ConsultationService;
+import br.edu.utfpr.td.tsi.health_center.service.DiagnosisService;
 import br.edu.utfpr.td.tsi.health_center.service.DoctorService;
 import br.edu.utfpr.td.tsi.health_center.service.PatientService;
 
@@ -45,6 +49,9 @@ public class ConsultationController {
 
 	@Autowired
 	private DoctorService doctorService;
+	
+	@Autowired
+	private DiagnosisService diagnosisService;
 
 	@GetMapping("")
 	public RedirectView redirectToListening() {
@@ -174,6 +181,41 @@ public class ConsultationController {
 			consultationService.completeConsultation(id);
 		} catch(Exception e) {
 			
+		}
+		return redirectView;
+	}
+	
+	@GetMapping(value = "/finish/{id}")
+	public String showFinishConsultationPage(@PathVariable String id, Model model) {
+		// ADICIONAR A DATA DA CONSULTA DO DTO DO MODELO
+		if (!model.containsAttribute("consultationDTO")) {
+			Consultation consultation = consultationService.find(id);
+			ConsultationDTO consultationDTO = new ConsultationDTO(consultation);
+			model.addAttribute("consultationDTO", consultationDTO);
+		}
+		return "consultation/finish";
+	}
+	
+	@PostMapping(value = "/finish")
+	public RedirectView finishConsultation(@Valid DiagnosisAddValidation diagnosisAddValidation,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@RequestHeader(value = "Referer", required = false) String referer) {
+		RedirectView redirectView = new RedirectView("list");
+		DiagnosisDTO diagnosisDTO = new DiagnosisDTO();
+		BeanUtils.copyProperties(diagnosisAddValidation, diagnosisDTO);
+		try {
+			if (bindingResult.hasErrors()) {
+				ObjectError error = bindingResult.getAllErrors().getFirst();
+				throw new RuntimeException(error.getDefaultMessage());
+			}
+			Diagnosis diagnosis = diagnosisDTO.toModel();
+			diagnosisService.add(diagnosis);
+		} catch (Exception e) {
+			String error = e.getMessage();
+			redirectAttributes.addFlashAttribute("error", error);
+			redirectAttributes.addFlashAttribute("DiagnosisDTO", diagnosisDTO);
+			String urlToRedirect = referer != null ? referer : String.format("finish/%s", diagnosisDTO.getId());
+			redirectView.setUrl(urlToRedirect);
 		}
 		return redirectView;
 	}

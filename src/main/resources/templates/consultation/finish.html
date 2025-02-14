@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Finalizar Consulta</title>
+<link th:href="@{/styles/form-custom.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<h1>Finalizar Consulta</h1>
+
+	<div class="container">
+		<div>
+			<b><p style="color: red;" th:text="${error}"></p></b>
+		</div>
+
+		<form method="POST" th:action="@{'finish'}">
+
+			<div>
+				<label>Status:</label> <input type="text" name="status"
+					th:value="${consultationDTO?.status}" readonly />
+			</div>
+			<div>
+				<label>Médico:</label> <select name="doctorId" disabled>
+					<option selected disabled value="">Escolha um médico</option>
+					<option th:selected="${doctor.id == consultationDTO?.doctorId}"
+						th:each="doctor : ${doctors}" th:value="${doctor.id}"
+						th:text="${doctor.name}"></option>
+				</select>
+			</div>
+			<div>
+				<label>Paciente:</label> <select disabled name="patientId">
+					<option selected disabled value="">Escolha um paciente</option>
+					<option th:selected="${patient.id == consultationDTO?.patientId}"
+						th:each="patient : ${patients}" th:value="${patient.id}"
+						th:text="${patient.name}"></option>
+				</select>
+			</div>
+			<div>
+				<textarea rows="5" name="detail"></textarea>
+			</div>
+
+			<div>
+				<div class="btn-group">
+					<input class="btn btn-save" type="submit" value="Finalizar consulta" />
+					<button class="btn btn-back" type="button"
+						onclick="window.location.replace('/consultation/list')">Voltar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

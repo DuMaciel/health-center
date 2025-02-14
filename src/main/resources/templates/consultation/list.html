@@ -150,7 +150,7 @@ input, select {
 				<td><a
 					th:classappend="${consultationDTO.status == 'Cancelado' || consultationDTO.status == 'Concluído'} ? 'disabled' : ''"
 					class="btn"
-					th:href="@{/consultation/complete/{id} (id=${consultationDTO.id})}">Concluir</a></td>
+					th:href="@{/consultation/finish/{id} (id=${consultationDTO.id})}">Concluir</a></td>
 			<tr>
 		</table>
 	</div>
